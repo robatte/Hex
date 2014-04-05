@@ -16,17 +16,16 @@ Crafty.scene 'Menu', (game)->
             x: 0
             y: game.height / 2 - 24
             w: game.width  
-        .text("Menue")
+        .text("Loading ...")
         .textFont
             'weight': 'bold'
             'size': '50px'
         .css
             'text-align': 'center'
             'color': '#333'
-    
 
-    #Start Level on Keypress
-    @restart_level = @bind 'KeyDown', ->
-        Crafty.scene 'Level', game
-, ->
-    @unbind 'KeyDown', @restart_level
+#     #Start Level on Keypress
+#     @restart_level = @bind 'KeyDown', ->
+#         Crafty.scene 'Level', game
+# , ->
+#     @unbind 'KeyDown', @restart_level
