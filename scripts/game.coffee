@@ -1,22 +1,3 @@
-class UnitFatory
-  @build: (type, count) ->
-    units = []
-    for i in [0..count]
-      units.push new Unit type
-    units
-
-class Unit
-  @TYPE_SOLDIER = "Soldat"
-
-  constructor: (@type) ->
-
-class Player
-  @player_count = 0
-
-  constructor: (@name) ->
-    Player.player_count += 1
-    @id = Player.player_count
-
 class Tile
     constructor: (@width)->
         @width = width
