@@ -14,14 +14,18 @@ Crafty.c('Map', {
 });
 
 Crafty.c('Cell', {
+  soldiers: 0,
+  type: 0,
+  value: 50,
+  owner: 0,
   cell: function(q, r) {
     var dbgMsg;
-    this.requires('2D, DOM, Grid, Image').image('assets/cell_default.png');
+    this.requires('2D, DOM, Grid, Image').image('assets/cell_player' + this.owner + '.png');
     dbgMsg = Crafty.e('2D, DOM, Text').attr({
       x: 40,
       y: 40,
       w: 128
-    }).text(q + " / " + r);
+    }).text(q + " / " + r + "<br/>Einheiten: " + this.soldiers);
     return this.attach(dbgMsg);
   }
 });

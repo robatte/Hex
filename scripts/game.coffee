@@ -29,7 +29,9 @@ class Game
 
         # preload sprites
         Crafty.load [
-            'assets/cell_default.png'
+            'assets/cell_player0.png',
+            'assets/cell_player1.png',
+            'assets/cell_player2.png'
         ], ->
             #
 
