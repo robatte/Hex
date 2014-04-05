@@ -11,7 +11,11 @@ class Unit
   constructor: (@type) ->
 
 class Player
+  @player_count = 0
+
   constructor: (@name) ->
+    Player.player_count += 1
+    @id = Player.player_count
 
 class Tile
     constructor: (@width)->
@@ -47,7 +51,7 @@ class Game
         @height = @map_grid.height
 
         # init player
-        @players = [new Player "Player 1", new Player "Player 2"]
+        @players = [new Player("Player 1"), new Player("Player 2")]
         @initial_units = UnitFatory.build Unit.TYPE_SOLDIER, 10
 
     start: ->
@@ -74,4 +78,5 @@ class Settings
 
 window.onload = ->
     game = new Game Settings.tileWidthPx, Settings.tileBoundary, Settings.minTileDense, Settings.mapGenRandom
+    window.current_game = game
     game.start()
