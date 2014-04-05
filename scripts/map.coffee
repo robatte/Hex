@@ -20,14 +20,14 @@ Crafty.c 'Cell',
         @owner = tile.owner
         @units = tile.units
 
-        @image 'assets/cell_player'+ if @owner? then @owner.id  else '0'+'.png'
+        @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
 
         dbgMsg = Crafty.e('2D, DOM, Text')
         .attr
             x: 40
             y: 40
             w: 128  
-        .text( tile.q + " / " + tile.r + "<br/>Einheiten: " + if @units? then @units.length else '0')
+        .text( tile.q + " / " + tile.r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
         
 
         @attach dbgMsg
