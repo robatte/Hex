@@ -15,10 +15,11 @@ class MapGrid
         @height = (@radius_r * 2 + 1) * @tile.width
 
 class Game
-    constructor: (tile_width, radius)->
+    constructor: (tile_width, radius, dense, threshold)->
         @map_grid = new MapGrid tile_width, radius
         @width = @map_grid.width
         @height = @map_grid.height
+        @map_generator = new MapGenerator @map_grid.radius_q, @map_grid.radius_r, dense, threshold
 
     start: ->  
         # init Canvas etc.
@@ -36,7 +37,7 @@ class Game
         # starts the level-scene
         Crafty.scene 'Menu', @
 
-# STAAAT
-init_hex = ->
-    game = new Game 128, 9
+
+window.onload = ->
+    game = new Game 128, 3, 0.4, 0.05
     game.start()
