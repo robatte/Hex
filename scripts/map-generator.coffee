@@ -1,6 +1,12 @@
 class MapPosition
 
   constructor: (@q, @r) ->
+    @owner = null
+    @units = null
+
+  setOwner: (player, units) ->
+    @owner = player
+    @units = units
 
   getNeighbors: ->
     neighbors = []

@@ -5,7 +5,14 @@ MapPosition = (function() {
   function MapPosition(q, r) {
     this.q = q;
     this.r = r;
+    this.owner = null;
+    this.units = null;
   }
+
+  MapPosition.prototype.setOwner = function(player, units) {
+    this.owner = player;
+    return this.units = units;
+  };
 
   MapPosition.prototype.getNeighbors = function() {
     var neighbor, neighbor_offset, neighbors, neighbors_offsets, _i, _len;

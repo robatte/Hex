@@ -3,8 +3,9 @@ Crafty.c('Map', {
   map: function(game) {
     var tile_position, _i, _len, _ref, _results;
     this.requires('Cell');
-    game.map_grid.map_generator.generate();
-    _ref = game.map_grid.map_generator.positions;
+    game.map_grid.generateMap();
+    game.map_grid.setStartPositions(game.players, game.initial_units);
+    _ref = game.map_grid.positions;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       tile_position = _ref[_i];

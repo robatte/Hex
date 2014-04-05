@@ -2,9 +2,10 @@ Crafty.c 'Map',
     map: (game) ->
         @requires 'Cell'
 
-        game.map_grid.map_generator.generate()
+        game.map_grid.generateMap()
+        game.map_grid.setStartPositions(game.players, game.initial_units)
 
-        for tile_position in game.map_grid.map_generator.positions
+        for tile_position in game.map_grid.positions
           Crafty.e('Cell').cell(tile_position.q, tile_position.r).pos(tile_position.q, tile_position.r, game.map_grid.tile.size)
 
                 
