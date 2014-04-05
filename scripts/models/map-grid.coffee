@@ -25,12 +25,9 @@ class MapPosition
     other.q == @q && other.r == @r
 
 class MapGrid
-  constructor: (tile_width, radius, min_dense, threshold)->
+  constructor: (radius, min_dense, threshold)->
     @radius_q = radius
     @radius_r = radius
-    @tile = new Tile tile_width
-    @width = (@radius_q * 2 + 1) * @tile.width
-    @height = (@radius_r * 2 + 1) * @tile.width
     @map_generator = new MapGenerator @radius_q, @radius_r, min_dense, threshold
 
   generateMap: ->

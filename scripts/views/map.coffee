@@ -1,30 +1,35 @@
 Crafty.c 'Map',
     map: (game) ->
-        @requires 'Cell'
-
-        game.map_grid.generateMap()
-        game.map_grid.setStartPositions(game.players, game.initial_units)
+        @requires 'Tile'
 
         for tile_position in game.map_grid.positions
-          Crafty.e('Cell').cell( tile_position, game.map_grid.tile.size).dbg()
+          Crafty.e('Tile').tile( tile_position).dbg()
 
 
         
-Crafty.c 'Cell',
+Crafty.c 'Tile',
     soldiers: 0
     type: 0 #default-map-type
     value: 50 #Gold increase
     owner: 0 #player Nr.
 
-    cell: (tile, size) ->
+
+    tile: (tile_position) ->
         @requires('2D, DOM, Image')
+       
+        @width = 128
+        @height = @width
+        @size = @width / 2
+
         @attr
-            q: tile.q
-            r: tile.r
-            x: size * 3 / 2 * tile.q
-            y: size * Math.sqrt(3) * (tile.r + tile.q / 2)
-        @owner = tile.owner
-        @units = tile.units
+            q: tile_position.q
+            r: tile_position.r
+            x: @size * 3 / 2 * tile_position.q
+            y: @size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2)
+
+
+        @owner = tile_position.owner
+        @units = tile_position.units
 
         @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
 
