@@ -2,11 +2,6 @@
 # Starts a level
 Crafty.scene 'Level', (game)->
     Crafty.viewport.mouselook true
-    #Center Viewport
-    Crafty.viewport.x += game.width / 2
-    Crafty.viewport.y += game.height / 2
-    Crafty.viewport.scroll 'x', game.width /2
-    Crafty.viewport.scroll 'y', game.height /2
 
     Crafty.e('Map').map game 
 

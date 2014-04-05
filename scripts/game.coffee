@@ -38,6 +38,7 @@ class Game
         Crafty.scene 'Menu', @
 
 
+
 window.onload = ->
     game = new Game 128, 3, 0.2, 0.3
     game.start()

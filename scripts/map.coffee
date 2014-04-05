@@ -7,13 +7,11 @@ Crafty.c 'Map',
         for tile_position in tile_positions
           Crafty.e('Cell').cell(tile_position.q, tile_position.r).pos(tile_position.q, tile_position.r, game.map_grid.tile.size)
 
-#        for q in [-game.map_grid.radius_q ... game.map_grid.radius_q+1]
-#            for r in [-game.map_grid.radius_r ... game.map_grid.radius_r+1]
-#                if q + r <= game.map_grid.radius_q && q + r >= -game.map_grid.radius_q
-#                    Crafty.e('Cell').cell(q, r).pos(q, r, game.map_grid.tile.size)
-
-                
-
+         #Center Viewport
+        # Crafty.viewport.x += game.width / 2
+        # Crafty.viewport.y += game.height / 2
+        # Crafty.viewport.scroll 'x', game.width /2
+        # Crafty.viewport.scroll 'y', game.height /2  
 
 Crafty.c 'Cell',
     cell: (q,r) ->
