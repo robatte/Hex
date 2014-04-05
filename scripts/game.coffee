@@ -15,11 +15,11 @@ class MapGrid
         @height = (@radius_r * 2 + 1) * @tile.width
 
 class Game
-    constructor: (tile_width, radius, dense, threshold)->
+    constructor: (tile_width, radius, min_dense, threshold)->
         @map_grid = new MapGrid tile_width, radius
         @width = @map_grid.width
         @height = @map_grid.height
-        @map_generator = new MapGenerator @map_grid.radius_q, @map_grid.radius_r, dense, threshold
+        @map_generator = new MapGenerator @map_grid.radius_q, @map_grid.radius_r, min_dense, threshold
 
     start: ->  
         # init Canvas etc.
@@ -39,5 +39,5 @@ class Game
 
 
 window.onload = ->
-    game = new Game 128, 3, 0.4, 0.05
+    game = new Game 128, 3, 0.2, 0.3
     game.start()

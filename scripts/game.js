@@ -27,11 +27,11 @@ MapGrid = (function() {
 })();
 
 Game = (function() {
-  function Game(tile_width, radius, dense, threshold) {
+  function Game(tile_width, radius, min_dense, threshold) {
     this.map_grid = new MapGrid(tile_width, radius);
     this.width = this.map_grid.width;
     this.height = this.map_grid.height;
-    this.map_generator = new MapGenerator(this.map_grid.radius_q, this.map_grid.radius_r, dense, threshold);
+    this.map_generator = new MapGenerator(this.map_grid.radius_q, this.map_grid.radius_r, min_dense, threshold);
   }
 
   Game.prototype.start = function() {
@@ -47,6 +47,6 @@ Game = (function() {
 
 window.onload = function() {
   var game;
-  game = new Game(128, 3, 0.4, 0.05);
+  game = new Game(128, 3, 0.2, 0.3);
   return game.start();
 };

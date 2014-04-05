@@ -28,12 +28,12 @@ MapPosition = (function() {
 })();
 
 MapGenerator = (function() {
-  function MapGenerator(radius_q, radius_r, dense, threshold) {
+  function MapGenerator(radius_q, radius_r, min_dense, threshold) {
     this.radius_q = radius_q;
     this.radius_r = radius_r;
-    this.dense = dense;
+    this.min_dense = min_dense;
     this.threshold = threshold;
-    this.point_amount = Math.floor((2 * this.radius_q + 1) * (2 * this.radius_r + 1) * this.dense);
+    this.min_amount = Math.floor((2 * this.radius_q + 1) * (2 * this.radius_r + 1) * this.min_dense);
   }
 
   MapGenerator.prototype.generate = function() {
@@ -41,13 +41,13 @@ MapGenerator = (function() {
     positions = [];
     process = [];
     process.push(this.getInitalPosition());
-    while (process.length > 0 && positions.length < this.point_amount) {
-      position = process.shift();
+    while (process.length > 0) {
+      position = process.pop();
       _ref = Helper.shuffle_array(position.getNeighbors());
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         neighbor = _ref[_i];
         if (this.isValidPosition(neighbor)) {
-          if (Math.random() < this.threshold || process.length === 0) {
+          if (Math.random() < this.threshold || (process.length === 0 && positions.length < this.min_amount)) {
             if (!this.positionInArray(neighbor, process.concat(positions))) {
               process.push(neighbor);
             }
