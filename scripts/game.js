@@ -35,7 +35,7 @@ Game = (function() {
   }
 
   Game.prototype.start = function() {
-    Crafty.init(this.width, this.height);
+    Crafty.init(window.width, window.height);
     Crafty.background('rgb(249, 223, 125)');
     Crafty.load(['assets/cell_default.png'], function() {});
     return Crafty.scene('Menu', this);
