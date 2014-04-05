@@ -1,2 +1,4 @@
 .idea/**
-*.js
+scripts/*.js
+scripts/helpers/*.js
+scripts/models/*.js
