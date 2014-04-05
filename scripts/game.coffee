@@ -22,7 +22,7 @@ class Game
 
     start: ->  
         # init Canvas etc.
-        Crafty.init @width, @height
+        Crafty.init window.width, window.height
         Crafty.background 'rgb(249, 223, 125)'
        
 
