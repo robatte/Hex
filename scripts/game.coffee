@@ -59,15 +59,19 @@ class Game
 
         # preload sprites
         Crafty.load [
-            'assets/cell_default.png'
-        ], ->
-            #
-
-
-        # starts the level-scene
-        Crafty.scene 'Menu', @
+            'assets/cell_player0.png',
+            'assets/cell_player1.png',
+            'assets/cell_player2.png'
+        ], =>
+            Crafty.scene 'Level', @
+        
+class Settings
+    @tileWidthPx: 128
+    @tileBoundary: 3
+    @minTileDense: 0.2
+    @mapGenRandom: 0.3
 
 
 window.onload = ->
-    game = new Game 128, 3, 0.2, 0.3
+    game = new Game Settings.tileWidthPx, Settings.tileBoundary, Settings.minTileDense, Settings.mapGenRandom
     game.start()
