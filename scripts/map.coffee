@@ -6,7 +6,7 @@ Crafty.c 'Map',
         game.map_grid.setStartPositions(game.players, game.initial_units)
 
         for tile_position in game.map_grid.positions
-          Crafty.e('Cell').cell(tile_position.q, tile_position.r).pos(tile_position.q, tile_position.r, game.map_grid.tile.size)
+          Crafty.e('Cell').cell( tile_position).pos(tile_position.q, tile_position.r, game.map_grid.tile.size)
 
 
 Crafty.c 'Cell',
@@ -15,15 +15,19 @@ Crafty.c 'Cell',
     value: 50 #Gold increase
     owner: 0 #player Nr.
 
-    cell: (q,r) ->
-        @requires('2D, DOM, Grid, Image').image 'assets/cell_player'+@owner+'.png'
+    cell: (tile) ->
+        @requires('2D, DOM, Grid, Image')
+        @owner = tile.owner
+        @units = tile.units
+
+        @image 'assets/cell_player'+ if @owner? then @owner.id  else '0'+'.png'
 
         dbgMsg = Crafty.e('2D, DOM, Text')
         .attr
             x: 40
             y: 40
             w: 128  
-        .text( q + " / " + r + "<br/>Einheiten: " + @soldiers)
+        .text( tile.q + " / " + tile.r + "<br/>Einheiten: " + if @units? then @units.length else '0')
         
 
         @attach dbgMsg
