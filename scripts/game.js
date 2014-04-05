@@ -14,12 +14,13 @@ Tile = (function() {
 })();
 
 MapGrid = (function() {
-  function MapGrid(tile_width, radius) {
+  function MapGrid(tile_width, radius, min_dense, threshold) {
     this.radius_q = radius;
     this.radius_r = radius;
     this.tile = new Tile(tile_width);
     this.width = (this.radius_q * 2 + 1) * this.tile.width;
     this.height = (this.radius_r * 2 + 1) * this.tile.width;
+    this.map_generator = new MapGenerator(this.radius_q, this.radius_r, min_dense, threshold);
   }
 
   return MapGrid;
@@ -28,10 +29,9 @@ MapGrid = (function() {
 
 Game = (function() {
   function Game(tile_width, radius, min_dense, threshold) {
-    this.map_grid = new MapGrid(tile_width, radius);
+    this.map_grid = new MapGrid(tile_width, radius, min_dense, threshold);
     this.width = this.map_grid.width;
     this.height = this.map_grid.height;
-    this.map_generator = new MapGenerator(this.map_grid.radius_q, this.map_grid.radius_r, min_dense, threshold);
   }
 
   Game.prototype.start = function() {

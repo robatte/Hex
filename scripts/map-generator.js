@@ -37,26 +37,27 @@ MapGenerator = (function() {
   }
 
   MapGenerator.prototype.generate = function() {
-    var neighbor, position, positions, process, _i, _len, _ref;
-    positions = [];
+    var neighbor, position, process, _i, _len, _ref, _results;
+    this.positions = [];
     process = [];
     process.push(this.getInitalPosition());
+    _results = [];
     while (process.length > 0) {
       position = process.pop();
       _ref = Helper.shuffle_array(position.getNeighbors());
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         neighbor = _ref[_i];
         if (this.isValidPosition(neighbor)) {
-          if (Math.random() < this.threshold || (process.length === 0 && positions.length < this.min_amount)) {
-            if (!this.positionInArray(neighbor, process.concat(positions))) {
+          if (Math.random() < this.threshold || (process.length === 0 && this.positions.length < this.min_amount)) {
+            if (!this.positionInArray(neighbor, process.concat(this.positions))) {
               process.push(neighbor);
             }
           }
         }
       }
-      positions.push(position);
+      _results.push(this.positions.push(position));
     }
-    return positions;
+    return _results;
   };
 
   MapGenerator.prototype.positionInArray = function(position, positions) {

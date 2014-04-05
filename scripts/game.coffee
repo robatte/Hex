@@ -7,19 +7,19 @@ class Tile
         @size = width / 2
 
 class MapGrid 
-    constructor: ( tile_width, radius)->
+    constructor: (tile_width, radius, min_dense, threshold)->
         @radius_q = radius
         @radius_r = radius
         @tile = new Tile tile_width
         @width = (@radius_q * 2 + 1) * @tile.width
         @height = (@radius_r * 2 + 1) * @tile.width
+        @map_generator = new MapGenerator @radius_q, @radius_r, min_dense, threshold
 
 class Game
     constructor: (tile_width, radius, min_dense, threshold)->
-        @map_grid = new MapGrid tile_width, radius
+        @map_grid = new MapGrid tile_width, radius, min_dense, threshold
         @width = @map_grid.width
         @height = @map_grid.height
-        @map_generator = new MapGenerator @map_grid.radius_q, @map_grid.radius_r, min_dense, threshold
 
     start: ->  
         # init Canvas etc.

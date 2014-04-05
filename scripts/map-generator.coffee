@@ -29,7 +29,7 @@ class MapGenerator
     @min_amount = Math.floor((2 * @radius_q + 1) * (2 * @radius_r + 1) * @min_dense)
 
   generate: ->
-    positions = []
+    @positions = []
     process = []
     process.push @getInitalPosition()
 
@@ -38,12 +38,10 @@ class MapGenerator
 
       for neighbor in Helper.shuffle_array position.getNeighbors()
         if @isValidPosition(neighbor)
-          if Math.random() < @threshold || (process.length == 0 && positions.length < @min_amount)
-            process.push(neighbor) unless @positionInArray(neighbor, process.concat(positions))
+          if Math.random() < @threshold || (process.length == 0 && @positions.length < @min_amount)
+            process.push(neighbor) unless @positionInArray(neighbor, process.concat(@positions))
 
-      positions.push(position)
-
-    positions
+      @positions.push(position)
 
   positionInArray: (position, positions) ->
     matches = positions.filter (pos) -> pos.equals(position)
