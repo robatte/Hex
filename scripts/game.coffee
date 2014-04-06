@@ -12,14 +12,14 @@ class GameState
     @resetSelection()
 
     # register events
-    SystemEvent.addSubscriber 'view.tile.click', (event) =>
+    SystemEvent.addSubscribtion 'view.tile.click', (event) =>
       @clickMapPosition event.data.mapPosition
 
 
-    SystemEvent.addSubscriber 'view.interaction_box.round-next', (event) =>
+    SystemEvent.addSubscribtion 'view.interaction_box.round-next', (event) =>
       @nextRound()
 
-    SystemEvent.addSubscriber 'view.interaction_box.move-units', (event) =>
+    SystemEvent.addSubscribtion 'view.interaction_box.move-units', (event) =>
       @selectMovePosition()
 
   changeState: (state) ->

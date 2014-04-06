@@ -2,7 +2,7 @@ class SystemEvent
 
   @subscriptions = {}
 
-  @addSubscriber: (type, callback) ->
+  @addSubscribtion: (type, callback) ->
     @subscriptions[type] = [] unless @subscriptions[type]?
     @subscriptions[type].push callback
 

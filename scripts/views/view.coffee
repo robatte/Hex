@@ -6,7 +6,7 @@ class View
     @createInteractionBox(game)
 
     # redraw on ganme state changes
-    SystemEvent.addSubscriber 'state.change', (event) =>
+    SystemEvent.addSubscribtion 'state.change', (event) =>
       @draw()
 
   createInteractionBox: (game) ->
