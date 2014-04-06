@@ -22,7 +22,10 @@ class InteractionBox
   draw: ->
     html = """
            <h3>#{@title}</h3>
-           <p>aktueller Spieler: #{@game.state.player.name}</p>
+           <p>
+              Spieler: #{@game.state.player.name} <br>
+              Geld: #{@game.state.player.money_units} Bitcoin
+            </p>
            #{@getStateSpecificHTML()}
            <p><input id="round-next" type="button" value="Runde beenden"></p>
            """

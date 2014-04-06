@@ -39,6 +39,9 @@ class MapPosition
       other.units.push( @units.pop() )
     other.owner = @owner
 
+  taxRate: ->
+    25
+
 class MapGrid
   constructor: (radius, min_dense, threshold)->
     @radius_q = radius
@@ -71,3 +74,6 @@ class MapGrid
     for candidate in position.getNeighbors()
       neighbors.push(@getPositionByCoordinates(candidate.q, candidate.r)) if @getPositionByCoordinates(candidate.q, candidate.r)?
     neighbors
+
+  getPositionsByOwner: (owner) ->
+    @positions.filter (position) -> if position.owner? then position.owner.id == owner.id else false

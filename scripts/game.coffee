@@ -127,6 +127,9 @@ class Game
             Crafty.scene 'Level', @
 
     nextRound: ->
+      # get tax from own MapPositions
+      @state.player.money_units += @map_grid.getPositionsByOwner(@state.player).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
+
       # change player
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
       next_player
