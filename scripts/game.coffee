@@ -2,8 +2,6 @@
 class Game
     constructor: (radius, min_dense, threshold)->
         @map_grid = new MapGrid radius, min_dense, threshold
-        @width = @map_grid.width
-        @height = @map_grid.height
 
         # init player
         @players = [new Player("Player 1"), new Player("Player 2")]

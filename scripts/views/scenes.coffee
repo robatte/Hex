@@ -3,12 +3,16 @@
 Crafty.scene 'Level', (game)->
     Crafty.viewport.mouselook true
 
-    Crafty.e('Map').map game 
+    map = Crafty.e('Map').map game
+
+    center = map.getCenter()
+    Crafty.viewport.x = - center.x + window.innerWidth / 2
+    Crafty.viewport.y = - center.y + window.innerHeight / 2
 
 
 
 
-# Menu-Scene
+  # Menu-Scene
 
 Crafty.scene 'Menu', (game)-> 
     Crafty.e('2D, DOM, Text')

@@ -1,9 +1,25 @@
 Crafty.c 'Map',
     map: (game) ->
-        @requires 'Tile'
+        #@requires 'Tile'
 
         for tile_position in game.map_grid.positions
           Crafty.e('Tile').tile( tile_position).dbg()
+
+        @
+
+    getCenter: ->
+      center_x = 0;
+      center_y = 0;
+
+      tiles = Crafty("Tile").get()
+
+      for tile in tiles
+        center_x += tile.x
+        center_y += tile.y
+
+      {x: center_x / tiles.length, y: center_y / tiles.length}
+
+
 
 
         
