@@ -47,16 +47,16 @@ Crafty.c 'Tile',
         @owner = tile_position.owner
         @units = tile_position.units
         @mapPosition = tile_position
+        @mapPosition.setTile( this)
         @game = game
 
         #add mouse click event
         entity = @
         @bind 'Click', (event) ->
-          game.state.selectPosition @mapPosition, game.map_grid
+          @select( )
 
         @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
 
-        jQuery( @_element).addClass("tile-active")
 
         @
 
@@ -69,6 +69,14 @@ Crafty.c 'Tile',
         .text( @q + " / " + @r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
         
         #@attach dbgMsg
+
+    select: ->
+        @game.state.selectPosition @mapPosition, @game.map_grid
+        jQuery( ".Tile").removeClass "tile-active tile-active-target"
+        jQuery( @_element).addClass("tile-active")
+        for neighbor in @game.state.interaction_positions
+            debugger
+            jQuery(neighbor.tile._element.addClass) "tile-active-target"
 
 
     

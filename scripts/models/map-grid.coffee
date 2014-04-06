@@ -24,6 +24,9 @@ class MapPosition
   equals: (other) ->
     other.q == @q && other.r == @r
 
+
+  setTile: (@tile) ->
+
 class MapGrid
   constructor: (radius, min_dense, threshold)->
     @radius_q = radius
