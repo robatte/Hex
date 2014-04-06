@@ -34,9 +34,27 @@ class MapGrid
     @map_generator.generate()
     @positions = @map_generator.positions
 
+    @positionsByIndex = {}
+
+    for position in @positions
+      @positionsByIndex[position.q] = {} unless @positionsByIndex[position.q]?
+      @positionsByIndex[position.q][position.r] = position
+
+  getPositionByCoordinates: (q, r) ->
+    return null unless @positionsByIndex[q]?
+    @positionsByIndex[q][r]
+
+
+
   setStartPositions: (players, initial_units) ->
     sums = @positions.map (pos) -> pos.r + pos.q
     max_ix = sums.indexOf Math.max.apply(null, sums)
     min_ix = sums.indexOf Math.min.apply(null, sums)
     @positions[max_ix].setOwner(players[0], initial_units)
     @positions[min_ix].setOwner(players[1], initial_units)
+
+  getNeighbors: (position) ->
+    neighbors = []
+    for candidate in position.getNeighbors()
+      neighbors.push(candidate) if @getPositionByCoordinates(candidate.q, candidate.r)?
+    neighbors
