@@ -4,6 +4,7 @@ Crafty.scene 'Level', (game)->
 
     Crafty.addEvent this, Crafty.stage.elem, "mousedown", (e) ->
         if e.mouseButton == Crafty.mouseButtons.RIGHT
+            jQuery("body").css {"cursor" : "move"}
             scroll = (e) ->
                 dx = @base.x - e.clientX
                 dy = @base.y - e.clientY
@@ -13,7 +14,6 @@ Crafty.scene 'Level', (game)->
 
                 Crafty.viewport.x -= dx
                 Crafty.viewport.y -= dy
-                return
             @base =
                 x: e.clientX
                 y: e.clientY
@@ -22,7 +22,7 @@ Crafty.scene 'Level', (game)->
             Crafty.addEvent this, Crafty.stage.elem, "mouseup", ->
                 if e.mouseButton == Crafty.mouseButtons.RIGHT
                     Crafty.removeEvent this, Crafty.stage.elem, "mousemove", scroll
-                    return
+                    jQuery("body").css {"cursor": "auto"}
         return
 
 
