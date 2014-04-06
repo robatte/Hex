@@ -1,18 +1,23 @@
 class View
 
   constructor: ->
-    @generateTile()
-    @generateMap()
+    @createCraftyTile()
+    @createCraftyMap()
 
-  generateMap: ->
+  createCraftyMap: ->
     Crafty.c 'Map',
         map: (game) ->
-            #@requires 'Tile'
 
-            for tile_position in game.map_grid.positions
-              Crafty.e('Tile').tile(tile_position, game).dbg()
+            for position in game.map_grid.positions
+              Crafty.e('Tile').tile(position, game)
 
-            @
+            this
+
+  draw: ->
+    # draw tiles
+    for tile in Crafty("Tile").get()
+      tile.update()
+      tile.redraw()
 
 
   getCenter: ->
@@ -30,7 +35,7 @@ class View
 
 
 
-  generateTile: ->
+  createCraftyTile: ->
     Crafty.c 'Tile',
         soldiers: 0
         type: 0 #default-map-type
@@ -50,31 +55,41 @@ class View
                 r: tile_position.r
                 x: @size * 3 / 2 * tile_position.q
                 y: @size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2)
+                mapPosition: tile_position
+                game: game
 
-
-            @owner = tile_position.owner
-            @units = tile_position.units
-            @mapPosition = tile_position
             @mapPosition.setTile( this)
-            @game = game
 
-            #add mouse click event
-            entity = @
-            @bind 'Click', (event) ->
-              @select( )
+            # set tile text
+            @message = Crafty.e('2D, DOM, Text').attr({w: 128})
 
-            @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
+            @update()
+            @bindEvents()
+
+            this
+
+        update: ->
+
+          # get informations from assined MapPosition object
+          @owner = @mapPosition.owner
+          @units = @mapPosition.units
+
+          # update text element
+          @message.attr({x: @x + 40, y: @y + 40}).text( @q + " / " + @r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
 
 
-            @
+        redraw: ->
+          @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
+
+
+
+        bindEvents: ->
+          @bind 'Click', () ->
+            @select( )
+
 
         dbg: ->
-            dbgMsg = Crafty.e('2D, DOM, Text')
-            .attr
-                x: @x + 40
-                y: @y + 40
-                w: 128
-            .text( @q + " / " + @r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
+
 
             #@attach dbgMsg
 
