@@ -52,16 +52,18 @@ class View
             @requires('2D, DOM, Image, Mouse')
 
             @width = 128
-            @height = @width
+            @height = 111
             @size = @width / 2
 
             @attr
                 q: tile_position.q
                 r: tile_position.r
-                x: @size * 3 / 2 * tile_position.q
-                y: @size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2)
+                x: Math.round(@size * 3 / 2 * tile_position.q)
+                y: Math.round(@size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2))
                 mapPosition: tile_position
                 game: game
+                w: @width
+                h: @height
 
             @mapPosition.setTile( this)
 
@@ -86,7 +88,7 @@ class View
           @updateCSS()
 
           # set tile image
-          @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
+          @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png', "repeat"
 
 
 
