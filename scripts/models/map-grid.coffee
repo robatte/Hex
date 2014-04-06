@@ -33,9 +33,9 @@ class MapPosition
   setTile: (@tile) ->
 
   moveUnitsTo: (other, count) ->
-    return if count < 1
+    return if count < 1 || @units.length <= 1
     count = @units.length - 1 if count > @units.length - 1
-    for i in [1..count]
+    for i in [0..count - 1]
       other.units.push( @units.pop() )
     other.owner = @owner
 
@@ -58,8 +58,6 @@ class MapGrid
   getPositionByCoordinates: (q, r) ->
     return null unless @positionsByIndex[q]?
     @positionsByIndex[q][r]
-
-
 
   setStartPositions: (players, initial_units) ->
     sums = @positions.map (pos) -> pos.r + pos.q
