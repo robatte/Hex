@@ -5,7 +5,11 @@ class GameState
 
     # register events
     SystemEvent.addSubscriber 'view.tile.click', (event) =>
-      @selectActivePosition event.data.mapPosition
+      @clickMapPosition event.data.mapPosition
+
+  clickMapPosition: (position) ->
+    if position.owner == @player
+      @selectActivePosition position
       @game.view.draw()
 
 
