@@ -1,3 +1,10 @@
+class GameState
+  constructor: (@player) ->
+
+  selectPosition: (postion, map_grid) ->
+    @position = postion
+    @interaction_positions = map_grid.getNeighbors(@position)
+
 
 class Game
     constructor: (radius, min_dense, threshold)->
@@ -10,6 +17,9 @@ class Game
         #map generation
         @map_grid.generateMap()
         @map_grid.setStartPositions(@players, @initial_units)
+
+        #set inital game state
+        @state = new GameState(@players[0])
 
 
     start: ->
