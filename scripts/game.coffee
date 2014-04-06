@@ -54,7 +54,7 @@ class Game
         Crafty.background 'rgb(249, 223, 125)'
 
         # initialize view
-        @view = new View()
+        @view = new View(this)
        
 
         # preload sprites

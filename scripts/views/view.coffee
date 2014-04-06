@@ -1,8 +1,12 @@
 class View
 
-  constructor: ->
+  constructor: (game) ->
     @createCraftyTile()
     @createCraftyMap()
+    @createInteractionBox(game)
+
+  createInteractionBox: (game) ->
+    @interactionBox = new InteractionBox(game)
 
   createCraftyMap: ->
     Crafty.c 'Map',
@@ -17,6 +21,8 @@ class View
     # draw tiles
     for tile in Crafty("Tile").get()
       tile.update()
+
+    @interactionBox.draw()
 
 
   getCenter: ->
