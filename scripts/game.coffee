@@ -1,14 +1,21 @@
 class GameState
 
-  constructor: (@player) ->
+  constructor: (@game, @player) ->
     @interactionPositions = []
 
-  selectActivePosition: (position, map_grid) ->
+    # register events
+    SystemEvent.addSubscriber 'view.tile.click', (event) =>
+      @selectActivePosition event.data.mapPosition
+      @game.view.draw()
+
+
+  selectActivePosition: (position) ->
     @activePosition = position
-    @interactionPositions = map_grid.getNeighbors(@activePosition)
+    @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
+
 
 
 
@@ -25,7 +32,7 @@ class Game
         @map_grid.setStartPositions(@players, @initial_units)
 
         #set inital game state
-        @state = new GameState(@players[0])
+        @state = new GameState(this, @players[0])
 
 
     start: ->

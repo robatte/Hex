@@ -86,8 +86,9 @@ class View
 
         bindEvents: ->
           @bind 'Click', () ->
-            @game.state.selectActivePosition @mapPosition, @game.map_grid
-            @game.view.draw()
+            event = new SystemEvent('view.tile.click', {mapPosition: @mapPosition}).dispatch()
+            #@game.state.selectActivePosition @mapPosition, @game.map_grid
+            #@game.view.draw()
 
 
         updateCSS: ->
