@@ -5,6 +5,10 @@ class View
     @createCraftyMap()
     @createInteractionBox(game)
 
+    # redraw on ganme state changes
+    SystemEvent.addSubscriber 'state.change', (event) =>
+      @draw()
+
   createInteractionBox: (game) ->
     @interactionBox = new InteractionBox(game)
 
@@ -104,7 +108,7 @@ class View
 
           # set individual classes
           jQuery( @_element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
-          jQuery( @_element).addClass("tile-inactive") if @game.state.stateId == GameState.states.select_move_position && !@mapPosition.isInteractionPosition(@game)
+          jQuery( @_element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
 
 
     

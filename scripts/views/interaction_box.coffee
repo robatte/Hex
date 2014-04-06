@@ -29,7 +29,7 @@ class InteractionBox
     @box_jquery.html html
 
   getStateSpecificHTML: ->
-    switch @game.state.stateId
+    switch @game.state.currentState
       when GameState.states.select_own_position then return @htmlSelectOwnPosition()
       when GameState.states.own_position_selected then return @htmlOwnPositionSelect()
       when GameState.states.select_move_position then return @htmlSelectMovePosition()

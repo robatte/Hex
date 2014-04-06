@@ -7,7 +7,7 @@ class GameState
 
   constructor: (@game, @player) ->
 
-    @stateId = GameState.states.select_own_position
+    @currentState = GameState.states.select_own_position
 
     @resetSelection()
 
@@ -22,6 +22,14 @@ class GameState
     SystemEvent.addSubscriber 'view.interaction_box.move-units', (event) =>
       @selectMovePosition()
 
+  changeState: (state) ->
+    @currentState = state
+    new SystemEvent('state.change', {}).dispatch()
+
+  is: (state) ->
+    @currentState == state
+
+
   resetSelection: ->
     @activePosition = []
     @interactionPositions = []
@@ -33,19 +41,15 @@ class GameState
       count = parseInt(prompt("Move how many units?","0"))
       @activePosition.moveUnitsTo(position, count) unless isNaN(count)
       @interactionPositions = []
-      @stateId = GameState.states.own_position_selected
+      @changeState GameState.states.own_position_selected
 
     else if position.owner == @player
       @selectActivePosition position
-      @stateId = GameState.states.own_position_selected
+      @changeState GameState.states.own_position_selected
 
     else
       @resetSelection()
-      @stateId = GameState.states.select_own_position
-
-
-
-    @game.view.draw()
+      @changeState GameState.states.select_own_position
 
 
   selectActivePosition: (position) ->
@@ -57,13 +61,11 @@ class GameState
   nextRound: ->
     @player = @game.nextRound()
     @resetSelection()
-    @stateId = GameState.states.select_own_position
-    @game.view.draw()
+    @changeState GameState.states.select_own_position
 
   selectMovePosition: ->
     @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
-    @stateId = GameState.states.select_move_position
-    @game.view.draw()
+    @changeState GameState.states.select_move_position
 
 
 
