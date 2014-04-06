@@ -5,7 +5,7 @@ Crafty.scene 'Level', (game)->
 
     map = Crafty.e('Map').map game
 
-    center = map.getCenter()
+    center = game.view.getCenter()
     Crafty.viewport.x = - center.x + window.innerWidth / 2
     Crafty.viewport.y = - center.y + window.innerHeight / 2
 

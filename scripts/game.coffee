@@ -27,6 +27,9 @@ class Game
         # init Canvas etc.
         Crafty.init window.width, window.height
         Crafty.background 'rgb(249, 223, 125)'
+
+        # initialize view
+        @view = new View()
        
 
         # preload sprites
