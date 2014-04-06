@@ -45,7 +45,7 @@ class View
         tile: (tile_position, game) ->
             @requires('2D, DOM, Image, Mouse')
 
-            @width = 128
+            @width = 512
             @height = @width
             @size = @width / 2
 
@@ -80,18 +80,19 @@ class View
           @updateCSS()
 
           # set tile image
-          @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
+          # @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
+          @image 'assets/tile_base_1.png'
 
 
 
         bindEvents: ->
-          @bind 'Click', () ->
-            @game.state.selectActivePosition @mapPosition, @game.map_grid
-            @game.view.draw()
+          @bind 'Click', (e) ->
+            if e.mouseButton == Crafty.mouseButtons.LEFT
+              @game.state.selectActivePosition @mapPosition, @game.map_grid
+              @game.view.draw()
 
 
         updateCSS: ->
-
           #remove all classes
           jQuery(@._element).removeClass "tile-active tile-active-target"
 

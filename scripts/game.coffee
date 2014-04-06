@@ -42,7 +42,11 @@ class Game
         Crafty.load [
             'assets/cell_player0.png',
             'assets/cell_player1.png',
-            'assets/cell_player2.png'
+            'assets/cell_player2.png',
+            'assets/tile_base_1.png',
+            'assets/tile_base_2.png',
+            'assets/tile_base_white.png',
+            'assets/tile_base_black.png',
         ], =>
             Crafty.scene 'Level', @
         
