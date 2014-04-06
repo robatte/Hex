@@ -8,9 +8,17 @@ class GameState
       @clickMapPosition event.data.mapPosition
 
   clickMapPosition: (position) ->
+
     if position.owner == @player
       @selectActivePosition position
-      @game.view.draw()
+
+    else if @isInteractionPosition(position)
+      count = parseInt(prompt("Move how many units?","0"))
+      @activePosition.moveUnitsTo(position, count) unless isNaN(count)
+
+
+
+    @game.view.draw()
 
 
   selectActivePosition: (position) ->
