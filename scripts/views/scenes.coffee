@@ -9,8 +9,8 @@ Crafty.scene 'Level', (game)->
     Crafty.viewport.x = - center.x + window.innerWidth / 2
     Crafty.viewport.y = - center.y + window.innerHeight / 2
 
-
-
+    # center_tile = Crafty('Tile').get().filter (a)-> a.q == 0 && a.r == 0
+    # Crafty.viewport.centerOn center_tile[0]
 
   # Menu-Scene
 

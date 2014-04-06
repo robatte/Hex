@@ -25,8 +25,8 @@ class MapGenerator
 
   getInitalPosition: ->
     loop
-      q = @randomIntInRange -@radius_q, @radius_q
-      r = @randomIntInRange -@radius_r, @radius_r
+      q = 0#@randomIntInRange -@radius_q, @radius_q
+      r = 0#@randomIntInRange -@radius_r, @radius_r
       p = new MapPosition q, r
       break if @isValidPosition(p)
     p
