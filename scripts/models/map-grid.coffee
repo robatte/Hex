@@ -65,8 +65,8 @@ class MapGrid
     sums = @positions.map (pos) -> pos.r + pos.q
     max_ix = sums.indexOf Math.max.apply(null, sums)
     min_ix = sums.indexOf Math.min.apply(null, sums)
-    @positions[min_ix].setOwner(players[0], initial_units)
-    @positions[max_ix].setOwner(players[1], initial_units)
+    @positions[min_ix].setOwner(players[0], Helper.clone(initial_units))
+    @positions[max_ix].setOwner(players[1], Helper.clone(initial_units))
 
   getNeighbors: (position) ->
     neighbors = []
