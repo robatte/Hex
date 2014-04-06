@@ -14,8 +14,8 @@
     margin-left: -10px;
 }
 
-.tile-active-target {
-    opacity: .7 !important;
+.tile-inactive {
+    opacity: .3 !important;
     
 }
 
