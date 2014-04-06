@@ -1,9 +1,15 @@
 class GameState
-  constructor: (@player) ->
 
-  selectPosition: (postion, map_grid) ->
-    @position = postion
-    @interaction_positions = map_grid.getNeighbors(@position)
+  constructor: (@player) ->
+    @interactionPositions = []
+
+  selectActivePosition: (position, map_grid) ->
+    @activePosition = position
+    @interactionPositions = map_grid.getNeighbors(@activePosition)
+
+  isInteractionPosition: (position) ->
+    @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
+
 
 
 class Game

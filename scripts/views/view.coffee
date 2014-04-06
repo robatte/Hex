@@ -17,7 +17,6 @@ class View
     # draw tiles
     for tile in Crafty("Tile").get()
       tile.update()
-      tile.redraw()
 
 
   getCenter: ->
@@ -77,29 +76,28 @@ class View
           # update text element
           @message.attr({x: @x + 40, y: @y + 40}).text( @q + " / " + @r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
 
+          # set css styles and classes to tile
+          @updateCSS()
 
-        redraw: ->
+          # set tile image
           @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
 
 
 
         bindEvents: ->
           @bind 'Click', () ->
-            @select( )
+            @game.state.selectActivePosition @mapPosition, @game.map_grid
+            @game.view.draw()
 
 
-        dbg: ->
+        updateCSS: ->
 
+          #remove all classes
+          jQuery(@._element).removeClass "tile-active tile-active-target"
 
-            #@attach dbgMsg
-
-        select: ->
-            @game.state.selectPosition @mapPosition, @game.map_grid
-            jQuery( ".Tile").removeClass "tile-active tile-active-target"
-            jQuery( @_element).addClass("tile-active")
-            for neighbor in @game.state.interaction_positions
-                debugger
-                jQuery(neighbor.tile._element).addClass "tile-active-target"
+          # set individual classes
+          jQuery( @_element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
+          jQuery( @_element).addClass("tile-active-target") if @mapPosition.isInteractionPosition(@game)
 
 
     

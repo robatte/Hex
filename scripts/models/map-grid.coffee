@@ -4,6 +4,12 @@ class MapPosition
     @owner = null
     @units = null
 
+  isActivePosition: (game) ->
+    this == game.state.activePosition
+
+  isInteractionPosition: (game) ->
+    game.state.isInteractionPosition(this)
+
   setOwner: (player, units) ->
     @owner = player
     @units = units
