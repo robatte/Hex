@@ -1,7 +1,31 @@
 
 # Starts a level
 Crafty.scene 'Level', (game)->
-    Crafty.viewport.mouselook true
+
+    Crafty.addEvent this, Crafty.stage.elem, "mousedown", (e) ->
+        if e.mouseButton == Crafty.mouseButtons.RIGHT
+            jQuery("body").css {"cursor" : "move"}
+            scroll = (e) ->
+                dx = @base.x - e.clientX
+                dy = @base.y - e.clientY
+                @base =
+                    x: e.clientX
+                    y: e.clientY
+
+                Crafty.viewport.x -= dx
+                Crafty.viewport.y -= dy
+            @base =
+                x: e.clientX
+                y: e.clientY
+
+            Crafty.addEvent this, Crafty.stage.elem, "mousemove", scroll
+            Crafty.addEvent this, Crafty.stage.elem, "mouseup", ->
+                if e.mouseButton == Crafty.mouseButtons.RIGHT
+                    Crafty.removeEvent this, Crafty.stage.elem, "mousemove", scroll
+                    jQuery("body").css {"cursor": "auto"}
+        return
+
+
 
     Crafty.e('Map').map game
     game.view.draw()
@@ -25,9 +49,3 @@ Crafty.scene 'Menu', (game)->
         .css
             'text-align': 'center'
             'color': '#333'
-
-#     #Start Level on Keypress
-#     @restart_level = @bind 'KeyDown', ->
-#         Crafty.scene 'Level', game
-# , ->
-#     @unbind 'KeyDown', @restart_level

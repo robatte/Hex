@@ -95,13 +95,34 @@ class Game
 
         # initialize view
         @view = new View(this)
+
+        #add mousewheel event to Crafty
+        Crafty.extend mouseWheelDispatch: (e) ->
+            Crafty.trigger "MouseWheel", e
+
+        # Crafty.bind "load", ->
+        Crafty.addEvent this, "mousewheel", Crafty.mouseWheelDispatch
+
+        # bind mousewheel-event
+        Crafty.zoom = 1
+        Crafty.bind "MouseWheel", (e) =>
+            delta = ((if e.wheelDelta then e.wheelDelta / 120 else evt.detail)) / 2
+            if delta > 0 then Crafty.zoom+=0.05 else Crafty.zoom-=0.05
+            if Crafty.zoom < 0.5 then Crafty.zoom = 0.5
+            if Crafty.zoom > 2 then Crafty.zoom = 2
+            Crafty.viewport.scale( Crafty.zoom)
+
        
 
         # preload sprites
         Crafty.load [
             'assets/cell_player0.png',
             'assets/cell_player1.png',
-            'assets/cell_player2.png'
+            'assets/cell_player2.png',
+            'assets/tile_base_1.png',
+            'assets/tile_base_2.png',
+            'assets/tile_base_white.png',
+            'assets/tile_base_black.png',
         ], =>
             Crafty.scene 'Level', @
 

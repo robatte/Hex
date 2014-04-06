@@ -72,7 +72,7 @@ class View
             @mapPosition.setTile( this)
 
             # set tile text
-            @message = Crafty.e('2D, DOM, Text').attr({w: 128})
+            @message = Crafty.e('2D, DOM, Text').attr({w: 128}).unselectable()
 
             @update()
             @bindEvents()
@@ -102,7 +102,6 @@ class View
 
 
         updateCSS: ->
-
           #remove all classes
           jQuery(@._element).removeClass "tile-active tile-inactive"
 
