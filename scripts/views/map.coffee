@@ -76,7 +76,7 @@ Crafty.c 'Tile',
         jQuery( @_element).addClass("tile-active")
         for neighbor in @game.state.interaction_positions
             debugger
-            jQuery(neighbor.tile._element.addClass) "tile-active-target"
+            jQuery(neighbor.tile._element).addClass "tile-active-target"
 
 
     
