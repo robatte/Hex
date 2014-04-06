@@ -3,7 +3,7 @@ Crafty.c 'Map',
         #@requires 'Tile'
 
         for tile_position in game.map_grid.positions
-          Crafty.e('Tile').tile( tile_position).dbg()
+          Crafty.e('Tile').tile(tile_position, game).dbg()
 
         @
 
@@ -30,8 +30,8 @@ Crafty.c 'Tile',
     owner: 0 #player Nr.
 
 
-    tile: (tile_position) ->
-        @requires('2D, DOM, Image')
+    tile: (tile_position, game) ->
+        @requires('2D, DOM, Image, Mouse')
        
         @width = 128
         @height = @width
@@ -46,6 +46,13 @@ Crafty.c 'Tile',
 
         @owner = tile_position.owner
         @units = tile_position.units
+        @mapPosition = tile_position
+        @game = game
+
+        #add mouse click event
+        entity = @
+        @bind 'Click', (event) ->
+          game.state.selectPosition @mapPosition, game.map_grid
 
         @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
 

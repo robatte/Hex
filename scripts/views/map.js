@@ -5,7 +5,7 @@ Crafty.c('Map', {
     _ref = game.map_grid.positions;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       tile_position = _ref[_i];
-      Crafty.e('Tile').tile(tile_position).dbg();
+      Crafty.e('Tile').tile(tile_position, game).dbg();
     }
     return this;
   },
@@ -31,8 +31,9 @@ Crafty.c('Tile', {
   type: 0,
   value: 50,
   owner: 0,
-  tile: function(tile_position) {
-    this.requires('2D, DOM, Image');
+  tile: function(tile_position, game) {
+    var entity;
+    this.requires('2D, DOM, Image, Mouse');
     this.width = 128;
     this.height = this.width;
     this.size = this.width / 2;
@@ -44,6 +45,12 @@ Crafty.c('Tile', {
     });
     this.owner = tile_position.owner;
     this.units = tile_position.units;
+    this.mapPosition = tile_position;
+    this.game = game;
+    entity = this;
+    this.bind('Click', function(event) {
+      return game.state.selectPosition(this.mapPosition, game.map_grid);
+    });
     return this.image('assets/cell_player' + (this.owner != null ? this.owner.id : '0') + '.png');
   },
   dbg: function() {
