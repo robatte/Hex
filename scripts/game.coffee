@@ -1,11 +1,26 @@
 class GameState
 
+  @states =
+    select_own_position: 'select_own_position'
+
   constructor: (@game, @player) ->
-    @interactionPositions = []
+
+    @stateId = GameState.select_own_position
+
+    @resetSelection()
 
     # register events
     SystemEvent.addSubscriber 'view.tile.click', (event) =>
       @clickMapPosition event.data.mapPosition
+
+    # register events
+    SystemEvent.addSubscriber 'view.interaction_box.round-next', (event) =>
+      @nextRound()
+
+  resetSelection: ->
+    @activePosition = []
+    @interactionPositions = []
+
 
   clickMapPosition: (position) ->
 
@@ -17,7 +32,6 @@ class GameState
       @activePosition.moveUnitsTo(position, count) unless isNaN(count)
 
 
-
     @game.view.draw()
 
 
@@ -27,6 +41,12 @@ class GameState
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
+
+  nextRound: ->
+    @player = @game.nextRound()
+    @resetSelection()
+    @stateId = GameState.select_own_position
+    @game.view.draw()
 
 
 
@@ -64,6 +84,12 @@ class Game
             'assets/cell_player2.png'
         ], =>
             Crafty.scene 'Level', @
+
+    nextRound: ->
+      # change player
+      next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
+      next_player
+
         
 class Settings
     @tileBoundary: 3
