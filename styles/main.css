@@ -1,0 +1,20 @@
+
+.tile-active {
+    
+}
+
+.tile-active:before {
+    content: " ";
+    width: 20px;
+    height: 20px;
+    background-color: #F00;
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    margin-left: -10px;
+}
+
+.tile-active-target {
+    opacity: .7;
+    
+}

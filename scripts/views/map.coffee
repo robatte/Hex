@@ -49,6 +49,10 @@ Crafty.c 'Tile',
 
         @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
 
+        jQuery( @_element).addClass("tile-active")
+
+        @
+
     dbg: ->
         dbgMsg = Crafty.e('2D, DOM, Text')
         .attr
