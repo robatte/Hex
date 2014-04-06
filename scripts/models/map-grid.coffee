@@ -59,5 +59,5 @@ class MapGrid
   getNeighbors: (position) ->
     neighbors = []
     for candidate in position.getNeighbors()
-      neighbors.push(candidate) if @getPositionByCoordinates(candidate.q, candidate.r)?
+      neighbors.push(@getPositionByCoordinates(candidate.q, candidate.r)) if @getPositionByCoordinates(candidate.q, candidate.r)?
     neighbors
