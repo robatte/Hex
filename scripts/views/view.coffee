@@ -55,9 +55,10 @@ class View
         tile: (tile_position, game) ->
             @requires('2D, DOM, Image, Mouse')
 
-            @width = 128
-            @height = 111
+            @width = 512
+            @height = 450
             @size = @width / 2
+
 
             @attr
                 q: tile_position.q
@@ -72,7 +73,11 @@ class View
             @mapPosition.setTile( this)
 
             # set tile text
-            @message = Crafty.e('2D, DOM, Text').attr({w: 128}).unselectable()
+            @message = Crafty.e('2D, DOM, Text')
+            .unselectable()
+            .textColor( "#FFFFFF", 1)
+            .textFont({"size":"25px"})
+            .css({"text-align": "center"})
 
             @update()
             @bindEvents()
@@ -86,13 +91,13 @@ class View
           @units = @mapPosition.units
 
           # update text element
-          @message.attr({x: @x + 40, y: @y + 40}).text( @q + " / " + @r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
+          @message.attr({x: @x + 1, y: @y + 200, w: @w}).text( @q + " / " + @r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
 
           # set css styles and classes to tile
           @updateCSS()
 
           # set tile image
-          @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png', "repeat"
+          @image 'assets/tile_base_1.png', "repeat"
 
 
 
