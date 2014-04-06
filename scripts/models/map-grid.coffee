@@ -2,7 +2,7 @@ class MapPosition
 
   constructor: (@q, @r) ->
     @owner = null
-    @units = null
+    @units = []
 
   isActivePosition: (game) ->
     this == game.state.activePosition
@@ -30,8 +30,14 @@ class MapPosition
   equals: (other) ->
     other.q == @q && other.r == @r
 
-
   setTile: (@tile) ->
+
+  moveUnitsTo: (other, count) ->
+    return if count < 1
+    count = @units.length - 1 if count > @units.length - 1
+    for i in [1..count]
+      other.units.push( @units.pop() )
+    other.owner = @owner
 
 class MapGrid
   constructor: (radius, min_dense, threshold)->
@@ -59,8 +65,8 @@ class MapGrid
     sums = @positions.map (pos) -> pos.r + pos.q
     max_ix = sums.indexOf Math.max.apply(null, sums)
     min_ix = sums.indexOf Math.min.apply(null, sums)
-    @positions[max_ix].setOwner(players[0], initial_units)
-    @positions[min_ix].setOwner(players[1], initial_units)
+    @positions[min_ix].setOwner(players[0], initial_units)
+    @positions[max_ix].setOwner(players[1], initial_units)
 
   getNeighbors: (position) ->
     neighbors = []

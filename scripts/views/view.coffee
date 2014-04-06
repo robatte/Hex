@@ -1,8 +1,12 @@
 class View
 
-  constructor: ->
+  constructor: (game) ->
     @createCraftyTile()
     @createCraftyMap()
+    @createInteractionBox(game)
+
+  createInteractionBox: (game) ->
+    @interactionBox = new InteractionBox(game)
 
   createCraftyMap: ->
     Crafty.c 'Map',
@@ -17,6 +21,8 @@ class View
     # draw tiles
     for tile in Crafty("Tile").get()
       tile.update()
+
+    @interactionBox.draw()
 
 
   getCenter: ->
@@ -45,17 +51,19 @@ class View
         tile: (tile_position, game) ->
             @requires('2D, DOM, Image, Mouse')
 
-            @width = 512
-            @height = @width
+            @width = 128
+            @height = 111
             @size = @width / 2
 
             @attr
                 q: tile_position.q
                 r: tile_position.r
-                x: @size * 3 / 2 * tile_position.q
-                y: @size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2)
+                x: Math.round(@size * 3 / 2 * tile_position.q)
+                y: Math.round(@size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2))
                 mapPosition: tile_position
                 game: game
+                w: @width
+                h: @height
 
             @mapPosition.setTile( this)
 
@@ -80,16 +88,13 @@ class View
           @updateCSS()
 
           # set tile image
-          # @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png'
-          @image 'assets/tile_base_1.png'
+          @image 'assets/cell_player'+ (if @owner? then @owner.id  else '0')+'.png', "repeat"
 
 
 
         bindEvents: ->
-          @bind 'Click', (e) ->
-            if e.mouseButton == Crafty.mouseButtons.LEFT
-              @game.state.selectActivePosition @mapPosition, @game.map_grid
-              @game.view.draw()
+          @bind 'Click', () ->
+            new SystemEvent('view.tile.click', {mapPosition: @mapPosition}).dispatch()
 
 
         updateCSS: ->

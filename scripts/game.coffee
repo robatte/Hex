@@ -1,14 +1,71 @@
 class GameState
 
-  constructor: (@player) ->
+  @states =
+    select_own_position: 'select_own_position'
+    own_position_selected: 'own_position_selected'
+    select_move_position: 'select_move_position'
+
+  constructor: (@game, @player) ->
+
+    @stateId = GameState.states.select_own_position
+
+    @resetSelection()
+
+    # register events
+    SystemEvent.addSubscriber 'view.tile.click', (event) =>
+      @clickMapPosition event.data.mapPosition
+
+
+    SystemEvent.addSubscriber 'view.interaction_box.round-next', (event) =>
+      @nextRound()
+
+    SystemEvent.addSubscriber 'view.interaction_box.move-units', (event) =>
+      @selectMovePosition()
+
+  resetSelection: ->
+    @activePosition = []
     @interactionPositions = []
 
-  selectActivePosition: (position, map_grid) ->
+
+  clickMapPosition: (position) ->
+
+    if @isInteractionPosition(position)
+      count = parseInt(prompt("Move how many units?","0"))
+      @activePosition.moveUnitsTo(position, count) unless isNaN(count)
+      @interactionPositions = []
+      @stateId = GameState.states.own_position_selected
+
+    else if position.owner == @player
+      @selectActivePosition position
+      @stateId = GameState.states.own_position_selected
+
+    else
+      @resetSelection()
+      @stateId = GameState.states.select_own_position
+
+
+
+    @game.view.draw()
+
+
+  selectActivePosition: (position) ->
     @activePosition = position
-    @interactionPositions = map_grid.getNeighbors(@activePosition)
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
+
+  nextRound: ->
+    @player = @game.nextRound()
+    @resetSelection()
+    @stateId = GameState.states.select_own_position
+    @game.view.draw()
+
+  selectMovePosition: ->
+    @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
+    @stateId = GameState.states.select_move_position
+    @game.view.draw()
+
+
 
 
 
@@ -25,7 +82,7 @@ class Game
         @map_grid.setStartPositions(@players, @initial_units)
 
         #set inital game state
-        @state = new GameState(@players[0])
+        @state = new GameState(this, @players[0])
 
 
     start: ->
@@ -35,7 +92,7 @@ class Game
         Crafty.background 'rgb(249, 223, 125)'
 
         # initialize view
-        @view = new View()
+        @view = new View(this)
        
 
         # preload sprites
@@ -49,6 +106,12 @@ class Game
             'assets/tile_base_black.png',
         ], =>
             Crafty.scene 'Level', @
+
+    nextRound: ->
+      # change player
+      next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
+      next_player
+
         
 class Settings
     @tileBoundary: 3

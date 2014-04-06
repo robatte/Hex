@@ -18,3 +18,15 @@
     opacity: .7 !important;
     
 }
+
+/* iteraction box */
+#interaction-box {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 20%;
+    min-height: 200px;
+    background-color: #FCFFCD;
+    z-index: 999;
+    padding: 20px;
+}
