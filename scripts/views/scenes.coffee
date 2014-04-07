@@ -30,9 +30,11 @@ Crafty.scene 'Level', (game)->
     Crafty.e('Map').map game
     game.view.draw()
 
-    center = game.view.getCenter()
-    Crafty.viewport.x = - center.x + window.innerWidth / 2
-    Crafty.viewport.y = - center.y + window.innerHeight / 2
+    center_tile = window.current_game.map_grid.getPositionByCoordinates(0,0).tile
+    Crafty.viewport.centerOn(center_tile, 0)
+    # center = game.view.getCenter()
+    # Crafty.viewport.x = - center.x + window.innerWidth / 2
+    # Crafty.viewport.y = - center.y + window.innerHeight / 2
 
 
 # Menu-Scene

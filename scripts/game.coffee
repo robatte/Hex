@@ -163,8 +163,8 @@ class Settings
     @minTileDense: 0.2
     @mapGenRandom: 0.3
     @minZoom: 0.3
-    @maxZoom: 1.5
-    @default_zoom: .5
+    @maxZoom: 1
+    @default_zoom: .4
 
 
 window.onload = ->
