@@ -9,6 +9,10 @@ class View
     SystemEvent.addSubscribtion 'state.change', (event) =>
       @draw()
 
+    # redraw if units are build
+    SystemEvent.addSubscribtion 'state.build-units', (event) =>
+      @draw()
+
   createInteractionBox: (game) ->
     @interactionBox = new InteractionBox(game)
 
@@ -115,7 +119,6 @@ class View
           jQuery( @_element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
           jQuery( @_element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
 
-
-    
-
+  message: (msg) ->
+    alert msg
     

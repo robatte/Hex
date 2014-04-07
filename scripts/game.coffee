@@ -22,6 +22,9 @@ class GameState
     SystemEvent.addSubscribtion 'view.interaction_box.move-units', (event) =>
       @selectMovePosition()
 
+    SystemEvent.addSubscribtion 'view.interaction_box.build-units', (event) =>
+      @buildUnits()
+
   changeState: (state) ->
     @currentState = state
     new SystemEvent('state.change', {}).dispatch()
@@ -66,6 +69,13 @@ class GameState
   selectMovePosition: ->
     @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
     @changeState GameState.states.select_move_position
+
+  buildUnits: ->
+    count = parseInt(prompt("Move how many units?","0"))
+    if !isNaN(count) && count > 1
+      @game.buildUnits(count)
+      new SystemEvent('state.build-units', {}).dispatch()
+
 
 
 
@@ -127,9 +137,23 @@ class Game
             Crafty.scene 'Level', @
 
     nextRound: ->
+      # get tax from own MapPositions
+      @state.player.money_units += @map_grid.getPositionsByOwner(@state.player).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
+
       # change player
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
       next_player
+
+    buildUnits: (count) ->
+      price = count * 25
+
+      if price > @state.player.money_units
+        @view.message "Sie ahben nicht genug Geld"
+
+      else
+        @state.player.money_units -= price
+        @state.activePosition.addUnits( UnitFatory.build( Unit.TYPE_SOLDIER, count ) )
+
 
         
 class Settings

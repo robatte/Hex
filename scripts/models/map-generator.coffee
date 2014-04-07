@@ -5,8 +5,8 @@ class MapGenerator
 
   generate: ->
     @positions = []
-    process = []
-    process.push @getInitalPosition()
+    type = Math.floor( Math.random() * 2) + 1
+    process = [ new MapPosition(0, 0, type) ]
 
     while process.length > 0
       position = process.pop()
@@ -22,15 +22,6 @@ class MapGenerator
     matches = positions.filter (pos) -> pos.equals(position)
     matches.length > 0
 
-
-  getInitalPosition: ->
-    loop
-      q = 0#@randomIntInRange -@radius_q, @radius_q
-      r = 0#@randomIntInRange -@radius_r, @radius_r
-      type = Math.floor( Math.random() * 2) + 1
-      p = new MapPosition q, r, type
-      break if @isValidPosition(p)
-    p
 
   randomIntInRange: (min, max) ->
     Math.floor(Math.random() * (max - min + 1)) + min
