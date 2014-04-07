@@ -5,8 +5,7 @@ class MapGenerator
 
   generate: ->
     @positions = []
-    type = Math.floor( Math.random() * 2) + 1
-    process = [ new MapPosition(0, 0, type) ]
+    process = [ new MapPosition(0, 0, @getRandomType()) ]
 
     while process.length > 0
       position = process.pop()
@@ -14,6 +13,7 @@ class MapGenerator
       for neighbor in Helper.shuffle_array position.getNeighbors()
         if @isValidPosition(neighbor)
           if Math.random() < @threshold || (process.length == 0 && @positions.length < @min_amount)
+            neighbor.type = @getRandomType()
             process.push(neighbor) unless @positionInArray(neighbor, process.concat(@positions))
 
       @positions.push(position)
@@ -28,3 +28,6 @@ class MapGenerator
 
   isValidPosition: (position) ->
     Math.abs(position.q) <= @radius_q && Math.abs(position.r) <= @radius_r
+
+  getRandomType: ->
+    Math.floor( Math.random() * 2) + 1
