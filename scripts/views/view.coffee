@@ -32,7 +32,7 @@ class View
       tile.update()
 
     #initial zoom
-    Crafty.viewport.scale( Crafty.zoom)
+    Crafty.viewport.zoom( 0, 0)
 
     @interactionBox.draw()
 

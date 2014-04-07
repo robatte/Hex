@@ -76,10 +76,7 @@ class GameState
       @game.buildUnits(count)
       new SystemEvent('state.build-units', {}).dispatch()
 
-
-
-
-
+ 
 
 class Game
     constructor: (radius, min_dense, threshold)->
@@ -110,19 +107,14 @@ class Game
         Crafty.extend mouseWheelDispatch: (e) ->
             Crafty.trigger "MouseWheel", e
 
-        # Crafty.bind "load", ->
         Crafty.addEvent this, "mousewheel", Crafty.mouseWheelDispatch
 
         # bind mousewheel-event
-        Crafty.zoom = Settings.default_zoom
         Crafty.bind "MouseWheel", (e) =>
-            delta = ((if e.wheelDelta then e.wheelDelta / 120 else evt.detail)) / 2
-            if delta > 0 then Crafty.zoom+=0.05 else Crafty.zoom-=0.05
-            if Crafty.zoom < Settings.minZoom then Crafty.zoom = Settings.minZoom
-            if Crafty.zoom > Settings.maxZoom then Crafty.zoom = Settings.maxZoom
-            Crafty.viewport.scale( Crafty.zoom)
+            delta = ((if event.wheelDelta then event.wheelDelta / 120 else event.detail)) / 2
+            if delta > 0 then zoomVal = 0.05 else zoomVal = -0.05
+            Crafty.viewport.zoom( zoomVal, 300)
 
-        #background
 
        
 
@@ -162,7 +154,7 @@ class Settings
     @tileBoundary: 3
     @minTileDense: 0.2
     @mapGenRandom: 0.3
-    @minZoom: 0.3
+    @minZoom: 0.25
     @maxZoom: 1
     @default_zoom: .4
 
