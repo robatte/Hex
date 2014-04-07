@@ -58,6 +58,7 @@ class View
             @width = 512
             @height = 450
             @size = @width / 2
+            @type = tile_position.type
 
 
             @attr
@@ -97,7 +98,7 @@ class View
           @updateCSS()
 
           # set tile image
-          @image 'assets/tile_base_1.png', "repeat"
+          @image 'assets/tile_base_'+(if @type > 0 then @type else 'black')+'.png', "repeat"
 
 
 

@@ -27,7 +27,8 @@ class MapGenerator
     loop
       q = 0#@randomIntInRange -@radius_q, @radius_q
       r = 0#@randomIntInRange -@radius_r, @radius_r
-      p = new MapPosition q, r
+      type = Math.floor( Math.random() * 2) + 1
+      p = new MapPosition q, r, type
       break if @isValidPosition(p)
     p
 

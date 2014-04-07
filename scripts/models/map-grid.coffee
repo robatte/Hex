@@ -1,6 +1,6 @@
 class MapPosition
 
-  constructor: (@q, @r) ->
+  constructor: (@q, @r, @type) ->
     @owner = null
     @units = []
 
@@ -22,7 +22,7 @@ class MapPosition
     ]
 
     for neighbor_offset in neighbors_offsets
-      neighbor = new MapPosition @q + neighbor_offset[0], @r + neighbor_offset[1]
+      neighbor = new MapPosition @q + neighbor_offset[0], @r + neighbor_offset[1], @type
       neighbors.push neighbor
 
     neighbors
