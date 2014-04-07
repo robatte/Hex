@@ -89,6 +89,7 @@ class View
             .css({"text-align": "center"})
 
             @update()
+            @updateImage()
             @bindEvents()
 
             this
@@ -105,6 +106,8 @@ class View
           # set css styles and classes to tile
           @updateCSS()
 
+
+        updateImage: ->
           # set tile image
           @image 'assets/tile_base_'+(if @type > 0 then @type else 'black')+'.png', "repeat"
 
