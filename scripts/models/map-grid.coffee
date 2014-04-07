@@ -42,6 +42,9 @@ class MapPosition
   taxRate: ->
     25
 
+  addUnits: (new_units) ->
+    @units = @units.concat new_units
+
 class MapGrid
   constructor: (radius, min_dense, threshold)->
     @radius_q = radius

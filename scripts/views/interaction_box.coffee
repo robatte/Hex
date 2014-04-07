@@ -19,6 +19,9 @@ class InteractionBox
     @box_jquery.on "click", "input#move-units", ->
       new SystemEvent('view.interaction_box.move-units', {}).dispatch()
 
+    @box_jquery.on "click", "input#build-units", ->
+      new SystemEvent('view.interaction_box.build-units', {}).dispatch()
+
   draw: ->
     html = """
            <h3>#{@title}</h3>
@@ -44,6 +47,7 @@ class InteractionBox
     """
     <p>Wähle eine Aktion</p>
     <p><input id="move-units" type="button" value="Einheiten bewegen"></p>
+    <p><input id="build-units" type="button" value="Einheiten ausbilden"></p>
     """
 
   htmlSelectMovePosition: ->
