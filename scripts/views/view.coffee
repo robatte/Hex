@@ -13,6 +13,7 @@ class View
     SystemEvent.addSubscribtion 'state.build-units', (event) =>
       @draw()
 
+
   createInteractionBox: (game) ->
     @interactionBox = new InteractionBox(game)
 
@@ -30,6 +31,9 @@ class View
     for tile in Crafty("Tile").get()
       tile.update()
 
+    #initial zoom
+    Crafty.viewport.scale( Crafty.zoom)
+    
     @interactionBox.draw()
 
 

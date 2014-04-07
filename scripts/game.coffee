@@ -114,13 +114,14 @@ class Game
         Crafty.addEvent this, "mousewheel", Crafty.mouseWheelDispatch
 
         # bind mousewheel-event
-        Crafty.zoom = 1
+        Crafty.zoom = Settings.default_zoom
         Crafty.bind "MouseWheel", (e) =>
             delta = ((if e.wheelDelta then e.wheelDelta / 120 else evt.detail)) / 2
             if delta > 0 then Crafty.zoom+=0.05 else Crafty.zoom-=0.05
             if Crafty.zoom < Settings.minZoom then Crafty.zoom = Settings.minZoom
             if Crafty.zoom > Settings.maxZoom then Crafty.zoom = Settings.maxZoom
             Crafty.viewport.scale( Crafty.zoom)
+        
 
        
 
@@ -162,6 +163,7 @@ class Settings
     @mapGenRandom: 0.3
     @minZoom: 0.3
     @maxZoom: 1.5
+    @default_zoom: .5
 
 
 window.onload = ->
