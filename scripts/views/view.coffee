@@ -33,7 +33,7 @@ class View
 
     #initial zoom
     Crafty.viewport.scale( Crafty.zoom)
-    
+
     @interactionBox.draw()
 
 
@@ -85,7 +85,7 @@ class View
             @message = Crafty.e('2D, DOM, Text')
             .unselectable()
             .textColor( "#FFFFFF", 1)
-            .textFont({"size":"25px"})
+            .textFont({"size":"30px"})
             .css({"text-align": "center"})
 
             @update()
