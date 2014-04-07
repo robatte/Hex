@@ -117,11 +117,15 @@ class View
 
         updateCSS: ->
           #remove all classes
-          jQuery(@._element).removeClass "tile-active tile-inactive"
+          jQuery(@._element).removeClass "tile-active tile-inactive tile-move-target"
+          if @owner?
+            jQuery(@._element).addClass "tile-player"+@owner.id
 
           # set individual classes
           jQuery( @_element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
           jQuery( @_element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
+          jQuery( @_element).addClass("tile-move-target") if @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game)
+
 
   message: (msg) ->
     alert msg

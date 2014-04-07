@@ -101,7 +101,7 @@ class Game
 
         # init Canvas etc.
         Crafty.init window.width, window.height
-        Crafty.background 'rgb(249, 223, 125)'
+        Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/clouds_1.jpg) repeat'
 
         # initialize view
         @view = new View(this)
@@ -121,7 +121,8 @@ class Game
             if Crafty.zoom < Settings.minZoom then Crafty.zoom = Settings.minZoom
             if Crafty.zoom > Settings.maxZoom then Crafty.zoom = Settings.maxZoom
             Crafty.viewport.scale( Crafty.zoom)
-        
+
+        #background
 
        
 
