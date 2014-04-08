@@ -154,7 +154,7 @@ class Settings
     @tileBoundary: 3
     @minTileDense: 0.2
     @mapGenRandom: 0.3
-    @minZoom: 0.25
+    @minZoom: 0.3
     @maxZoom: 1
     @default_zoom: .4
 
