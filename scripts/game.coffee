@@ -103,19 +103,8 @@ class Game
         # initialize view
         @view = new View(this)
 
-        #add mousewheel event to Crafty
-        Crafty.extend mouseWheelDispatch: (e) ->
-            Crafty.trigger "MouseWheel", e
-
-        Crafty.addEvent this, "mousewheel", Crafty.mouseWheelDispatch
-
-        # bind mousewheel-event
-        Crafty.bind "MouseWheel", (e) =>
-            delta = ((if event.wheelDelta then event.wheelDelta / 120 else event.detail)) / 2
-            if delta > 0 then zoomVal = 0.05 else zoomVal = -0.05
-            Crafty.viewport.zoom( zoomVal, 300)
-
-
+        # initalize mouse event handling
+        new Mouse()
        
 
         # preload sprites

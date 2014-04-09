@@ -13,6 +13,12 @@ class View
     SystemEvent.addSubscribtion 'state.build-units', (event) =>
       @draw()
 
+    # zoome and redraw if mousewheel is used
+    SystemEvent.addSubscribtion 'mouse.mousewheel', (event) =>
+      if event.data.delta > 0 then zoomVal = 0.05 else zoomVal = -0.05
+      Crafty.viewport.zoom( zoomVal, 300)
+      @draw()
+
 
   createInteractionBox: (game) ->
     @interactionBox = new InteractionBox(game)
@@ -30,9 +36,6 @@ class View
     # draw tiles
     for tile in Crafty("Tile").get()
       tile.update()
-
-    #initial zoom
-    Crafty.viewport.zoom( 0, 0)
 
     @interactionBox.draw()
 
