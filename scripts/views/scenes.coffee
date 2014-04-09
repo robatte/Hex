@@ -2,28 +2,40 @@
 # Starts a level
 Crafty.scene 'Level', (game)->
 
-    Crafty.addEvent this, Crafty.stage.elem, "mousedown", (e) ->
-        if e.mouseButton == Crafty.mouseButtons.RIGHT
-            jQuery("body").css {"cursor" : "move"}
-            scroll = (e) ->
-                dx = @base.x - e.clientX
-                dy = @base.y - e.clientY
-                @base =
-                    x: e.clientX
-                    y: e.clientY
+#    Crafty.addEvent this, Crafty.stage.elem, "mousedown", (e) ->
+#        if e.mouseButton == Crafty.mouseButtons.RIGHT
+#            jQuery("body").css {"cursor" : "move"}
+#            scroll = (e) ->
+#                dx = @base.x - e.clientX
+#                dy = @base.y - e.clientY
+#                @base =
+#                    x: e.clientX
+#                    y: e.clientY
+#
+#                Crafty.viewport.x -= dx
+#                Crafty.viewport.y -= dy
+#            @base =
+#                x: e.clientX
+#                y: e.clientY
+#
+#            Crafty.addEvent this, Crafty.stage.elem, "mousemove", scroll
+#            Crafty.addEvent this, Crafty.stage.elem, "mouseup", ->
+#                if e.mouseButton == Crafty.mouseButtons.RIGHT
+#                    Crafty.removeEvent this, Crafty.stage.elem, "mousemove", scroll
+#                    jQuery("body").css {"cursor": "auto"}
+#        return
 
-                Crafty.viewport.x -= dx
-                Crafty.viewport.y -= dy
-            @base =
-                x: e.clientX
-                y: e.clientY
+    Mouse.instance.initScrolling (e) ->
 
-            Crafty.addEvent this, Crafty.stage.elem, "mousemove", scroll
-            Crafty.addEvent this, Crafty.stage.elem, "mouseup", ->
-                if e.mouseButton == Crafty.mouseButtons.RIGHT
-                    Crafty.removeEvent this, Crafty.stage.elem, "mousemove", scroll
-                    jQuery("body").css {"cursor": "auto"}
-        return
+      dx = Mouse.scrollBase.x - e.clientX
+      dy = Mouse.scrollBase.y - e.clientY
+
+      Mouse.scrollBase =
+        x: e.clientX
+        y: e.clientY
+
+      Crafty.viewport.x -= dx
+      Crafty.viewport.y -= dy
 
 
 
