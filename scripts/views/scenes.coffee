@@ -39,7 +39,7 @@ Crafty.scene 'Level', (game)->
 
 
 
-    Crafty.e('Map').map game
+    game.view.createMap(game)
     game.view.draw()
 
     center_tile = window.current_game.map_grid.getPositionByCoordinates(0,0).tile

@@ -79,19 +79,25 @@ class GameState
  
 
 class Game
+
+    @instance = null
+
     constructor: (radius, min_dense, threshold)->
-        @map_grid = new MapGrid radius, min_dense, threshold
+        unless Game.instance?
+          @map_grid = new MapGrid radius, min_dense, threshold
 
-        # init player
-        @players = [new Player("Player 1"), new Player("Player 2")]
-        @initial_units = UnitFatory.build Unit.TYPE_SOLDIER, 10
+          # init player
+          @players = [new Player("Player 1"), new Player("Player 2")]
+          @initial_units = UnitFatory.build Unit.TYPE_SOLDIER, 10
 
-        #map generation
-        @map_grid.generateMap()
-        @map_grid.setStartPositions(@players, @initial_units)
+          #map generation
+          @map_grid.generateMap()
+          @map_grid.setStartPositions(@players, @initial_units)
 
-        #set inital game state
-        @state = new GameState(this, @players[0])
+          #set inital game state
+          @state = new GameState(this, @players[0])
+
+          Game.instance = this
 
 
     start: ->
