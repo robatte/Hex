@@ -32,7 +32,7 @@ class View
       tile.update()
 
     #initial zoom
-    Crafty.viewport.scale( Crafty.zoom)
+    Crafty.viewport.zoom( 0, 0)
 
     @interactionBox.draw()
 
@@ -111,7 +111,12 @@ class View
           # set tile image
           @image 'assets/tile_base_'+(if @type > 0 then @type else 'black')+'.png', "repeat"
 
-
+        updateLayers: ->
+          #set layer-positions to tile-position
+          for child in @_children
+            child.attr
+              x: @x
+              y: @y
 
         bindEvents: ->
           @bind 'Click', () ->
@@ -129,7 +134,26 @@ class View
           jQuery( @_element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
           jQuery( @_element).addClass("tile-move-target") if @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game)
 
+        setActive: ->
+          layer = Crafty.e('Layer').image('assets/tile_base_red.png').attr({"alpha":"0.4"})
+          @attach layer
+          @updateLayers()
+          
+
 
   message: (msg) ->
     alert msg
     
+
+  #Crafty-Component for multi-layer
+  Crafty.c 'Layer',
+    init: ->
+      @requires '2D, DOM, Image'
+
+  #will be created if tile is clicked/activated
+  Crafty.c 'ActiveTile',
+    init: ->
+      @requires 'Layer'
+      @image('assets/tile_base_red.png')
+      @attr
+        alpha: 0.4
