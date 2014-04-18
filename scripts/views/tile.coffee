@@ -35,8 +35,14 @@ class Tile
 
 
       updateImage: ->
+
+        filename = switch @type
+          when 1 then "tile_grassland.png"
+          when 2 then "tile_village.png"
+
+
         # set tile image
-        @image 'assets/tile_base_'+(if @type > 0 then @type else 'black')+'.png', "repeat"
+        @image "assets/#{ filename }", "repeat"
 
       updateLayers: ->
         #set layer-positions to tile-position
