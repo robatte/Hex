@@ -1,4 +1,14 @@
 
+class FarmerUnit
+
+  @attributes =
+    name: "Bauer"
+    type_identifier: "farmer"
+    building_costs: 10
+
+  building_costs: ->
+    FarmerUnit.attributes.building_costs
+
 class SoldierUnit
 
   @attributes =
@@ -42,6 +52,8 @@ class UnitFactory
   class UnitFactoryPrivate
 
     units:
+      farmer:
+        FarmerUnit.attributes
       soldier:
         SoldierUnit.attributes
 
@@ -52,5 +64,6 @@ class UnitFactory
         for i in [1..amount]
           switch type_identifier
             when SoldierUnit.attributes.type_identifier then army.add new SoldierUnit()
+            when FarmerUnit.attributes.type_identifier then army.add new FarmerUnit()
 
       army

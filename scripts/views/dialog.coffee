@@ -82,7 +82,7 @@ class BuildUnitsDialog
       for unit_name, unit of @units
         html += """
           <input type="text" name="#{ unit.type_identifier }" data-costs="#{ unit.building_costs }" value="0" class="spinner unit-selector">
-          <label for="name">#{ unit.name }</label>
+          <label for="name">#{ unit.name }</label><br>
         """
       html
 
