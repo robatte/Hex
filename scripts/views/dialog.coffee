@@ -113,3 +113,83 @@ class BuildUnitsDialog
       jQuery("#current-costs").html(@price)
       jQuery("#new-balance").html(@current_money - @price)
 
+
+class MoveUnitsDialog
+
+# implements sigelton pattern by http://coffeescriptcookbook.com/chapters/design_patterns/singleton
+
+  instance = null
+
+  @get: () ->
+    instance ?= new MoveUnitsDialogPrivate()
+
+  class MoveUnitsDialogPrivate extends Dialog
+
+    army: {}
+    result: {}
+
+    init: () ->
+      @dialog_jquery.dialog(
+        autoOpen: false,
+        height: 300,
+        width: 600,
+        modal: true,
+        buttons:
+          "Einheiten bewegen": () =>
+            @close()
+
+          "Abbrechen": () =>
+            @dialog_jquery.dialog "close"
+            @callback_cancle() if @callback_cancle?
+      )
+
+      _this = this
+      @dialog_jquery.find("input.spinner").each () ->
+        jQuery(this).spinner
+          min: 0
+          max: jQuery(this).data('max')
+
+    title: () ->
+      "Einheiten ausbilden"
+
+    html: () ->
+      """
+      <p>Wähle die Einheiten die Du bewegen möchtest.</p>
+      <form>
+        <fieldset>
+          #{ @addUnitSelectors() }
+        </fieldset>
+      </form>
+      """
+
+    addUnitSelectors: () ->
+      html = ""
+      for type, units of @army.getUnitsByType()
+        html += """
+                <input type="text" name="#{ type }" data-max="#{ units.length }" value="#{ units.length }" class="spinner unit-selector">
+                <label for="name">#{ units[0].name }</label><br>
+                """
+      html
+
+    updateData: () ->
+      @result = {}
+      that = this
+      jQuery("input.unit-selector").each ->
+        el = jQuery(this)
+        amount = parseInt( el.val() )
+        if !isNaN(amount)
+          that.result[el.attr('name')] = amount
+
+
+    open: (@army, @callback_build, @callback_cancle = null) ->
+      @dialog_jquery.html @html()
+      @init()
+      @dialog_jquery.dialog "open"
+
+    close: ->
+      @updateData()
+      @dialog_jquery.dialog "close"
+      @callback_build @result
+
+    updateCosts: ->
+      @updateData()

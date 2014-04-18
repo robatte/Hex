@@ -32,11 +32,8 @@ class MapPosition
 
   setTile: (@tile) ->
 
-  moveUnitsTo: (other, count) ->
-    return if count < 1 || @units.amountOfUnits() <= 1
-    count = @units.amountOfUnits() - 1 if count > @units.amountOfUnits() - 1
-    for i in [0..count - 1]
-      other.units.units.push( @units.units.pop() )
+  moveUnitsTo: (other, units) ->
+    @units.moveTo other, units
     other.owner = @owner
 
   taxRate: ->

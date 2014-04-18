@@ -41,10 +41,10 @@ class GameState
   clickMapPosition: (position) ->
 
     if @isInteractionPosition(position)
-      count = parseInt(prompt("Move how many units?","0"))
-      @activePosition.moveUnitsTo(position, count) unless isNaN(count)
-      @interactionPositions = []
-      @changeState GameState.states.own_position_selected
+      MoveUnitsDialog.get().open @activePosition.units, (units) =>
+        @activePosition.moveUnitsTo(position, units)
+        @interactionPositions = []
+        @changeState GameState.states.own_position_selected
 
     else if position.owner == @player
       @selectActivePosition position
