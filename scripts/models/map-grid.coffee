@@ -2,7 +2,7 @@ class MapPosition
 
   constructor: (@q, @r, @type = 1) ->
     @owner = null
-    @units = []
+    @units = new Army()
 
   isActivePosition: (game) ->
     this == game.state.activePosition
@@ -33,17 +33,17 @@ class MapPosition
   setTile: (@tile) ->
 
   moveUnitsTo: (other, count) ->
-    return if count < 1 || @units.length <= 1
-    count = @units.length - 1 if count > @units.length - 1
+    return if count < 1 || @units.amountOfUnits() <= 1
+    count = @units.amountOfUnits() - 1 if count > @units.amountOfUnits() - 1
     for i in [0..count - 1]
-      other.units.push( @units.pop() )
+      other.units.units.push( @units.units.pop() )
     other.owner = @owner
 
   taxRate: ->
     25
 
   addUnits: (new_units) ->
-    @units = @units.concat new_units
+    @units.addArmy new_units
 
 class MapGrid
   constructor: (radius, min_dense, threshold)->
@@ -69,8 +69,8 @@ class MapGrid
     sums = @positions.map (pos) -> pos.r + pos.q
     max_ix = sums.indexOf Math.max.apply(null, sums)
     min_ix = sums.indexOf Math.min.apply(null, sums)
-    @positions[min_ix].setOwner(players[0], Helper.clone(initial_units))
-    @positions[max_ix].setOwner(players[1], Helper.clone(initial_units))
+    @positions[min_ix].setOwner(players[0], UnitFactory.get().build( initial_units ))
+    @positions[max_ix].setOwner(players[1], UnitFactory.get().build( initial_units ))
 
   getNeighbors: (position) ->
     neighbors = []

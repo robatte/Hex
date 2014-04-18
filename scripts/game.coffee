@@ -71,9 +71,8 @@ class GameState
     @changeState GameState.states.select_move_position
 
   buildUnits: ->
-    count = parseInt(prompt("Move how many units?","0"))
-    if !isNaN(count) && count > 1
-      @game.buildUnits(count)
+    BuildUnitsDialog.get().open @player.money_units, UnitFactory.get().units, (units) =>
+      @game.buildUnits(units)
       new SystemEvent('state.build-units', {}).dispatch()
 
  
@@ -88,7 +87,7 @@ class Game
 
           # init player
           @players = [new Player("Player 1"), new Player("Player 2")]
-          @initial_units = UnitFatory.build Unit.TYPE_SOLDIER, 10
+          @initial_units = { "soldier": 10 }
 
           #map generation
           @map_grid.generateMap()
@@ -133,15 +132,15 @@ class Game
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
       next_player
 
-    buildUnits: (count) ->
-      price = count * 25
+    buildUnits: (units) ->
+      army = UnitFactory.get().build units
 
-      if price > @state.player.money_units
-        @view.message "Sie ahben nicht genug Geld"
+      if army.building_costs() > @state.player.money_units
+        @view.message "Sie haben nicht genug Geld"
 
       else
-        @state.player.money_units -= price
-        @state.activePosition.addUnits( UnitFatory.build( Unit.TYPE_SOLDIER, count ) )
+        @state.player.money_units -= army.building_costs()
+        @state.activePosition.addUnits( army )
 
 
         

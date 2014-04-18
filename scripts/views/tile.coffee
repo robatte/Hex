@@ -87,7 +87,7 @@ class Tile
     @units = @mapPosition.units
 
     # update text element
-    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 200, w: @craftyTile.w}).text( @mapPosition.q + " / " + @mapPosition.r + "<br/>Einheiten: " + (if @units? then @units.length else '0'))
+    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 200, w: @craftyTile.w}).text( @mapPosition.q + " / " + @mapPosition.r + "<br/>Einheiten: " + (if @units? then @units.amountOfUnits() else '0'))
 
     @updateCSS()
 
