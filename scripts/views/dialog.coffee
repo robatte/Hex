@@ -31,7 +31,7 @@ class BuildUnitsDialog
     init: () ->
       @dialog_jquery.dialog(
         autoOpen: false,
-        height: 300,
+        height: 450,
         width: 600,
         modal: true,
         buttons:
@@ -43,8 +43,12 @@ class BuildUnitsDialog
             @callback_cancle() if @callback_cancle?
       )
 
+      _this = this
       @dialog_jquery.find("input.spinner").each () ->
-        jQuery(this).spinner { min: 0 }
+        jQuery(this).spinner
+          min: 0
+          change: -> _this.updateCosts()
+          stop: -> _this.updateCosts()
 
     title: () ->
       "Einheiten ausbilden"
@@ -52,6 +56,20 @@ class BuildUnitsDialog
     html: () ->
       """
         <p>Wähle die Einheiten die Du ausbilden möchtest.</p>
+        <table>
+          <tr>
+            <td id="current-money">#{ @current_money }</td>
+            <td>aktuelles Guthaben</td>
+          </tr>
+          <tr>
+            <td id="current-costs">0</td>
+            <td>Kosten für die Ausbildung</td>
+          </tr>
+          <tr>
+            <td id="new-balance">#{ @current_money }</td>
+            <td>neues Guthaben</td>
+          </tr>
+        </table>
         <form>
           <fieldset>
             #{ @addUnitSelectors() }
@@ -63,17 +81,21 @@ class BuildUnitsDialog
       html = ""
       for unit_name, unit of @units
         html += """
-          <input type="text" name="#{ unit.type_identifier }" value="0" class="spinner unit-selector">
+          <input type="text" name="#{ unit.type_identifier }" data-costs="#{ unit.building_costs }" value="0" class="spinner unit-selector">
           <label for="name">#{ unit.name }</label>
         """
       html
 
     updateUnitsToBuild: () ->
       @unitsToBuild = {}
+      @price = 0
       that = this
       jQuery("input.unit-selector").each ->
         el = jQuery(this)
-        that.unitsToBuild[el.attr('name')] = parseInt( el.val() )
+        amount = parseInt( el.val() )
+        if !isNaN(amount)
+          that.unitsToBuild[el.attr('name')] = amount
+          that.price += amount * parseInt( el.data('costs') )
 
 
     open: (@current_money, @units, @callback_build, @callback_cancle = null) ->
@@ -85,3 +107,9 @@ class BuildUnitsDialog
       @updateUnitsToBuild()
       @dialog_jquery.dialog "close"
       @callback_build @unitsToBuild
+
+    updateCosts: ->
+      @updateUnitsToBuild()
+      jQuery("#current-costs").html(@price)
+      jQuery("#new-balance").html(@current_money - @price)
+
