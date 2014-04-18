@@ -79,7 +79,7 @@ class Tile
     # set tile text
     @message = Crafty.e('2D, DOM, Text')
       .unselectable()
-      .textColor( "#FFFFFF", 1)
+      .textColor( "#000000", 1)
       .textFont({"size":"30px"})
       .css({"text-align": "center"})
 
@@ -93,7 +93,7 @@ class Tile
     @army = @mapPosition.army
 
     # update text element
-    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 200, w: @craftyTile.w}).text( @mapPosition.q + " / " + @mapPosition.r + "<br/>Einheiten: " + (if @army? then @army.amountOfUnits() else '0'))
+    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 380, w: @craftyTile.w}).text( "Einheiten: " + (if @army? then @army.amountOfUnits() else '0'))
 
     @updateCSS()
 
