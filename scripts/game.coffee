@@ -104,7 +104,7 @@ class Game
 
         # init Canvas etc.
         Crafty.init window.width, window.height
-        Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/clouds_1.jpg) repeat'
+        Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
 
         # initialize view
         @view = new View(this)
