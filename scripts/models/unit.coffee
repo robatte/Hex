@@ -38,7 +38,7 @@ class Army
     @units.push unit
 
   addArmy: (other) ->
-    @units = @units.concat other.army
+    @units = @units.concat other.units
 
   building_costs: ->
     @units.reduce ( (total, unit) -> total + unit.building_costs ), 0
