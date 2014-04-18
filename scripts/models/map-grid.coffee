@@ -2,7 +2,7 @@ class MapPosition
 
   constructor: (@q, @r, @type = 1) ->
     @owner = null
-    @units = new Army()
+    @army = new Army()
 
   isActivePosition: (game) ->
     this == game.state.activePosition
@@ -10,9 +10,9 @@ class MapPosition
   isInteractionPosition: (game) ->
     game.state.isInteractionPosition(this)
 
-  setOwner: (player, units) ->
+  setOwner: (player, army) ->
     @owner = player
-    @units = units
+    @army = army
 
   getNeighbors: ->
     neighbors = []
@@ -33,14 +33,14 @@ class MapPosition
   setTile: (@tile) ->
 
   moveUnitsTo: (other, units) ->
-    @units.moveTo other, units
+    @army.moveTo other, units
     other.owner = @owner
 
   taxRate: ->
     25
 
-  addUnits: (new_units) ->
-    @units.addArmy new_units
+  addArmy: (new_army) ->
+    @army.addArmy new_army
 
 class MapGrid
   constructor: (radius, min_dense, threshold)->

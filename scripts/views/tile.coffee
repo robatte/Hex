@@ -84,10 +84,10 @@ class Tile
 
     # get informations from assined MapPosition object
     @owner = @mapPosition.owner
-    @units = @mapPosition.units
+    @army = @mapPosition.army
 
     # update text element
-    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 200, w: @craftyTile.w}).text( @mapPosition.q + " / " + @mapPosition.r + "<br/>Einheiten: " + (if @units? then @units.amountOfUnits() else '0'))
+    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 200, w: @craftyTile.w}).text( @mapPosition.q + " / " + @mapPosition.r + "<br/>Einheiten: " + (if @army? then @army.amountOfUnits() else '0'))
 
     @updateCSS()
 

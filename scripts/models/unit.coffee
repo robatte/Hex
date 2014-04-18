@@ -38,7 +38,7 @@ class Army
     @units.push unit
 
   addArmy: (other) ->
-    @units = @units.concat other.units
+    @units = @units.concat other.army
 
   building_costs: ->
     @units.reduce ( (total, unit) -> total + unit.building_costs ), 0
@@ -60,7 +60,7 @@ class Army
       unit = @units.pop()
 
       if units[unit.type_identifier]? and units[unit.type_identifier] > 0
-        other.units.units.push unit
+        other.army.units.push unit
         units[unit.type_identifier] -= 1
       else
         keep.push unit

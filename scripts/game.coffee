@@ -41,7 +41,7 @@ class GameState
   clickMapPosition: (position) ->
 
     if @isInteractionPosition(position)
-      MoveUnitsDialog.get().open @activePosition.units, (units) =>
+      MoveUnitsDialog.get().open @activePosition.army, (units) =>
         @activePosition.moveUnitsTo(position, units)
         @interactionPositions = []
         @changeState GameState.states.own_position_selected
@@ -140,7 +140,7 @@ class Game
 
       else
         @state.player.money_units -= army.building_costs()
-        @state.activePosition.addUnits( army )
+        @state.activePosition.addArmy( army )
 
 
         
