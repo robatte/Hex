@@ -3,4 +3,5 @@ scripts/*.js
 scripts/helpers/*.js
 scripts/models/*.js
 scripts/views/*.js
+scripts/views/dialogs/*.js
 scripts/application/*.js

@@ -92,9 +92,10 @@ class UnitFactory
       army = new Army()
 
       for type_identifier, amount of unitSet
-        for i in [1..amount]
-          switch type_identifier
-            when SoldierUnit.attributes.type_identifier then army.add new SoldierUnit()
-            when FarmerUnit.attributes.type_identifier then army.add new FarmerUnit()
+        if amount > 0
+          for i in [0...amount]
+            switch type_identifier
+              when SoldierUnit.attributes.type_identifier then army.add new SoldierUnit()
+              when FarmerUnit.attributes.type_identifier then army.add new FarmerUnit()
 
       army
