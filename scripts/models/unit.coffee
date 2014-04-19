@@ -1,13 +1,25 @@
 class Unit
 
   constructor: (attributes) ->
+    @setAbilities()
+    @setAttributes(attributes)
+
+  setAttributes: (attributes) ->
     @name = attributes.name
     @type_identifier = attributes.type_identifier
     @building_costs = attributes.building_costs
+    @health = 100
+
+
+  setAbilities: ->
+    @attack  = 100
+    @damage  = 10
+    @defense = 100
 
 
 
 class FarmerUnit extends Unit
+
 
   @attributes =
     name: "Bauer"
