@@ -22,7 +22,7 @@ class Tile
         @requires 'Layer'
         @image('assets/tile_overlay_yellow.png')
         @attr
-          alpha: 1
+          alpha: 0.4
 
 
     # Crafty Component for tile representation
