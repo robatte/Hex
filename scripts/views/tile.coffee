@@ -1,12 +1,14 @@
 class Tile
 
   @createCraftyTileComponent: () ->
-    Crafty.c 'Tile',
-      soldiers: 0
-      type: 0 #default-map-type
-      value: 50 #Gold increase
-      owner: 0 #player Nr.
 
+    #Crafty-Component for multi-layer
+    Crafty.c 'Layer',
+      init: ->
+        @requires '2D, DOM, Image'
+
+    # Crafty Component for tile representation
+    Crafty.c 'Tile',
 
       tile: (tile_position) ->
         @requires('2D, DOM, Image, Mouse')
@@ -14,35 +16,17 @@ class Tile
         @width = 512
         @height = 450
         @size = @width / 2
-        @type = tile_position.type
 
 
         @attr
           x: Math.round(@size * 3 / 2 * tile_position.q)
           y: Math.round(@size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2))
-          mapPosition: tile_position
-          game: Game.instance
           w: @width
           h: @height
-
-        @mapPosition.setTile( this)
-
-
-        @updateImage()
 
         this
 
 
-
-      updateImage: ->
-
-        filename = switch @type
-          when 1 then "tile_grassland.png"
-          when 2 then "tile_village.png"
-
-
-        # set tile image
-        @image "assets/#{ filename }", "repeat"
 
       updateLayers: ->
         #set layer-positions to tile-position
@@ -58,23 +42,15 @@ class Tile
         @attach layer
         @updateLayers()
 
-      #Crafty-Component for multi-layer
-      Crafty.c 'Layer',
-        init: ->
-          @requires '2D, DOM, Image'
 
-      #will be created if tile is clicked/activated
-      Crafty.c 'ActiveTile',
-        init: ->
-          @requires 'Layer'
-          @image('assets/tile_base_red.png')
-          @attr
-            alpha: 0.4
 
   constructor: (position) ->
     @game = Game.instance
     @mapPosition = position
+    @type = position.type
     @craftyTile = Crafty.e('Tile').tile(position)
+
+    @mapPosition.setTile( this )
 
     # set tile text
     @message = Crafty.e('2D, DOM, Text')
@@ -85,6 +61,7 @@ class Tile
 
     @update()
     @bindEvents()
+    @updateImage()
 
   update: ->
 
@@ -115,3 +92,14 @@ class Tile
     jQuery( @craftyTile._element).on  'click', () ->
       map_position = jQuery(this).data('map-position')
       new SystemEvent('view.tile.click', {mapPosition: map_position}).dispatch()
+
+  updateImage: ->
+    @type = @mapPosition.type
+
+    filename = switch @type
+      when 1 then "tile_grassland.png"
+      when 2 then "tile_village.png"
+
+
+    # set tile image
+    @craftyTile.image "assets/#{ filename }", "repeat"
