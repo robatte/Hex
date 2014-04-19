@@ -25,7 +25,7 @@
 }
 
 
-
+/*
 .tile-active:before {
     content: " ";
     width: 100%;
@@ -36,7 +36,7 @@
     opacity: .3;
     z-index: 10;
 }
-
+*/
 .tile-move-target:after {
     content: " ";
     width: 100%;

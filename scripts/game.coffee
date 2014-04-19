@@ -121,6 +121,11 @@ class Game
             'assets/tile_base_2.png',
             'assets/tile_base_white.png',
             'assets/tile_base_black.png',
+            'assets/tile_overlay_selected.png',
+            'assets/tile_overlay_blue.png',
+            'assets/tile_overlay_green.png',
+            'assets/tile_overlay_red.png',
+            'assets/tile_overlay_yellow.png',
         ], =>
             Crafty.scene 'Level', @
 
