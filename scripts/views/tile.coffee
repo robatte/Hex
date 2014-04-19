@@ -44,32 +44,34 @@ class Tile
         # set tile image
         @image "assets/#{ filename }", "repeat"
 
-      updateLayers: ->
-        #set layer-positions to tile-position
-        for child in @_children
-          child.attr
-            x: @x
-            y: @y
 
-
-
-      setActive: ->
-        layer = Crafty.e('Layer').image('assets/tile_base_red.png').attr({"alpha":"0.4"})
-        @attach layer
-        @updateLayers()
 
       #Crafty-Component for multi-layer
       Crafty.c 'Layer',
         init: ->
           @requires '2D, DOM, Image'
 
-      #will be created if tile is clicked/activated
-      Crafty.c 'ActiveTile',
+      #will be shown if tile is clicked/activated
+      Crafty.c 'ActiveOverlay',
         init: ->
           @requires 'Layer'
-          @image('assets/tile_base_red.png')
+          @image('assets/tile_overlay_selected.png')
           @attr
-            alpha: 0.4
+            alpha: 1
+      #will be shown if tile is move-target
+      Crafty.c 'MoveTargetOverlay',
+        init: ->
+          @requires 'Layer'
+          @image('assets/tile_overlay_yellow.png')
+          @attr
+            alpha: 1
+      #Shows the owner-overlay
+      Crafty.c 'OwnerOverlay',
+        init: ->
+          @requires 'Layer'
+          @image('assets/tile_overlay_green.png')
+          @attr
+            alpha: .4
 
   constructor: (position) ->
     @game = Game.instance
@@ -83,31 +85,75 @@ class Tile
       .textFont({"size":"30px"})
       .css({"text-align": "center"})
 
+    # Layer to visualize selection
+    @selectedLayer = Crafty.e('ActiveOverlay').attr
+      x: @craftyTile.x
+      y: @craftyTile.y
+    @craftyTile.attach @selectedLayer
+
+    #Layer to visualize move-target
+    @moveTargetLayer = Crafty.e('MoveTargetOverlay').attr
+      x: @craftyTile.x
+      y: @craftyTile.y
+    @craftyTile.attach @moveTargetLayer
+
+    #Layer to visualize ownership
+    # @ownerLayer = Crafty.e('OwnerOverlay').attr
+    #   x: @craftyTile.x
+    #   y: @craftyTile.y
+    # @craftyTile.attach @ownerLayer
+
+
+
     @update()
     @bindEvents()
 
   update: ->
 
     # get informations from assined MapPosition object
-    @owner = @mapPosition.owner
+    @owner = @mapPosition.owner 
     @army = @mapPosition.army
 
     # update text element
     @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 380, w: @craftyTile.w}).text( "Einheiten: " + (if @army? then @army.amountOfUnits() else '0'))
+
+    # set state-layers/visuals
+    @setActive( @mapPosition.isActivePosition(@game) )
+    @setMoveTarget( @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game) )
+    # @setOwner( @owner)
 
     @updateCSS()
 
 
   updateCSS: ->
     #remove all classes
-    jQuery(@craftyTile._element).removeClass "tile-active tile-inactive tile-move-target"
+    # jQuery(@craftyTile._element).removeClass "tile-active tile-inactive tile-move-target"
     if @owner?
       jQuery(@craftyTile._element).addClass "tile-player"+@owner.id
 
     # set individual classes
-    jQuery( @craftyTile._element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
-    jQuery( @craftyTile._element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
-    jQuery( @craftyTile._element).addClass("tile-move-target") if @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game)
+
+
+  setActive: (activate=true)->
+    if activate
+      # jQuery( @craftyTile._element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
+      @selectedLayer.visible = true
+    else
+      # jQuery( @craftyTile._element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
+      @selectedLayer.visible = false
+  
+  setMoveTarget: (isTarget=true)->
+    if isTarget
+      # jQuery( @craftyTile._element).addClass("tile-move-target") if @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game)
+      @moveTargetLayer.visible = true
+    else
+      @moveTargetLayer.visible = false
+
+  # setOwner: (owner=0)->
+  #   if owner
+  #     @ownerLayer.image('assets/tile_overlay_green.png')
+  #   else
+  #     @ownerLayer.visible = false
 
 
   bindEvents: ->
