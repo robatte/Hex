@@ -1,3 +1,13 @@
 .dialog {
     display: none;
 }
+
+.dialog .attacker-list {
+  float: left;
+  clear: left;
+}
+
+.dialog .defender-list {
+  float: right;
+  clear: right;
+}
