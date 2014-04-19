@@ -101,7 +101,7 @@ class Tile
 
   updateCSS: ->
     #remove all classes
-    # jQuery(@craftyTile._element).removeClass "tile-active tile-inactive tile-move-target"
+    jQuery(@craftyTile._element).removeClass "tile-player1 tile-player2"
     if @owner?
       jQuery(@craftyTile._element).addClass "tile-player"+@owner.id
 

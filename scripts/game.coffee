@@ -41,8 +41,16 @@ class GameState
   clickMapPosition: (position) ->
 
     if @isInteractionPosition(position)
-      MoveUnitsDialog.get().open @activePosition.army, (units) =>
-        @activePosition.moveUnitsTo(position, units)
+
+      if position.owner? && position.owner.id != @player.id
+        new Fight(@activePosition.army, position.army) if confirm("Willst Du angreifen?")
+
+      if @activePosition.army.units.length > 0
+        MoveUnitsDialog.get().open @activePosition.army, (units) =>
+          @activePosition.moveUnitsTo(position, units)
+          @interactionPositions = []
+          @changeState GameState.states.own_position_selected
+      else
         @interactionPositions = []
         @changeState GameState.states.own_position_selected
 
