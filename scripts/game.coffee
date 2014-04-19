@@ -19,9 +19,6 @@ class GameState
     SystemEvent.addSubscribtion 'view.interaction_box.round-next', (event) =>
       @nextRound()
 
-    SystemEvent.addSubscribtion 'view.interaction_box.move-units', (event) =>
-      @selectMovePosition()
-
     SystemEvent.addSubscribtion 'view.interaction_box.build-units', (event) =>
       @buildUnits()
 
@@ -57,6 +54,7 @@ class GameState
 
     else if position.owner == @player
       @selectActivePosition position
+      @selectMovePosition()
       @changeState GameState.states.own_position_selected
 
     else
@@ -77,7 +75,6 @@ class GameState
 
   selectMovePosition: ->
     @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
-    @changeState GameState.states.select_move_position
 
   buildUnits: ->
     BuildUnitsDialog.get().open @player.money_units, UnitFactory.get().units, (units) =>
