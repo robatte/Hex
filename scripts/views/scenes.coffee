@@ -11,8 +11,8 @@ Crafty.scene 'Level', (game)->
         x: e.clientX
         y: e.clientY
 
-      Crafty.viewport.x -= dx
-      Crafty.viewport.y -= dy
+      Crafty.viewport.x -= dx / Crafty.viewport.zoomCurrent
+      Crafty.viewport.y -= dy / Crafty.viewport.zoomCurrent
 
 
 
