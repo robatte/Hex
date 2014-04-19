@@ -94,11 +94,12 @@ class Tile
       new SystemEvent('view.tile.click', {mapPosition: map_position}).dispatch()
 
   updateImage: ->
-    @type = @mapPosition.type
+    @type_id = @mapPosition.terrain.type_id
 
-    filename = switch @type
+    filename = switch @type_id
       when 1 then "tile_grassland.png"
       when 2 then "tile_village.png"
+      when 3 then "tile_fortress.png"
 
 
     # set tile image

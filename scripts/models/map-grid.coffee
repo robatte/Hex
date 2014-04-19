@@ -1,6 +1,6 @@
 class MapPosition
 
-  constructor: (@q, @r, @type = 1) ->
+  constructor: (@q, @r, @terrain = null) ->
     @owner = null
     @army = new Army()
 
@@ -13,6 +13,7 @@ class MapPosition
   setOwner: (player, army) ->
     @owner = player
     @army = army
+    this
 
   getNeighbors: ->
     neighbors = []
@@ -31,25 +32,46 @@ class MapPosition
     other.q == @q && other.r == @r
 
   setTile: (@tile) ->
+    this
 
   moveUnitsTo: (other, units) ->
     @army.moveTo other, units
     other.owner = @owner
+    this
 
   taxRate: ->
     25
 
   addArmy: (new_army) ->
     @army.addArmy new_army
+    this
+
+  setTerrain: (type_id) ->
+    @terrain = new MapPositionTerrain(type_id)
+    this
+
+
+class MapPositionTerrain
+
+  constructor: (@type_id) ->
+
 
 class MapGrid
+
+  typeDistribution:
+    1: 0.6
+    2: 0.3
+    3: 0.1
+
+  startPositionTypeId: 2
+
   constructor: (radius, min_dense, threshold)->
     @radius_q = radius
     @radius_r = radius
     @map_generator = new MapGenerator @radius_q, @radius_r, min_dense, threshold
 
   generateMap: ->
-    @map_generator.generate()
+    @map_generator.generate @typeDistribution
     @positions = @map_generator.positions
 
     @positionsByIndex = {}
@@ -66,8 +88,8 @@ class MapGrid
     sums = @positions.map (pos) -> pos.r + pos.q
     max_ix = sums.indexOf Math.max.apply(null, sums)
     min_ix = sums.indexOf Math.min.apply(null, sums)
-    @positions[min_ix].setOwner(players[0], UnitFactory.get().build( initial_units ))
-    @positions[max_ix].setOwner(players[1], UnitFactory.get().build( initial_units ))
+    @positions[min_ix].setOwner(players[0], UnitFactory.get().build( initial_units )).setTerrain(@startPositionTypeId)
+    @positions[max_ix].setOwner(players[1], UnitFactory.get().build( initial_units )).setTerrain(@startPositionTypeId)
 
   getNeighbors: (position) ->
     neighbors = []
