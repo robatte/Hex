@@ -6,6 +6,8 @@ class Tile
     Crafty.c 'Layer',
       init: ->
         @requires '2D, DOM, Image'
+        @css
+          "pointer-events": "none"
 
     #will be shown if tile is clicked/activated
     Crafty.c 'ActiveOverlay',

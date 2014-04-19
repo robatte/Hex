@@ -21,7 +21,7 @@ class Mouse
 
 
   processMousWheelEvent: (event) ->
-    delta = ((if event.originalEvent.wheelDelta then event.originalEvent.wheelDelta / 120 else event.originalEvent.detail)) / 2
+    delta = ((if event.originalEvent.wheelDelta then event.originalEvent.wheelDelta / 120 else -event.originalEvent.detail)) / 2
     new SystemEvent('mouse.mousewheel', {delta: delta}).dispatch()
 
 

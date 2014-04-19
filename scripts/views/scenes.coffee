@@ -21,6 +21,9 @@ Crafty.scene 'Level', (game)->
 
     center_tile = window.current_game.map_grid.getPositionByCoordinates(0,0).tile.craftyTile
     Crafty.viewport.centerOn(center_tile, 0)
+    # Set default-zoom
+    Crafty.viewport.zoom( 0, 0)
+
 
 
 # Menu-Scene

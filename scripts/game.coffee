@@ -155,7 +155,7 @@ class Settings
     @mapGenRandom: 0.3
     @minZoom: 0.3
     @maxZoom: 1
-    @default_zoom: .4
+    @default_zoom: 0.5
 
 
 window.onload = ->
