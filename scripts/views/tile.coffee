@@ -93,7 +93,7 @@ class Tile
 
     # set state-layers/visuals
     @setActive( @mapPosition.isActivePosition(@game) )
-    @setMoveTarget( @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game) )
+    @setMoveTarget( @game.state.is(GameState.states.own_position_selected) && @mapPosition.isInteractionPosition(@game) )
     # @setOwner( @owner)
 
     @updateCSS()

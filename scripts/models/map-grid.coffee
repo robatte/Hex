@@ -34,9 +34,14 @@ class MapPosition
   setTile: (@tile) ->
     this
 
-  moveUnitsTo: (other, units) ->
+  moveUnitsTo: (other, units, game) ->
     @army.moveTo other, units
     other.owner = @owner
+
+    if @army.units.length <= 0
+      @owner = null
+      game.state.selectActivePosition(other)
+
     this
 
   taxRate: ->
