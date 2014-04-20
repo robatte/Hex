@@ -33,11 +33,13 @@ class FarmerUnit extends Unit
     super(FarmerUnit.attributes)
 
   setAbilities: ->
-    @attack  = 100
-    @damage  = 6
-    @defense = 95
+    # attack abilities by http://www.redblobgames.com/articles/probability/damage-rolls.html
+    @attack_roles  = 6
+    @attack_dice  = 2
+    @attack_offset  = -4
+    @armor = 0
     @moves = 1
-    @health = 75
+    @health = 70
 
 
 class SoldierUnit extends Unit
@@ -51,9 +53,11 @@ class SoldierUnit extends Unit
     super(SoldierUnit.attributes)
 
   setAbilities: ->
-    @attack  = 100
-    @damage  = 12
-    @defense = 100
+    # attack abilities by http://www.redblobgames.com/articles/probability/damage-rolls.html
+    @attack_roles  = 4
+    @attack_dice  = 3
+    @attack_offset  = 15
+    @armor = 0.3
     @moves = 1
     @health = 100
 

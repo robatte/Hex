@@ -34,8 +34,43 @@ class Fight
     @attackUnit(unit, target)
 
   attackUnit: (unit, target) ->
-    attack_score = unit.attack + Math.floor(Math.random() * 20 - 10)
-    target.currentHealth -= unit.damage if attack_score > target.defense
+
+    # role dice to get score (see http://www.redblobgames.com/articles/probability/damage-rolls.html)
+    attack_score = @rollDice(unit.attack_roles, unit.attack_dice) + unit.attack_offset
+    attack_score = 0 if attack_score < 0
+
+    # apply armor
+    attack_score = Math.round  attack_score * (1 - target.armor)
+
+    # calc new health
+    target.currentHealth -= attack_score
 
   removeDeadUnits: (units) ->
     units = units.filter (unit) -> unit.currentHealth > 0
+
+
+  rollDice: (n, s) ->
+    # thanks to blogarticle http://www.redblobgames.com/articles/probability/damage-rolls.html
+    # Sum of N dice each of which goes from 0 to S
+    value = 0
+    value += Math.floor((s + 1) * Math.random()) for i in [0..n]
+    value
+
+
+  @calcFightStatistic: (unit_type_attacker, unit_type_defender, attacker_count, defender_count) ->
+
+    units_set_attacker = {}
+    units_set_attacker[unit_type_attacker] = attacker_count
+
+    units_set_defender = {}
+    units_set_defender[unit_type_defender] = defender_count
+
+    attackers = UnitFactory.get().build units_set_attacker, new Player("attacker")
+    defenders = UnitFactory.get().build units_set_defender, new Player("defender")
+
+    new Fight attackers, defenders
+
+    winner = if attackers.units.length > 0 then attackers else defenders
+    health = winner.units.map( (unit) -> unit.currentHealth ).reduce( (x,y) -> x + y )
+    health /= winner.units.length
+    alert("attackers: #{attackers.units.length} / defenders: #{defenders.units.length} / mean winner health: #{health}")
