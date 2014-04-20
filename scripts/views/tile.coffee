@@ -48,7 +48,6 @@ class Tile
 
 
   constructor: (position) ->
-    @game = Game.instance
     @mapPosition = position
     @type = position.type
     @craftyTile = Crafty.e('Tile').tile(position)
@@ -92,8 +91,8 @@ class Tile
     @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 380, w: @craftyTile.w}).text( "Einheiten: " + (if @army? then @army.amountOfUnits() else '0'))
 
     # set state-layers/visuals
-    @setActive( @mapPosition.isActivePosition(@game) )
-    @setMoveTarget( @game.state.is(GameState.states.own_position_selected) && @mapPosition.isInteractionPosition(@game) )
+    @setActive( @mapPosition.isActivePosition() )
+    @setMoveTarget( Game.get().state.is(GameState.states.own_position_selected) && @mapPosition.isInteractionPosition() )
     # @setOwner( @owner)
 
     @updateCSS()

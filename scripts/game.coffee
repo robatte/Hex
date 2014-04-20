@@ -5,7 +5,7 @@ class GameState
     own_position_selected: 'own_position_selected'
     select_move_position: 'select_move_position'
 
-  constructor: (@game, @player) ->
+  constructor: (@player) ->
 
     @currentState = GameState.states.select_own_position
 
@@ -65,51 +65,56 @@ class GameState
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
 
   nextRound: ->
-    @player = @game.nextRound()
+    @player = Game.get().nextRound()
     @resetSelection()
     Unit.resetMove()
     @changeState GameState.states.select_own_position
 
   selectMovePosition: ->
-    @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
+    @interactionPositions = Game.get().map_grid.getNeighbors(@activePosition)
 
   buildUnits: ->
     BuildUnitsDialog.get().open @player.money_units, @activePosition.terrain.unitsToBuild(), (units) =>
-      @game.buildUnits(units)
+      Game.get().buildUnits(units)
       new SystemEvent('state.build-units', {}).dispatch()
 
   moveUnits: (position) ->
     if @activePosition.army.movableUnits().length > 0
       MoveUnitsDialog.get().open @activePosition.army, (units) =>
-        @activePosition.moveUnitsTo(position, units, @game)
+        @activePosition.moveUnitsTo(position, units)
         @interactionPositions = []
         @changeState GameState.states.own_position_selected
     else
       @interactionPositions = []
       @changeState GameState.states.own_position_selected
 
- 
+
 
 class Game
 
-    @instance = null
+# implements sigelton pattern by http://coffeescriptcookbook.com/chapters/design_patterns/singleton
 
-    constructor: (radius, min_dense, threshold)->
-        unless Game.instance?
-          @map_grid = new MapGrid radius, min_dense, threshold
+  instance = null
 
-          # init player
-          @players = [new Player("Player 1"), new Player("Player 2")]
-          @initial_units = { "farmer": 3 }
+  @get: () ->
+    instance ?= new GamePrivate()
 
-          #map generation
-          @map_grid.generateMap()
-          @map_grid.setStartPositions(@players, @initial_units)
+  class GamePrivate
 
-          #set inital game state
-          @state = new GameState(this, @players[0])
+    init: (radius, min_dense, threshold)->
+      @map_grid = new MapGrid radius, min_dense, threshold
 
-          Game.instance = this
+      # init player
+      @players = [new Player("Player 1"), new Player("Player 2")]
+      @initial_units = { "farmer": 3 }
+
+      #map generation
+      @map_grid.generateMap()
+      @map_grid.setStartPositions(@players, @initial_units)
+
+      #set inital game state
+      @state = new GameState(@players[0])
+      this
 
 
     start: ->
@@ -119,7 +124,7 @@ class Game
         Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
 
         # initialize view
-        @view = new View(this)
+        @view = new View()
 
         # initalize mouse event handling
         new Mouse()
@@ -140,7 +145,7 @@ class Game
             'assets/tile_overlay_red.png',
             'assets/tile_overlay_yellow.png',
         ], =>
-            Crafty.scene 'Level', @
+            Crafty.scene 'Level'
 
     nextRound: ->
       # get tax from own MapPositions
@@ -174,6 +179,6 @@ class Settings
 
 
 window.onload = ->
-    game = new Game Settings.tileBoundary, Settings.minTileDense, Settings.mapGenRandom
-    window.current_game = game
-    game.start()
+  game = Game.get().init Settings.tileBoundary, Settings.minTileDense, Settings.mapGenRandom
+  window.current_game = game
+  game.start()

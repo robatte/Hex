@@ -4,11 +4,11 @@ class MapPosition
     @owner = null
     @army = new Army(null)
 
-  isActivePosition: (game) ->
-    this == game.state.activePosition
+  isActivePosition: ->
+    this == Game.get().state.activePosition
 
-  isInteractionPosition: (game) ->
-    game.state.isInteractionPosition(this)
+  isInteractionPosition: ->
+    Game.get().state.isInteractionPosition(this)
 
   setOwner: (player, army) ->
     @owner = player
@@ -34,13 +34,13 @@ class MapPosition
   setTile: (@tile) ->
     this
 
-  moveUnitsTo: (other, units, game) ->
+  moveUnitsTo: (other, units) ->
     @army.moveTo other, units
     other.owner = @owner if other.army.units.length > 0 and other.army.units[0].owner.id == @army.owner.id
 
     if @army.units.length <= 0
       @owner = null
-      game.state.selectActivePosition(other)
+      Game.get().state.selectActivePosition(other)
 
     this
 
