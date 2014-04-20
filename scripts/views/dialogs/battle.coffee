@@ -35,7 +35,10 @@ class BattleViewDialog
 
     showUnit: (unit) ->
       if unit?
-        return "<img src='assets/#{ (new UnitView( unit)).image() }'/>"
+        return """
+               <img src='assets/#{ (new UnitView( unit)).image() }'/>
+               <div class="health"><div class="bar" style="height: #{unit.currentHealth / unit.health * 100}%"></div></div>
+               """
       else 
         return ""
 

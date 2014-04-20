@@ -35,7 +35,7 @@ class Fight
 
   attackUnit: (unit, target) ->
     attack_score = unit.attack + Math.floor(Math.random() * 20 - 10)
-    target.health -= unit.damage if attack_score > target.defense
+    target.currentHealth -= unit.damage if attack_score > target.defense
 
   removeDeadUnits: (units) ->
     units = units.filter (unit) -> unit.health > 0
