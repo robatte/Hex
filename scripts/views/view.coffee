@@ -1,3 +1,20 @@
+class Viewport
+  # implements sigelton pattern by http://coffeescriptcookbook.com/chapters/design_patterns/singleton
+
+  instance = null
+
+  @get: () ->
+    instance ?= new ViewportPrivate()
+
+  class ViewportPrivate
+
+    getPosition: ->
+      {x: Crafty.viewport.x, y:  Crafty.viewport.y}
+
+    setPosition: (position) ->
+      Crafty.viewport.x = position.x
+      Crafty.viewport.y = position.y
+
 class View
 
   constructor: (game) ->

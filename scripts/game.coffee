@@ -147,7 +147,9 @@ class Game
       @state.player.money_units += @map_grid.getPositionsByOwner(@state.player).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
 
       # change player
+      @state.player.storeViewPosition()
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
+      next_player.restoreViewPosition()
       next_player
 
     buildUnits: (units) ->
