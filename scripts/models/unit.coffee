@@ -99,18 +99,18 @@ class Army
     @units.filter (u) -> u.currentMove == 0
 
 
-  moveTo: (other, units) ->
+  moveTo: (other, units, max_moves) ->
     keep = []
     for i in [1..@units.length]
       unit = @units.pop()
 
-      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0
+      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0 and i <= max_moves
         unit.currentMove -= 1
-        other.army.units.push unit
+        other.units.push unit
         units[unit.type_identifier] -= 1
       else
         keep.push unit
-    other.army.owner = @owner if other.army.units.length > 0
+    other.owner = @owner if other.units.length > 0
 
     @units = keep
 
