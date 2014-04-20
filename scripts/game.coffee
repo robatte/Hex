@@ -42,22 +42,11 @@ class GameState
       if position.owner? && position.owner.id != @player.id
         BattleViewDialog.get().open @activePosition.army.movableUnits(), position.army.units, =>
           new Fight(@activePosition.army, position.army)
+          @moveUnits(position)
 
-
-          if @activePosition.army.movableUnits().length > 0
-            MoveUnitsDialog.get().open @activePosition.army, (units) =>
-              @activePosition.moveUnitsTo(position, units, @game)
-              @interactionPositions = []
-              @changeState GameState.states.own_position_selected
-          else
-            @interactionPositions = []
-            @changeState GameState.states.own_position_selected
       else
-        if @activePosition.army.movableUnits().length > 0
-          MoveUnitsDialog.get().open @activePosition.army, (units) =>
-            @activePosition.moveUnitsTo(position, units, @game)
-            @interactionPositions = []
-            @changeState GameState.states.own_position_selected
+        @moveUnits(position)
+
 
     else if position.owner == @player
       @selectActivePosition position
@@ -88,6 +77,16 @@ class GameState
     BuildUnitsDialog.get().open @player.money_units, UnitFactory.get().units, (units) =>
       @game.buildUnits(units)
       new SystemEvent('state.build-units', {}).dispatch()
+
+  moveUnits: (position) ->
+    if @activePosition.army.movableUnits().length > 0
+      MoveUnitsDialog.get().open @activePosition.army, (units) =>
+        @activePosition.moveUnitsTo(position, units, @game)
+        @interactionPositions = []
+        @changeState GameState.states.own_position_selected
+    else
+      @interactionPositions = []
+      @changeState GameState.states.own_position_selected
 
  
 
