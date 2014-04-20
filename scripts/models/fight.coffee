@@ -2,12 +2,12 @@ class Fight
 
   constructor: (@attacker_amry, @defender_army) ->
     @units = []
-    @units[0] = @attacker_amry.units
+    @units[0] = @attacker_amry.movableUnits()
     @units[1] = @defender_army.units
 
     @fight()
 
-    @attacker_amry.units = @units[0]
+    @attacker_amry.units = @units[0].concat @attacker_amry.notMovableUnits()
     @defender_army.units = @units[1]
 
   fight: ->
@@ -38,4 +38,4 @@ class Fight
     target.currentHealth -= unit.damage if attack_score > target.defense
 
   removeDeadUnits: (units) ->
-    units = units.filter (unit) -> unit.health > 0
+    units = units.filter (unit) -> unit.currentHealth > 0

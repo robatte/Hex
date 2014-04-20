@@ -39,7 +39,7 @@ class MoveUnitsDialog
 
     addUnitSelectors: () ->
       html = ""
-      for type, units of @army.getUnitsByType()
+      for type, units of @army.getUnitsByType(@army.movableUnits())
         html += """
                 <input type="text" name="#{ type }" data-max="#{ units.length }" value="#{ units.length }" class="spinner unit-selector">
                 <label for="name">#{ units[0].name }</label><br>

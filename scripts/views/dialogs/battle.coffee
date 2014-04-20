@@ -26,10 +26,10 @@ class BattleViewDialog
 
     addUnits: () ->
       html = ""
-      for n in [0..Math.max( @attacker.units.length, @defender.units.length)]
+      for n in [0..Math.max( @attacker.length, @defender.length)]
         html += """
-                <div class="attacker-list" id="attacker-#{ n }">#{ @showUnit( @attacker.units[n]) }</div>
-                <div class="defender-list" id="defender-#{ n }">#{ @showUnit( @defender.units[n]) }</div>
+                <div class="attacker-list" id="attacker-#{ n }">#{ @showUnit( @attacker[n]) }</div>
+                <div class="defender-list" id="defender-#{ n }">#{ @showUnit( @defender[n]) }</div>
                 """
       html
 

@@ -40,11 +40,11 @@ class GameState
     if @isInteractionPosition(position)
 
       if position.owner? && position.owner.id != @player.id
-        BattleViewDialog.get().open @activePosition.army, position.army, =>
+        BattleViewDialog.get().open @activePosition.army.movableUnits(), position.army.units, =>
           new Fight(@activePosition.army, position.army)
 
 
-          if @activePosition.army.units.length > 0
+          if @activePosition.army.movableUnits().length > 0
             MoveUnitsDialog.get().open @activePosition.army, (units) =>
               @activePosition.moveUnitsTo(position, units, @game)
               @interactionPositions = []
@@ -53,10 +53,11 @@ class GameState
             @interactionPositions = []
             @changeState GameState.states.own_position_selected
       else
-        MoveUnitsDialog.get().open @activePosition.army, (units) =>
-          @activePosition.moveUnitsTo(position, units, @game)
-          @interactionPositions = []
-          @changeState GameState.states.own_position_selected
+        if @activePosition.army.movableUnits().length > 0
+          MoveUnitsDialog.get().open @activePosition.army, (units) =>
+            @activePosition.moveUnitsTo(position, units, @game)
+            @interactionPositions = []
+            @changeState GameState.states.own_position_selected
 
     else if position.owner == @player
       @selectActivePosition position
@@ -69,7 +70,7 @@ class GameState
 
   selectActivePosition: (position) ->
     @activePosition = position
-    @selectMovePosition()
+    @selectMovePosition() if position.army.movableUnits().length > 0
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
@@ -77,6 +78,7 @@ class GameState
   nextRound: ->
     @player = @game.nextRound()
     @resetSelection()
+    Unit.resetMove()
     @changeState GameState.states.select_own_position
 
   selectMovePosition: ->

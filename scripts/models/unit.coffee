@@ -1,21 +1,23 @@
 class Unit
 
+  @all = []
+
   constructor: (attributes) ->
     @setAbilities()
     @setAttributes(attributes)
+    Unit.all.push this
 
   setAttributes: (attributes) ->
     @name = attributes.name
     @type_identifier = attributes.type_identifier
     @building_costs = attributes.building_costs
-    @currentHealth =  Math.floor( @health * Math.random() )
-
-
-  setAbilities: ->
-    @attack  = 100
-    @damage  = 10
-    @defense = 100
     @health = 100
+    @currentMove = @moves
+    @currentHealth =  @health   
+
+  @resetMove: ->
+    for unit in Unit.all
+      unit.currentMove = unit.moves
 
 
 
@@ -30,6 +32,13 @@ class FarmerUnit extends Unit
   constructor: (@owner)->
     super(FarmerUnit.attributes)
 
+  setAbilities: ->
+    @attack  = 100
+    @damage  = 6
+    @defense = 95
+    @moves = 1
+    @health = 75
+
 
 class SoldierUnit extends Unit
 
@@ -40,6 +49,13 @@ class SoldierUnit extends Unit
 
   constructor: (@owner)->
     super(SoldierUnit.attributes)
+
+  setAbilities: ->
+    @attack  = 100
+    @damage  = 12
+    @defense = 100
+    @moves = 1
+    @health = 100
 
 
 class Army
@@ -59,24 +75,33 @@ class Army
   amountOfUnits: ->
     @units.length
 
-  getUnitsByType: ->
+  getUnitsByType: (units = @units) ->
     result = {}
-    for unit in @units
+    for unit in units
       result[unit.type_identifier] = [] unless result[unit.type_identifier]?
       result[unit.type_identifier].push unit
 
     result
+
+  movableUnits: ->
+    @units.filter (u) -> u.currentMove > 0
+
+  notMovableUnits: ->
+    @units.filter (u) -> u.currentMove == 0
+
 
   moveTo: (other, units) ->
     keep = []
     for i in [1..@units.length]
       unit = @units.pop()
 
-      if units[unit.type_identifier]? and units[unit.type_identifier] > 0
+      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0
+        unit.currentMove -= 1
         other.army.units.push unit
         units[unit.type_identifier] -= 1
       else
         keep.push unit
+    other.army.owner = @owner if other.army.units.length > 0
 
     @units = keep
 
