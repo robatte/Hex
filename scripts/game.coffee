@@ -4,7 +4,7 @@ class GameState
     select_own_position: 'select_own_position'  
     own_position_selected: 'own_position_selected'
 
-  constructor: (@game, @player) ->
+  constructor: (@player) ->
 
     @currentState = GameState.states.select_own_position
 
@@ -58,102 +58,117 @@ class GameState
 
   selectActivePosition: (position) ->
     @activePosition = position
+    @interactionPositions = []
     @selectMovePosition() if position.army.movableUnits().length > 0
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
 
   nextRound: ->
-    @player = @game.nextRound()
+    @player = Game.get().nextRound()
     @resetSelection()
     Unit.resetMove()
     @changeState GameState.states.select_own_position
 
   selectMovePosition: ->
-    @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
+    @interactionPositions = Game.get().map_grid.getNeighbors(@activePosition)
 
   buildUnits: ->
-    BuildUnitsDialog.get().open @player.money_units, UnitFactory.get().units, (units) =>
-      @game.buildUnits(units)
+    BuildUnitsDialog.get().open @player.money_units, @activePosition.terrain.unitsToBuild(), (units) =>
+      Game.get().buildUnits(units)
       new SystemEvent('state.build-units', {}).dispatch()
 
   moveUnits: (position) ->
     if @activePosition.army.movableUnits().length > 0
       MoveUnitsDialog.get().open @activePosition.army, (units) =>
-        @activePosition.moveUnitsTo(position, units, @game)
-        @interactionPositions = []
+        @activePosition.moveUnitsTo(position, units)
+        if @activePosition.army.movableUnits().length <= 0
+          @activePosition.owner = null
+          @selectActivePosition(position)
         @changeState GameState.states.own_position_selected
     else
       @interactionPositions = []
       @changeState GameState.states.own_position_selected
 
- 
+
 
 class Game
 
-    @instance = null
+# implements sigelton pattern by http://coffeescriptcookbook.com/chapters/design_patterns/singleton
 
-    constructor: (radius, min_dense, threshold)->
-        unless Game.instance?
-          @map_grid = new MapGrid radius, min_dense, threshold
+  instance = null
 
-          # init player
-          @players = [new Player("Anton"), new Player("Paul")]
-          @initial_units = { "farmer": 3 }
+  @get: () ->
+    instance ?= new GamePrivate()
 
-          #map generation
-          @map_grid.generateMap()
-          @map_grid.setStartPositions(@players, @initial_units)
 
-          #set inital game state
-          @state = new GameState(this, @players[0])
+  class GamePrivate
 
-          Game.instance = this
+    init: (radius, min_dense, threshold)->
+      @map_grid = new MapGrid radius, min_dense, threshold
 
-          #main-menu
-          MainMenuDialog.get().setGame(this)
+      # init player
+      @players = [new Player("Paul"), new Player("Susanne")]
+      @initial_units = { "farmer": 3 }
+
+      #map generation
+      @map_grid.generateMap()
+      @map_grid.setStartPositions(@players, @initial_units)
+
+      #set inital game state
+      @state = new GameState(@players[0])
+
+      #main-menu
+      MainMenuDialog.get()
+
+      this
 
 
     start: ->
 
-        # init Canvas etc.
-        Crafty.init window.width, window.height
-        Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
+      # init Canvas etc.
+      Crafty.init window.width, window.height
+      Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
 
-        # initialize view
-        @view = new View(this)
+      # initialize view
+      @view = new View()
 
-        # initalize mouse event handling
-        new Mouse()
-       
+      # initalize mouse event handling
+      new Mouse()
+     
 
-        # preload sprites
-        Crafty.load [
-            'assets/cell_player0.png',
-            'assets/cell_player1.png',
-            'assets/cell_player2.png',
-            'assets/tile_base_1.png',
-            'assets/tile_base_2.png',
-            'assets/tile_base_white.png',
-            'assets/tile_base_black.png',
-            'assets/tile_overlay_selected.png',
-            'assets/tile_overlay_blue.png',
-            'assets/tile_overlay_green.png',
-            'assets/tile_overlay_red.png',
-            'assets/tile_overlay_yellow.png',
-        ], =>
-            Crafty.scene 'Level', @
+      # preload sprites
+      Crafty.load [
+          'assets/cell_player0.png',
+          'assets/cell_player1.png',
+          'assets/cell_player2.png',
+          'assets/tile_base_1.png',
+          'assets/tile_base_2.png',
+          'assets/tile_base_white.png',
+          'assets/tile_base_black.png',
+          'assets/tile_overlay_selected.png',
+          'assets/tile_overlay_blue.png',
+          'assets/tile_overlay_green.png',
+          'assets/tile_overlay_red.png',
+          'assets/tile_overlay_yellow.png',
+      ], =>
+        Crafty.scene 'Level'
 
     nextRound: ->
       # get tax from own MapPositions
       @state.player.money_units += @map_grid.getPositionsByOwner(@state.player).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
 
       # change player
+      @state.player.storeViewPosition()
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
+      next_player.restoreViewPosition()
       next_player
 
     buildUnits: (units) ->
       army = UnitFactory.get().build( units, @state.player )
+
+      # remove move point for new units
+      unit.currentMove = 0 for unit in army.units
 
       if army.building_costs() > @state.player.money_units
         @view.message "Sie haben nicht genug Geld"
@@ -174,6 +189,6 @@ class Settings
 
 
 window.onload = ->
-    game = new Game Settings.tileBoundary, Settings.minTileDense, Settings.mapGenRandom
-    window.current_game = game
-    game.start()
+  game = Game.get().init Settings.tileBoundary, Settings.minTileDense, Settings.mapGenRandom
+  window.current_game = game
+  game.start()

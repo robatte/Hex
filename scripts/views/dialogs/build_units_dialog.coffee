@@ -53,10 +53,11 @@ class BuildUnitsDialog
 
     addUnitSelectors: () ->
       html = ""
-      for unit_name, unit of @units
+      for unit_type in @unit_types
+        attributes = Unit.attributesByIdentifier unit_type
         html += """
-                <input type="text" name="#{ unit.type_identifier }" data-costs="#{ unit.building_costs }" value="0" class="spinner unit-selector">
-                <label for="name">#{ unit.name }</label><br>
+                <input type="text" name="#{ attributes.type_identifier }" data-costs="#{ attributes.building_costs }" value="0" class="spinner unit-selector">
+                <label for="name">#{ attributes.name }</label><br>
                 """
       html
 
@@ -72,7 +73,7 @@ class BuildUnitsDialog
           that.price += amount * parseInt( el.data('costs') )
 
 
-    open: (@current_money, @units, @callback_build, @callback_cancle = null ) ->
+    open: (@current_money, @unit_types, @callback_build, @callback_cancle = null ) ->
       super @callback_build, @callback_cancle
 
 

@@ -22,6 +22,9 @@ class Terrain
   taxRate: ->
     @tax_rate
 
+  unitsToBuild: ->
+    @units_to_build
+
 
 class TerrainGrassland extends Terrain
   @type_identifier: 'grassland'

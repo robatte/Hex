@@ -44,15 +44,12 @@ class MainMenuDialog
       # generate dom element for dialog
       @menu_jquery = jQuery( "<div class='menu-wrapper'></div>" )
       jQuery('body').prepend @menu_jquery
-
-
-    setGame: (@game)->
       @update()
 
 
     update: () ->
-      @player = @game.state.player
-      @position = @game.state.currentState == 'own_position_selected' && @game.state.activePosition || null
+      @player = Game.get().state.player
+      @position = Game.get().state.currentState == 'own_position_selected' && Game.get().state.activePosition || null
 
       @menu_jquery.html @html()
 

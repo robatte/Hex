@@ -38,7 +38,7 @@ body {
 .menu-wrapper {
     position: fixed;
     bottom: -7px;
-    z-index: 1000;
+    z-index: 98;
     width: 100%;
 }
 

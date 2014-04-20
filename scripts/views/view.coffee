@@ -1,8 +1,25 @@
+class Viewport
+  # implements sigelton pattern by http://coffeescriptcookbook.com/chapters/design_patterns/singleton
+
+  instance = null
+
+  @get: () ->
+    instance ?= new ViewportPrivate()
+
+  class ViewportPrivate
+
+    getPosition: ->
+      {x: Crafty.viewport.x, y:  Crafty.viewport.y}
+
+    setPosition: (position) ->
+      Crafty.viewport.x = position.x
+      Crafty.viewport.y = position.y
+
 class View
 
-  constructor: (game) ->
+  constructor: () ->
     Tile.createCraftyTileComponent()
-    @createInteractionBox(game)
+    @createInteractionBox()
 
     # redraw on ganme state changes
     SystemEvent.addSubscribtion 'state.change', (event) =>
@@ -19,14 +36,14 @@ class View
       @draw()
 
 
-  createInteractionBox: (game) ->
-    @interactionBox = new InteractionBox(game)
+  createInteractionBox: () ->
+    @interactionBox = new InteractionBox()
 
 
-  createMap: (game) ->
+  createMap: ->
     @tiles = []
 
-    for position in game.map_grid.positions
+    for position in Game.get().map_grid.positions
       @tiles.push new Tile(position)
 
 

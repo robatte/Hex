@@ -19,6 +19,11 @@ class Unit
     for unit in Unit.all
       unit.currentMove = unit.moves
 
+  @attributesByIdentifier: (type_identifier) ->
+    switch type_identifier
+      when "farmer" then FarmerUnit.attributes
+      when "soldier" then SoldierUnit.attributes
+
 
 
 class FarmerUnit extends Unit
@@ -123,12 +128,6 @@ class UnitFactory
     instance ?= new UnitFactoryPrivate()
 
   class UnitFactoryPrivate
-
-    units:
-      farmer:
-        FarmerUnit.attributes
-      soldier:
-        SoldierUnit.attributes
 
     build: (unitSet, owner) ->
       army = new Army( owner )
