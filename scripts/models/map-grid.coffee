@@ -2,7 +2,7 @@ class MapPosition
 
   constructor: (@q, @r, @terrain = null) ->
     @owner = null
-    @army = new Army()
+    @army = new Army(null)
 
   isActivePosition: (game) ->
     this == game.state.activePosition
@@ -36,7 +36,7 @@ class MapPosition
 
   moveUnitsTo: (other, units, game) ->
     @army.moveTo other, units
-    other.owner = @owner
+    other.owner = @owner if other.army.units.length > 0 and other.army.units[0].owner.id == @army.owner.id
 
     if @army.units.length <= 0
       @owner = null

@@ -9,12 +9,14 @@ class Unit
     @type_identifier = attributes.type_identifier
     @building_costs = attributes.building_costs
     @health = 100
+    @currentMove = @move
 
 
   setAbilities: ->
     @attack  = 100
     @damage  = 10
     @defense = 100
+    @move = 1
 
 
 
@@ -71,7 +73,8 @@ class Army
     for i in [1..@units.length]
       unit = @units.pop()
 
-      if units[unit.type_identifier]? and units[unit.type_identifier] > 0
+      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0
+        unit.currentMove -= 1
         other.army.units.push unit
         units[unit.type_identifier] -= 1
       else
