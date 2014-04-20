@@ -3,5 +3,5 @@ class UnitView
 
   image: ->
     switch @unit.type_identifier
-      when "farmer" then "unit_peasant_1.png"
-      when "soldier" then "unit_knight_1.png"
+      when "farmer" then "unit_peasant_#{ @unit.owner.id }.png"
+      when "soldier" then "unit_knight_#{ @unit.owner.id }.png"

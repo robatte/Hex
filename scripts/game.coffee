@@ -143,7 +143,7 @@ class Game
       next_player
 
     buildUnits: (units) ->
-      army = UnitFactory.get().build units
+      army = UnitFactory.get().build( units, @state.player )
 
       if army.building_costs() > @state.player.money_units
         @view.message "Sie haben nicht genug Geld"

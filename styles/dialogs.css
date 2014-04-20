@@ -2,6 +2,10 @@
     display: none;
 }
 
+.dialog .units-list {
+  overflow: hidden;
+}
+
 .dialog .attacker-list {
   float: left;
   clear: left;
@@ -11,3 +15,5 @@
   float: right;
   clear: right;
 }
+
+.dialog .

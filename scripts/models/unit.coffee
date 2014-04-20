@@ -10,6 +10,7 @@ class Unit
     @building_costs = attributes.building_costs
     @health = 100
     @currentMove = @move
+    @currentHealth =  Math.floor( @health * Math.random() )
 
 
   setAbilities: ->
@@ -17,6 +18,7 @@ class Unit
     @damage  = 10
     @defense = 100
     @move = 1
+    @health = 100
 
 
 
@@ -28,7 +30,7 @@ class FarmerUnit extends Unit
     type_identifier: "farmer"
     building_costs: 10
 
-  constructor: ->
+  constructor: (@owner)->
     super(FarmerUnit.attributes)
 
 
@@ -39,13 +41,13 @@ class SoldierUnit extends Unit
     type_identifier: "soldier"
     building_costs: 25
 
-  constructor: ->
+  constructor: (@owner)->
     super(SoldierUnit.attributes)
 
 
 class Army
 
-  constructor: ->
+  constructor: (@owner)->
     @units = []
 
   add: (unit) ->
@@ -103,14 +105,14 @@ class UnitFactory
       soldier:
         SoldierUnit.attributes
 
-    build: (unitSet) ->
-      army = new Army()
+    build: (unitSet, owner) ->
+      army = new Army( owner )
 
       for type_identifier, amount of unitSet
         if amount > 0
           for i in [0...amount]
             switch type_identifier
-              when SoldierUnit.attributes.type_identifier then army.add new SoldierUnit()
-              when FarmerUnit.attributes.type_identifier then army.add new FarmerUnit()
+              when SoldierUnit.attributes.type_identifier then army.add new SoldierUnit( owner )
+              when FarmerUnit.attributes.type_identifier then army.add new FarmerUnit( owner )
 
       army
