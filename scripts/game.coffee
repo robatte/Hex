@@ -59,6 +59,7 @@ class GameState
 
   selectActivePosition: (position) ->
     @activePosition = position
+    @interactionPositions = []
     @selectMovePosition() if position.army.movableUnits().length > 0
 
   isInteractionPosition: (position) ->
@@ -82,7 +83,9 @@ class GameState
     if @activePosition.army.movableUnits().length > 0
       MoveUnitsDialog.get().open @activePosition.army, (units) =>
         @activePosition.moveUnitsTo(position, units)
-        @interactionPositions = []
+        if @activePosition.army.movableUnits().length <= 0
+          @activePosition.owner = null
+          @selectActivePosition(position)
         @changeState GameState.states.own_position_selected
     else
       @interactionPositions = []

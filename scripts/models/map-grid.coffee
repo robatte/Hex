@@ -37,11 +37,6 @@ class MapPosition
   moveUnitsTo: (other, units) ->
     @army.moveTo other, units
     other.owner = @owner if other.army.units.length > 0 and other.army.units[0].owner.id == @army.owner.id
-
-    if @army.units.length <= 0
-      @owner = null
-      Game.get().state.selectActivePosition(other)
-
     this
 
   taxRate: ->
