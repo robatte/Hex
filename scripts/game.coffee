@@ -160,6 +160,9 @@ class Game
     buildUnits: (units) ->
       army = UnitFactory.get().build( units, @state.player )
 
+      # remove move point for new units
+      unit.currentMove = 0 for unit in army.units
+
       if army.building_costs() > @state.player.money_units
         @view.message "Sie haben nicht genug Geld"
 
