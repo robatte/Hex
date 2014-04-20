@@ -40,7 +40,10 @@ class InteractionBox
     "<p>Bitte wähle eine Deiner Positionen auf der Karte aus</p>"
 
   htmlOwnPositionSelect: ->
-    """
-    <p>Wähle eine Aktion</p>
-    <p><input id="build-units" type="button" value="Einheiten ausbilden"></p>
-    """
+    if @game.state.activePosition.terrain.unitsToBuild().length > 0
+      """
+      <p>Wähle eine Aktion</p>
+      <p><input id="build-units" type="button" value="Einheiten ausbilden"></p>
+      """
+    else
+      ""

@@ -74,7 +74,7 @@ class GameState
     @interactionPositions = @game.map_grid.getNeighbors(@activePosition)
 
   buildUnits: ->
-    BuildUnitsDialog.get().open @player.money_units, UnitFactory.get().units, (units) =>
+    BuildUnitsDialog.get().open @player.money_units, @activePosition.terrain.unitsToBuild(), (units) =>
       @game.buildUnits(units)
       new SystemEvent('state.build-units', {}).dispatch()
 
