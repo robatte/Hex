@@ -40,16 +40,23 @@ class GameState
     if @isInteractionPosition(position)
 
       if position.owner? && position.owner.id != @player.id
-        new Fight(@activePosition.army, position.army) if confirm("Willst Du angreifen?")
+        BattleViewDialog.get().open @activePosition.army, position.army, =>
+          new Fight(@activePosition.army, position.army)
 
-      if @activePosition.army.units.length > 0
+
+          if @activePosition.army.units.length > 0
+            MoveUnitsDialog.get().open @activePosition.army, (units) =>
+              @activePosition.moveUnitsTo(position, units, @game)
+              @interactionPositions = []
+              @changeState GameState.states.own_position_selected
+          else
+            @interactionPositions = []
+            @changeState GameState.states.own_position_selected
+      else
         MoveUnitsDialog.get().open @activePosition.army, (units) =>
           @activePosition.moveUnitsTo(position, units, @game)
           @interactionPositions = []
           @changeState GameState.states.own_position_selected
-      else
-        @interactionPositions = []
-        @changeState GameState.states.own_position_selected
 
     else if position.owner == @player
       @selectActivePosition position

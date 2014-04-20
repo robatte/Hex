@@ -7,13 +7,52 @@
 }
 
 .dialog .attacker-list {
+  overflow: hidden;
+  position: relative;
   float: left;
   clear: left;
+  margin-bottom: 10px;
 }
 
 .dialog .defender-list {
+  overflow: hidden;
+  position: relative;
   float: right;
   clear: right;
+  margin-bottom: 10px;
 }
 
-.dialog .
+.dialog .attacker-list img {
+  float: left;
+  margin-right: 10px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+.dialog .defender-list img {
+  float: right;
+  margin-left: 10px;
+}
+
+.dialog .attacker-list .health {
+  right: 0;
+}
+
+.dialog .health {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  height: 90%;
+  background-color: #aaa;
+}
+
+.dialog .health .bar {
+  background-color: #d03;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+

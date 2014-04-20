@@ -39,3 +39,5 @@ class Dialog
     @updateData()
     @dialog_jquery.dialog "close"
     @callback_build @result
+
+  updateData: ->
