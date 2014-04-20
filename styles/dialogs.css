@@ -45,11 +45,9 @@
   bottom: 0;
   width: 5px;
   height: 90%;
-  background-color: #aaa;
 }
 
 .dialog .health .bar {
-  background-color: #d03;
   width: 100%;
   position: absolute;
   bottom: 0;

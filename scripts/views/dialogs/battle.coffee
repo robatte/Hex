@@ -14,6 +14,7 @@ class BattleViewDialog
     width: 600
     button_succes_lable: "Angreifen"
     button_cancle_lable: "Abbrechen"
+    buttons: []
 
     init: () ->
       super()

@@ -36,6 +36,7 @@ class View
       tile.update()
 
     @interactionBox.draw()
+    MainMenuDialog.get().update()
 
 
   getCenter: ->

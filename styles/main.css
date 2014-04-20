@@ -1,3 +1,94 @@
+body {
+    font-family: "Arial", sans;
+    color: #333;
+}
+
+/* 
+*  ================================
+*           UNITS-VIEW 
+*  ================================
+*/
+.unit {
+    float: left;
+    position: relative;
+    margin-left: 10px;
+}
+
+.unit img {
+    float: none;
+    display: block;
+    margin: 0;
+}
+
+.unit .health {
+    background-color: #aaa;
+}
+
+.unit .health .bar {
+    background-color: #d03;
+}
+
+
+/* 
+*  ================================
+*           MAIN-MENU 
+*  ================================
+*/
+
+.menu-wrapper {
+    position: fixed;
+    bottom: -7px;
+    z-index: 1000;
+    width: 100%;
+}
+
+#main-menu .menu-panel {
+    position: absolute;
+    z-index: 1;
+    /*border: 1px solid #ccc;*/
+}
+
+#main-menu #left-panel #main-menu-player span {
+    font-weight: bold;
+}
+
+#main-menu #center-panel #tile-unit-list {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+#main-menu #center-panel #tile-unit-list .unit {
+    
+}
+
+#main-menu #center-panel #tile-unit-list .unit img {
+    display: block;
+    margin: 0;
+}
+
+#main-menu #center-panel #tile-unit-list .unit .health {
+    height: 5px;
+    width: 100%;
+    margin-top: 3px;
+    position: relative;
+    float: none;
+}
+
+#main-menu #center-panel #tile-unit-list .unit .health .bar{
+   height: 100%;
+    
+}
+
+
+
+/* 
+*  ================================
+*           TILES 
+*  ================================
+*/
+
+
 .tile-player1:after {
     content: " ";
     width: 100%;

@@ -1,9 +1,8 @@
 class GameState
 
   @states =
-    select_own_position: 'select_own_position'
+    select_own_position: 'select_own_position'  
     own_position_selected: 'own_position_selected'
-    select_move_position: 'select_move_position'
 
   constructor: (@game, @player) ->
 
@@ -99,7 +98,7 @@ class Game
           @map_grid = new MapGrid radius, min_dense, threshold
 
           # init player
-          @players = [new Player("Player 1"), new Player("Player 2")]
+          @players = [new Player("Anton"), new Player("Paul")]
           @initial_units = { "farmer": 3 }
 
           #map generation
@@ -110,6 +109,9 @@ class Game
           @state = new GameState(this, @players[0])
 
           Game.instance = this
+
+          #main-menu
+          MainMenuDialog.get().setGame(this)
 
 
     start: ->
