@@ -45,20 +45,15 @@ class MapPosition
     this
 
   taxRate: ->
-    25
+    @terrain.taxRate()
 
   addArmy: (new_army) ->
     @army.addArmy new_army
     this
 
   setTerrain: (type_id) ->
-    @terrain = new MapPositionTerrain(type_id)
+    @terrain = TerrainFactory.get().build(type_id)
     this
-
-
-class MapPositionTerrain
-
-  constructor: (@type_id) ->
 
 
 class MapGrid
