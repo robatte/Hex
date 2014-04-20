@@ -42,7 +42,7 @@ class GameState
       if position.owner? && position.owner.id != @player.id
         new Fight(@activePosition.army, position.army) if confirm("Willst Du angreifen?")
 
-      if @activePosition.army.units.length > 0
+      if @activePosition.army.movableUnits().length > 0
         MoveUnitsDialog.get().open @activePosition.army, (units) =>
           @activePosition.moveUnitsTo(position, units, @game)
           @interactionPositions = []
@@ -62,7 +62,7 @@ class GameState
 
   selectActivePosition: (position) ->
     @activePosition = position
-    @selectMovePosition()
+    @selectMovePosition() if position.army.movableUnits().length > 0
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
@@ -70,6 +70,7 @@ class GameState
   nextRound: ->
     @player = @game.nextRound()
     @resetSelection()
+    Unit.resetMove()
     @changeState GameState.states.select_own_position
 
   selectMovePosition: ->

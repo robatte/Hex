@@ -1,15 +1,18 @@
 class Unit
 
+  @all = []
+
   constructor: (attributes) ->
     @setAbilities()
     @setAttributes(attributes)
+    Unit.all.push this
 
   setAttributes: (attributes) ->
     @name = attributes.name
     @type_identifier = attributes.type_identifier
     @building_costs = attributes.building_costs
     @health = 100
-    @currentMove = @move
+    @currentMove = @moves
     @currentHealth =  Math.floor( @health * Math.random() )
 
 
@@ -17,8 +20,12 @@ class Unit
     @attack  = 100
     @damage  = 10
     @defense = 100
-    @move = 1
+    @moves = 1
     @health = 100
+
+  @resetMove: ->
+    for unit in Unit.all
+      unit.currentMove = unit.moves
 
 
 
@@ -62,13 +69,16 @@ class Army
   amountOfUnits: ->
     @units.length
 
-  getUnitsByType: ->
+  getUnitsByType: (units = @units) ->
     result = {}
-    for unit in @units
+    for unit in units
       result[unit.type_identifier] = [] unless result[unit.type_identifier]?
       result[unit.type_identifier].push unit
 
     result
+
+  movableUnits: ->
+    @units.filter (u) -> u.currentMove > 0
 
   moveTo: (other, units) ->
     keep = []
@@ -81,6 +91,7 @@ class Army
         units[unit.type_identifier] -= 1
       else
         keep.push unit
+    other.army.owner = @owner if other.army.units.length > 0
 
     @units = keep
 
