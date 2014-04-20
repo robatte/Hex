@@ -100,7 +100,7 @@ class Game
 
           # init player
           @players = [new Player("Player 1"), new Player("Player 2")]
-          @initial_units = { "soldier": 10 }
+          @initial_units = { "farmer": 3 }
 
           #map generation
           @map_grid.generateMap()
