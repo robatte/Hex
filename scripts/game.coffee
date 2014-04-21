@@ -82,7 +82,7 @@ class GameState
     if @activePosition.army.movableUnits().length > 0
       MoveUnitsDialog.get().open @activePosition.army, (units) =>
         @activePosition.moveUnitsTo(position, units)
-        if @activePosition.army.movableUnits().length <= 0
+        if @activePosition.army.units.length <= 0
           @activePosition.owner = null
           @selectActivePosition(position)
         @changeState GameState.states.own_position_selected
