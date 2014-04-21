@@ -71,13 +71,16 @@ p {
 }
 
 #main-menu #center-panel #tile-unit-list .unit {
-    position: absolute;
-    bottom: 0;
+   
 }
 
 #main-menu #center-panel #tile-unit-list .unit img {
     display: block;
     margin: 0;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 #main-menu #center-panel #tile-unit-list .unit .health {
