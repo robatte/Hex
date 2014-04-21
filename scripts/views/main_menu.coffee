@@ -33,7 +33,7 @@ class MainMenuDialog
                   height: 93px;
                  """
     right_panel_style: """
-                  top: 26px;
+                  top: 54px;
                   right: 20px;
                   width: 170px;
                   height: 125px;
@@ -45,13 +45,22 @@ class MainMenuDialog
       @menu_jquery = jQuery( "<div class='menu-wrapper'></div>" )
       jQuery('body').prepend @menu_jquery
       @update()
+      @setInteractionEvents()
 
 
     update: () ->
       @player = Game.get().state.player
-      @position = Game.get().state.currentState == 'own_position_selected' && Game.get().state.activePosition || null
+      @position = if Game.get().state.currentState == GameState.states.own_position_selected then Game.get().state.activePosition else null
 
       @menu_jquery.html @html()
+
+    setInteractionEvents: ->
+      @menu_jquery.on "click", "input#round-next-btn", ->
+        new SystemEvent('view.interaction_box.round-next', {}).dispatch()
+
+      # @box_jquery.on "click", "input#build-units", ->
+      #   new SystemEvent('view.interaction_box.build-units', {}).dispatch()
+
 
       
     html: () ->
@@ -81,9 +90,19 @@ class MainMenuDialog
 
     addRightItems: () ->
       html = ""
-      # for n in [0..Math.max( @attacker.length, @defender.length)]
       html += """
+              <input id="round-next-btn" type="button" value="Runde beenden">
               """
+      if Game.get().state.currentState == GameState.states.own_position_selected && Game.get().state.activePosition.terrain.unitsToBuild().length > 0
+        for unitType in @position.terrain.unitsToBuild()
+          attributes = Unit.attributesByIdentifier( unitType )
+          html += """
+                  <div class='build-unit-btn'>
+                    <img class='unit-image' src='#{ UnitView.image( unitType, @player) }' />
+                    <p class='unit-cost'>#{ attributes.building_costs } &copy;</p>
+                  </div>
+                  """
+
       html
 
     listUnits: () ->
@@ -93,6 +112,8 @@ class MainMenuDialog
           html += (new UnitView( unit)).draw()
 
       html
+
+
 
 
 

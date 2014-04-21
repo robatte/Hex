@@ -3,6 +3,10 @@ body {
     color: #333;
 }
 
+p {
+    margin: 0 0 5px;
+}
+
 /* 
 *  ================================
 *           UNITS-VIEW 
@@ -45,12 +49,15 @@ body {
 #main-menu .menu-panel {
     position: absolute;
     z-index: 1;
-    /*border: 1px solid #ccc;*/
+    border: 1px solid #ccc;
 }
 
+/* LEFT-PANEL */
 #main-menu #left-panel #main-menu-player span {
     font-weight: bold;
 }
+
+/* CENTER-PANEL */
 
 #main-menu #center-panel #tile-unit-list {
     position: absolute;
@@ -59,7 +66,8 @@ body {
 }
 
 #main-menu #center-panel #tile-unit-list .unit {
-    
+    position: absolute;
+    bottom: 0;
 }
 
 #main-menu #center-panel #tile-unit-list .unit img {
@@ -75,11 +83,34 @@ body {
     float: none;
 }
 
-#main-menu #center-panel #tile-unit-list .unit .health .bar{
+#main-menu #center-panel #tile-unit-list .unit .health .bar {
    height: 100%;
     
 }
 
+/* RIGHT-PANEL */
+
+#main-menu #right-panel input#round-next-btn {
+    position: absolute;
+    top: -32px;
+    right: -2px;
+}
+
+#main-menu #right-panel .build-unit-btn {
+    float: left;
+    background-color: #F8F6E4;
+    border: 1px inset  #aaa;
+    padding: 1px;
+    margin: 5px;
+}
+
+#main-menu #right-panel .unit-image {
+}
+
+#main-menu #right-panel .unit-cost {
+    text-align: center;
+    margin-bottom: 0;
+}
 
 
 /* 
