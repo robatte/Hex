@@ -63,6 +63,8 @@ dd {
 }
 
 
+
+
 /* 
 *  ================================
 *           MAIN-MENU 
@@ -178,7 +180,7 @@ dd {
     background-color: #f4e9c6;
 }
 
-#main-menu #right-panel .build-unit-btn:active {
+#main-menu #right-panel .build-unit-btn:active:not(.inactive) {
     padding: 7px 7px 5px 9px;
     background-color: #E5DBBC;
     /*opacity: .9;*/
@@ -196,6 +198,9 @@ dd {
     margin-bottom: 0;
 }
 
+#main-menu #right-panel .build-unit-btn.inactive {
+    opacity: .4;
+}
 
 
 /* 

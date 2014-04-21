@@ -59,9 +59,10 @@ class MainMenuDialog
         new SystemEvent('view.main-menu.round-next', {}).dispatch()
 
       @menu_jquery.on "click", ".build-unit-btn", ->
-        units = {}
-        units[$(this).data('type')] = 1
-        new SystemEvent('view.main-menu.build-units', units).dispatch()
+        if not $(this).hasClass 'inactive'
+          units = {}
+          units[$(this).data('type')] = 1
+          new SystemEvent('view.main-menu.build-units', units).dispatch()
 
 
       
@@ -104,7 +105,7 @@ class MainMenuDialog
         for unitType in @position.terrain.unitsToBuild()
           attributes = Unit.attributesByIdentifier( unitType )
           html += """
-                  <div class='build-unit-btn' data-type='#{ unitType }'>
+                  <div class='build-unit-btn #{ if not Game.get().canBuildUnit( unitType, @position) then "inactive" else ""}' data-type='#{ unitType }'>
                     <img class='unit-image' src='#{ UnitView.image( unitType, @player) }' />
                     <p class='unit-cost money'>#{ attributes.building_costs }</p>
                   </div>

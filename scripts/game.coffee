@@ -178,6 +178,9 @@ class Game
         @state.activePosition.addArmy( army )
 
 
+    canBuildUnit: ( unitType, position)->
+      @state.player.money_units >= Unit.attributesByIdentifier( unitType).building_costs and position.freeUnitSlots() > 0
+
         
 class Settings
     @tileBoundary: 3
