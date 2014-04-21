@@ -58,7 +58,7 @@ class SoldierUnit extends Unit
   @attributes =
     name: "Soldat"
     type_identifier: "soldier"
-    building_costs: 25
+    building_costs: 40
 
   constructor: (@owner)->
     super(SoldierUnit.attributes)
