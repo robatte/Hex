@@ -54,6 +54,7 @@ class MapPosition
     @terrain.maxUnits() - @army.units.length
 
 
+
 class MapGrid
 
   typeDistribution:
