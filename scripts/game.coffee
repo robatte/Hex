@@ -102,11 +102,16 @@ class GameState
 
   moveUnits: (position) ->
 
-    if @activePosition.army.getActiveUnits().length < @activePosition.army.units.length or confirm("Willst Du alle Einheiten bewegen und die Position aufgeben?")
+    if @activePosition.army.getActiveUnits().length > 0 and (@activePosition.army.getActiveUnits().length < @activePosition.army.units.length or confirm("Willst Du alle Einheiten bewegen und die Position aufgeben?"))
       @activePosition.moveUnitsTo(position, @activePosition.army.getActiveUnits())
-      if @activePosition.army.units.length <= 0
-        @activePosition.owner = null
+
+    if @activePosition.army.units.length <= 0
+      @activePosition.owner = null
+      if position.owner.id == @player.id
         @selectActivePosition(position)
+      else
+        @resetSelection()
+
 
     @deselectMovePosition()
     @changeState GameState.states.own_position_selected

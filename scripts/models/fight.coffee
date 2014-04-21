@@ -29,7 +29,13 @@ class Fight
   attackGroup: (unit, group) ->
 
     # select target unit
-    target = group[Math.floor(Math.random() * group.length)]
+    tactic = Math.floor(Math.random() * 4)
+    if tactic < 3
+      # select unit with minimum health
+      target = group.sort( (x, y) -> x.currentHealth - y.currentHealth )[0]
+    else
+      # select random unit
+      target = group[Math.floor(Math.random() * group.length)]
 
     @attackUnit(unit, target)
 
