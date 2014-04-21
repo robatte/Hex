@@ -98,7 +98,8 @@ class GameState
     new SystemEvent('state.build-units', {}).dispatch()
 
   moveUnits: (position) ->
-    if @activePosition.army.movableUnits().length > 0
+
+    if @activePosition.army.getActiveUnits().length < @activePosition.army.units.length or confirm("Willst Du alle Einheiten bewegen und die Position aufgeben?")
       @activePosition.moveUnitsTo(position, @activePosition.army.getActiveUnits())
       if @activePosition.army.units.length <= 0
         @activePosition.owner = null
