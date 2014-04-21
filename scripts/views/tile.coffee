@@ -51,16 +51,8 @@ class Tile
     @mapPosition = position
     @type = position.type
     @craftyTile = Crafty.e('Tile').tile(position)
-    @unitIcons = []
 
     @mapPosition.setTile( this )
-
-    # set tile text
-    @message = Crafty.e('2D, DOM, Text')
-      .unselectable()
-      .textColor( "#000000", 1)
-      .textFont({"size":"30px"})
-      .css({"text-align": "center"})
 
     # Layer to visualize selection
     @selectedLayer = Crafty.e('ActiveOverlay').attr
@@ -88,8 +80,6 @@ class Tile
     @owner = @mapPosition.owner 
     @army = @mapPosition.army
 
-    # update text element
-    @message.attr({x: @craftyTile.x + 1, y: @craftyTile.y + 380, w: @craftyTile.w}).text( "Einheiten: " + (if @army? then @army.amountOfUnits() else '0'))
 
     # set state-layers/visuals
     @setActive( @mapPosition.isActivePosition() )
@@ -134,9 +124,7 @@ class Tile
 
   showUnits: ->    
     # remove all icons
-    for unitIcon in @unitIcons
-      unitIcon.remove()
-    @unitIcons = []
+    jQuery(@craftyTile._element).find('.unit-icon').remove()
     #build icons for all unit-types
     typeNr = 0
     for typeIdentifier, units of @mapPosition.army.getUnitsByType() 
@@ -144,9 +132,8 @@ class Tile
       for unit in units
         x = 150 + typeNr * 70 + unitNr*6
         y = 50 + unitNr * 15
-        @unitIcons.push jQuery("<img src=#{UnitView.image( typeIdentifier, @owner)} style='z-index: #{ 20-unitNr }; position: absolute; left: #{x}px; bottom: #{y}px; width: 50px'/>").appendTo(@craftyTile._element)
+        jQuery("<img class='unit-icon' src=#{UnitView.image( typeIdentifier, @owner)} style='z-index: #{ 20-unitNr }; left: #{x}px; bottom: #{y}px;'/>").appendTo(@craftyTile._element)
         unitNr += 1
-
       typeNr += 1
 
     
