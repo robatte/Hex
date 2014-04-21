@@ -58,8 +58,8 @@ class MainMenuDialog
       @menu_jquery.on "click", "input#round-next-btn", ->
         new SystemEvent('view.interaction_box.round-next', {}).dispatch()
 
-      # @box_jquery.on "click", "input#build-units", ->
-      #   new SystemEvent('view.interaction_box.build-units', {}).dispatch()
+      @menu_jquery.on "click", "input.build-unit-btn", ->
+        new SystemEvent('view.interaction_box.build-units', {}).dispatch()
 
 
       
@@ -74,7 +74,7 @@ class MainMenuDialog
       """
 
     addLeftItems: () ->
-      income = if @player.money_units > 0 then "<span class='money'>/ +#{@player.money_units}</span>" else "" 
+      income = if @player.moneyPerRound() > 0 then "<span class='money'>/ +#{@player.moneyPerRound()}</span>" else "" 
       html = ""
       html += """
               <dl>
@@ -102,7 +102,7 @@ class MainMenuDialog
         for unitType in @position.terrain.unitsToBuild()
           attributes = Unit.attributesByIdentifier( unitType )
           html += """
-                  <div class='build-unit-btn'>
+                  <div class='build-unit-btn' data-type='#{ unitType }'>
                     <img class='unit-image' src='#{ UnitView.image( unitType, @player) }' />
                     <p class='unit-cost money'>#{ attributes.building_costs }</p>
                   </div>

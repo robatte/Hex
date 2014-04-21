@@ -7,7 +7,12 @@ class Player
     Player.player_count += 1
     @id = Player.player_count
     @money_units = 0
-    @money_per_round = 0
+
+  collectTax: ->
+    @money_units += @moneyPerRound()
+
+  moneyPerRound: ->
+    Game.get().map_grid.getPositionsByOwner( this).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
 
   storeViewPosition: ->
     @viewportPosition = Viewport.get().getPosition()
