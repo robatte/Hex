@@ -132,6 +132,9 @@ class Army
   selectAllUnits: ->
     unit.isActive = true for unit in @movableUnits() 
 
+  deselectActiveUnits: ->
+    unit.isActive = false for unit in @units
+
 
 
 

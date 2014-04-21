@@ -63,8 +63,12 @@ class GameState
 
 
   selectActivePosition: (position) ->
-    @activePosition = position
+    # deselect move positions
     @deselectMovePosition()
+
+    # select new active position and clear unit selection
+    @activePosition = position
+    @activePosition.army.deselectActiveUnits()
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
@@ -97,7 +101,8 @@ class GameState
     new SystemEvent('state.build-units', {}).dispatch()
 
   moveUnits: (position) ->
-    if @activePosition.army.movableUnits().length > 0
+
+    if @activePosition.army.getActiveUnits().length < @activePosition.army.units.length or confirm("Willst Du alle Einheiten bewegen und die Position aufgeben?")
       @activePosition.moveUnitsTo(position, @activePosition.army.getActiveUnits())
       if @activePosition.army.units.length <= 0
         @activePosition.owner = null
