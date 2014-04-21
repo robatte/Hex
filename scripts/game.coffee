@@ -42,7 +42,7 @@ class GameState
     if @isInteractionPosition(position)
 
       if position.owner? && position.owner.id != @player.id
-        BattleViewDialog.get().open @activePosition.army.movableUnits(), position.army.units, =>
+        BattleViewDialog.get().open @activePosition.army.getActiveUnits(), position.army.units, =>
           new Fight(@activePosition.army, position.army)
           @moveUnits(position)
 
