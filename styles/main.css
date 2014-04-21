@@ -220,6 +220,11 @@ dd {
 */
 
 
+.unit-icon {
+    position: absolute;
+    width: 50px;
+}
+
 .tile-player1:after {
     content: " ";
     width: 100%;
