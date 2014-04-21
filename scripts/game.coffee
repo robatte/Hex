@@ -21,6 +21,9 @@ class GameState
     SystemEvent.addSubscribtion 'view.main-menu.build-units', (event) =>
       @buildUnits( event.data )
 
+    SystemEvent.addSubscribtion 'view.main-menu.unit-clicked', (event) =>
+      @toggleUnitSelection( event.data )
+
   changeState: (state) ->
     @currentState = state
     new SystemEvent('state.change', {}).dispatch()
@@ -72,6 +75,11 @@ class GameState
 
   selectMovePosition: ->
     @interactionPositions = Game.get().map_grid.getNeighbors(@activePosition)
+
+  toggleUnitSelection: (unit)->
+    unit.isActive = not unit.isActive and unit.currentMove > 0
+    new SystemEvent('state.toggle-unit-selection', {}).dispatch()
+
 
   buildUnits: (units)->
     # BuildUnitsDialog.get().open @player.money_units, @activePosition.terrain.unitsToBuild(), (units) =>

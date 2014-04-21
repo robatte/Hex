@@ -13,7 +13,8 @@ class Unit
     @building_costs = attributes.building_costs
     @health = 100
     @currentMove = @moves
-    @currentHealth =  @health   
+    @currentHealth =  @health
+    @isActive = false
 
   @resetMove: ->
     for unit in Unit.all
@@ -106,6 +107,7 @@ class Army
 
       if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0 and i <= max_moves
         unit.currentMove -= 1
+        unit.isActive = false
         other.units.push unit
         units[unit.type_identifier] -= 1
       else

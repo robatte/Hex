@@ -9,7 +9,7 @@ class UnitView
   draw: ->
     health = @unit.currentHealth / @unit.health * 100
     return """
-           <div class="unit">
+           <div class="unit#{ if @unit.isActive then ' active' else ' inactive'}#{ if @unit.currentMove > 0 then ' movable' else ' not-movable' }">
             <img src='#{ UnitView.image( @unit.type_identifier, @unit.owner) }'/>
             <div class="health"><div class="bar" style="height: #{health}%; width: #{health}%"></div></div>
            </div>

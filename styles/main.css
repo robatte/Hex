@@ -45,7 +45,7 @@ dd {
 .unit {
     float: left;
     position: relative;
-    margin-left: 10px;
+    padding: 3px 5px 4px;
 }
 
 .unit img {
@@ -98,7 +98,14 @@ dd {
 }
 
 #main-menu #center-panel #tile-unit-list .unit {
-   
+}
+
+#main-menu #center-panel #tile-unit-list .unit.active {
+    background-color: #D69A2A;
+}
+
+#main-menu #center-panel #tile-unit-list .unit.not-movable {
+    opacity: .5;
 }
 
 #main-menu #center-panel #tile-unit-list .unit img {

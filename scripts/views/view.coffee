@@ -28,6 +28,10 @@ class View
     SystemEvent.addSubscribtion 'state.build-units', (event) =>
       @draw()
 
+    # redraw if units are de-/selected 
+    SystemEvent.addSubscribtion 'state.toggle-unit-selection', (event)=>
+      @draw()
+
     # zoome and redraw if mousewheel is used
     SystemEvent.addSubscribtion 'mouse.mousewheel', (event) =>
       if event.data.delta > 0 then zoomVal = 0.05 else zoomVal = -0.05

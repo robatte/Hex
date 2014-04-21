@@ -27,9 +27,9 @@ class MainMenuDialog
                   height: 130px;
                  """
     center_panel_style: """
-                  top: 54px;
-                  left: 186px;
-                  width: 576px;
+                  top: 57px;
+                  left: 188px;
+                  width: 575px;
                   height: 93px;
                  """
     right_panel_style: """
@@ -53,6 +53,8 @@ class MainMenuDialog
       @position = if Game.get().state.currentState == GameState.states.own_position_selected then Game.get().state.activePosition else null
 
       @menu_jquery.html @html()
+      @menu_jquery.find('#tile-unit-list').append unitObj for unitObj in @generateUnitList()
+
 
     setInteractionEvents: ->
       @menu_jquery.on "click", "input#round-next-btn", ->
@@ -63,6 +65,9 @@ class MainMenuDialog
           units = {}
           units[$(this).data('type')] = 1
           new SystemEvent('view.main-menu.build-units', units).dispatch()
+
+      @menu_jquery.on "click", "#tile-unit-list .unit", ->
+        new SystemEvent( 'view.main-menu.unit-clicked', $(this).data('unit')).dispatch()
 
 
       
@@ -91,7 +96,7 @@ class MainMenuDialog
     addCenterItems: () ->
       html = ""
       html += """
-              <div id="tile-unit-list">#{ @listUnits() }</div>
+              <div id="tile-unit-list"></div>
               """
       html
 
@@ -123,13 +128,13 @@ class MainMenuDialog
       html
 
 
-    listUnits: () ->
-      html = ""
+    generateUnitList: () ->
+      unitList = []
       if @position
         for unit in @position.army.units 
-          html += (new UnitView( unit)).draw()
+          unitList.push jQuery((new UnitView( unit)).draw()).data('unit', unit)
 
-      html
+      unitList
 
 
 
