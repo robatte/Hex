@@ -19,7 +19,6 @@ class View
 
   constructor: () ->
     Tile.createCraftyTileComponent()
-    @createInteractionBox()
 
     # redraw on ganme state changes
     SystemEvent.addSubscribtion 'state.change', (event) =>
@@ -36,10 +35,6 @@ class View
       @draw()
 
 
-  createInteractionBox: () ->
-    @interactionBox = new InteractionBox()
-
-
   createMap: ->
     @tiles = []
 
@@ -52,7 +47,6 @@ class View
     for tile in @tiles
       tile.update()
 
-    @interactionBox.draw()
     MainMenuDialog.get().update()
 
 

@@ -15,11 +15,11 @@ class GameState
       @clickMapPosition event.data.mapPosition
 
 
-    SystemEvent.addSubscribtion 'view.interaction_box.round-next', (event) =>
+    SystemEvent.addSubscribtion 'view.main-menu.round-next', (event) =>
       @nextRound()
 
-    SystemEvent.addSubscribtion 'view.interaction_box.build-units', (event) =>
-      @buildUnits()
+    SystemEvent.addSubscribtion 'view.main-menu.build-units', (event) =>
+      @buildUnits( event.data )
 
   changeState: (state) ->
     @currentState = state
@@ -73,10 +73,10 @@ class GameState
   selectMovePosition: ->
     @interactionPositions = Game.get().map_grid.getNeighbors(@activePosition)
 
-  buildUnits: ->
-    BuildUnitsDialog.get().open @player.money_units, @activePosition.terrain.unitsToBuild(), (units) =>
-      Game.get().buildUnits(units)
-      new SystemEvent('state.build-units', {}).dispatch()
+  buildUnits: (units)->
+    # BuildUnitsDialog.get().open @player.money_units, @activePosition.terrain.unitsToBuild(), (units) =>
+    Game.get().buildUnits(units)
+    new SystemEvent('state.build-units', {}).dispatch()
 
   moveUnits: (position) ->
     if @activePosition.army.movableUnits().length > 0

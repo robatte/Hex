@@ -130,7 +130,6 @@ class UnitFactory
   class UnitFactoryPrivate
 
     build: (unitSet, owner, max_amount = null) ->
-      debugger
       army = new Army( owner )
 
       count = 0

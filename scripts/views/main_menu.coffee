@@ -56,10 +56,12 @@ class MainMenuDialog
 
     setInteractionEvents: ->
       @menu_jquery.on "click", "input#round-next-btn", ->
-        new SystemEvent('view.interaction_box.round-next', {}).dispatch()
+        new SystemEvent('view.main-menu.round-next', {}).dispatch()
 
-      @menu_jquery.on "click", "input.build-unit-btn", ->
-        new SystemEvent('view.interaction_box.build-units', {}).dispatch()
+      @menu_jquery.on "click", ".build-unit-btn", ->
+        units = {}
+        units[$(this).data('type')] = 1
+        new SystemEvent('view.main-menu.build-units', units).dispatch()
 
 
       
