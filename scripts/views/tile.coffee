@@ -116,12 +116,6 @@ class Tile
     else
       @moveTargetLayer.visible = false
 
-  # setOwner: (owner=0)->
-  #   if owner
-  #     @ownerLayer.image('assets/tile_overlay_green.png')
-  #   else
-  #     @ownerLayer.visible = false
-
   showUnits: ->    
     # remove all icons
     jQuery(@craftyTile._element).find('.unit-icon').remove()

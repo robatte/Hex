@@ -57,6 +57,12 @@ class MainMenuDialog
 
 
     setInteractionEvents: ->
+
+      @menu_jquery.on "contextmenu", (e)->
+        e.preventDefault()
+        new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
+
+
       @menu_jquery.on "click", "input#round-next-btn", ->
         new SystemEvent('view.main-menu.round-next', {}).dispatch()
 

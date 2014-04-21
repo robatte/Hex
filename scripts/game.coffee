@@ -24,6 +24,9 @@ class GameState
     SystemEvent.addSubscribtion 'view.main-menu.unit-clicked', (event) =>
       @toggleUnitSelection( event.data )
 
+    SystemEvent.addSubscribtion 'view.main-menu.all-units-clicked', (event) =>
+      @selectArmy()
+
   changeState: (state) ->
     @currentState = state
     new SystemEvent('state.change', {}).dispatch()
@@ -33,7 +36,7 @@ class GameState
 
 
   resetSelection: ->
-    @activePosition = []
+    @activePosition = null
     @deselectMovePosition()
 
 
@@ -102,6 +105,15 @@ class GameState
 
     @deselectMovePosition()
     @changeState GameState.states.own_position_selected
+
+  selectArmy: ->
+    if @activePosition?
+      @activePosition.army.selectAllUnits() 
+      if @activePosition.army.hasActiveUnits()
+        @selectMovePosition()
+      else
+        @deselectMovePosition()
+      new SystemEvent('state.army-selected', {}).dispatch()
 
 
 
