@@ -23,7 +23,7 @@ class MainMenuDialog
     left_panel_style: """
                   top: 20px;
                   left: 20px;
-                  width: 140px;
+                  width: 155px;
                   height: 130px;
                  """
     center_panel_style: """
@@ -77,8 +77,11 @@ class MainMenuDialog
       income = if @player.money_units > 0 then "<span class='money'>/ +#{@player.money_units}</span>" else "" 
       html = ""
       html += """
-              <p id='main-menu-player'>Spieler: <span>#{ @player.name }</span></p> 
-              <p id='main-menu-money'>Geld: <span class="money">#{ @player.money_units }</span> #{ income }</p>
+              <dl>
+                <dt id='main-menu-player'>Spieler</dt><dd>#{ @player.name }</dd> 
+                <dt id='main-menu-money'>Geld</dt><dd><span class="money">#{ @player.money_units }</span> #{ income }</dd>
+                #{ @terrainInfo() }
+              </dl>
               """
       html
 
@@ -106,6 +109,16 @@ class MainMenuDialog
                   """
 
       html
+
+    terrainInfo: ->
+      html = ""
+      if @position
+        html += """
+                <h3>#{ @position.terrain.type }</h3>
+                <dt>Steuer</dt><dd><span class='money'>+#{@position.terrain.taxRate()}</span></dd>
+                """
+      html
+
 
     listUnits: () ->
       html = ""

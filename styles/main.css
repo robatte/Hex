@@ -7,10 +7,35 @@ p {
     margin: 0 0 5px;
 }
 
+h3 {
+    font-size: 1em;
+    font-weight: bold;
+    border-bottom: 1px dashed #333;
+    margin: 10px 0 5px;
+}
+
+
 .money:after {
     content: "\a9";
     margin-left: 1px;
+    color: #B68300;
 }
+
+dt {
+    float: left;
+    margin-bottom: 5px;
+}
+
+dt.indent {
+    padding-left: 10px;
+}
+
+dd {
+    margin-left: 65px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
 
 /* 
 *  ================================
@@ -100,18 +125,46 @@ p {
 
 #main-menu #right-panel input#round-next-btn {
     position: absolute;
-    top: -32px;
-    right: -2px;
+    top: -46px;
+    right: -14px;
+    border: none;
+    padding: 8px;
+    font-weight: bold;
+    background-color: #CE9428;
+    color: white;
+    -webkit-border-radius: 13px;
+            border-radius: 13px;
+    -webkit-box-shadow: -1px -1px 4px rgba(3, 1, 0, 0.4) inset;
+            box-shadow: -1px -1px 4px rgba(3, 1, 0, 0.4) inset;
+    text-shadow: 1px 1px 0px #AA7B22;
+    outline-color: transparent !important;
 }
+
+#main-menu #right-panel input#round-next-btn:hover {
+    /*text-shadow: 0 0 1px white;*/
+    background-color: #d69a2a;
+    
+}
+
+#main-menu #right-panel input#round-next-btn:active {
+    -webkit-box-shadow: 1px 1px 4px rgba(3, 1, 0, 0.4) inset;
+            box-shadow: 1px 1px 4px rgba(3, 1, 0, 0.4) inset;
+    padding: 9px 7px 7px 9px;
+    background-color: #c68f27;
+}
+
+
 
 #main-menu #right-panel .build-unit-btn {
     float: left;
+    text-align: center;
     background-color: #efe5c2;
-    padding: 4px 8px;
-    margin: 1px 0 0 7px;
-    line-height: 1.1em;
-    -webkit-border-radius: 23px;
-            border-radius: 23px;
+    padding: 6px 8px 4px;
+    margin: 12px 0 0 7px;
+    line-height: 13px;
+    font-size: 13px;
+    -webkit-border-radius: 10px;
+            border-radius: 10px;
     -webkit-box-shadow: -1px -1px 4px rgba(3, 1, 0, 0.4) inset;
             box-shadow: -1px -1px 4px rgba(3, 1, 0, 0.4) inset;
 }
@@ -126,7 +179,7 @@ p {
 }
 
 #main-menu #right-panel .build-unit-btn:active {
-    padding: 3px 9px 5px 7px;
+    padding: 7px 7px 5px 9px;
     background-color: #E5DBBC;
     /*opacity: .9;*/
     -webkit-box-shadow: 1px 1px 4px rgba(3, 1, 0, 0.4) inset;
@@ -135,11 +188,11 @@ p {
 
 
 #main-menu #right-panel .unit-image {
+    width: 60%;
 }
 
 #main-menu #right-panel .unit-cost {
     color: #B68300;
-    text-align: center;
     margin-bottom: 0;
 }
 
