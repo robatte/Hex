@@ -62,7 +62,7 @@ class MapGrid
     2: 0.3
     3: 0.1
 
-  startPositionTypeId: 2
+  startPositionTypeId: 3
 
   constructor: (radius, min_dense, threshold)->
     @radius_q = radius
