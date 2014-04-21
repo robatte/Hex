@@ -165,7 +165,7 @@ class Game
       next_player
 
     buildUnits: (units) ->
-      army = UnitFactory.get().build( units, @state.player )
+      army = UnitFactory.get().build( units, @state.player, @state.activePosition.freeUnitSlots() )
 
       # remove move point for new units
       unit.currentMove = 0 for unit in army.units
