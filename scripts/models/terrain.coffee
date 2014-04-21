@@ -25,6 +25,9 @@ class Terrain
   unitsToBuild: ->
     @units_to_build
 
+  maxUnits: ->
+    12
+
 
 class TerrainGrassland extends Terrain
   @type_identifier: 'grassland'

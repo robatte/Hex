@@ -35,7 +35,7 @@ class MapPosition
     this
 
   moveUnitsTo: (other, units) ->
-    @army.moveTo other, units
+    @army.moveTo other.army, units, other.freeUnitSlots()
     other.owner = @owner if other.army.units.length > 0 and other.army.units[0].owner.id == @army.owner.id
     this
 
@@ -49,6 +49,9 @@ class MapPosition
   setTerrain: (type_id) ->
     @terrain = TerrainFactory.get().build(type_id)
     this
+
+  freeUnitSlots: ->
+    @terrain.maxUnits() - @army.units.length
 
 
 class MapGrid

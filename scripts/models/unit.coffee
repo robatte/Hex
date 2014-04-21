@@ -99,18 +99,18 @@ class Army
     @units.filter (u) -> u.currentMove == 0
 
 
-  moveTo: (other, units) ->
+  moveTo: (other, units, max_moves) ->
     keep = []
     for i in [1..@units.length]
       unit = @units.pop()
 
-      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0
+      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0 and i <= max_moves
         unit.currentMove -= 1
-        other.army.units.push unit
+        other.units.push unit
         units[unit.type_identifier] -= 1
       else
         keep.push unit
-    other.army.owner = @owner if other.army.units.length > 0
+    other.owner = @owner if other.units.length > 0
 
     @units = keep
 
@@ -129,14 +129,17 @@ class UnitFactory
 
   class UnitFactoryPrivate
 
-    build: (unitSet, owner) ->
+    build: (unitSet, owner, max_amount = null) ->
       army = new Army( owner )
 
+      count = 0
       for type_identifier, amount of unitSet
         if amount > 0
           for i in [0...amount]
+            break if max_amount? and count >= max_amount
             switch type_identifier
               when SoldierUnit.attributes.type_identifier then army.add new SoldierUnit( owner )
               when FarmerUnit.attributes.type_identifier then army.add new FarmerUnit( owner )
+            count +=1
 
       army
