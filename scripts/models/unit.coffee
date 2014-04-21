@@ -1,8 +1,13 @@
 class Unit
 
   @all = []
+  @nextFreeID = 0
 
   constructor: (attributes) ->
+    # set unit id
+    @id = Unit.nextFreeID
+    Unit.nextFreeID += 1
+
     @setAbilities()
     @setAttributes(attributes)
     Unit.all.push this
@@ -53,7 +58,7 @@ class SoldierUnit extends Unit
   @attributes =
     name: "Soldat"
     type_identifier: "soldier"
-    building_costs: 25
+    building_costs: 40
 
   constructor: (@owner)->
     super(SoldierUnit.attributes)
@@ -105,16 +110,24 @@ class Army
     for i in [1..@units.length]
       unit = @units.pop()
 
-      if units[unit.type_identifier]? and units[unit.type_identifier] > 0 and unit.currentMove > 0 and i <= max_moves
+      # check if current unit is in array with units to move
+      is_in_array = units.filter( (u) -> u.id == unit.id).length > 0
+
+      if is_in_array and unit.currentMove > 0 and i <= max_moves
         unit.currentMove -= 1
         unit.isActive = false
         other.units.push unit
-        units[unit.type_identifier] -= 1
       else
         keep.push unit
-    other.owner = @owner if other.units.length > 0
 
+    other.owner = @owner if other.units.length > 0
     @units = keep
+
+  hasActiveUnits: ->
+    @getActiveUnits().length > 0
+
+  getActiveUnits: ->
+    @units.filter( (unit) -> unit.isActive )
 
 
 

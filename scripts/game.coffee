@@ -34,7 +34,7 @@ class GameState
 
   resetSelection: ->
     @activePosition = []
-    @interactionPositions = []
+    @deselectMovePosition()
 
 
   clickMapPosition: (position) ->
@@ -61,8 +61,7 @@ class GameState
 
   selectActivePosition: (position) ->
     @activePosition = position
-    @interactionPositions = []
-    @selectMovePosition() if position.army.movableUnits().length > 0
+    @deselectMovePosition()
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
@@ -76,8 +75,16 @@ class GameState
   selectMovePosition: ->
     @interactionPositions = Game.get().map_grid.getNeighbors(@activePosition)
 
-  toggleUnitSelection: (unit)->
+  deselectMovePosition: ->
+    @interactionPositions = []
+
+
+  toggleUnitSelection: (unit) ->
     unit.isActive = not unit.isActive and unit.currentMove > 0
+    if @activePosition.army.hasActiveUnits()
+      @selectMovePosition()
+    else
+      @deselectMovePosition()
     new SystemEvent('state.toggle-unit-selection', {}).dispatch()
 
 
@@ -88,15 +95,13 @@ class GameState
 
   moveUnits: (position) ->
     if @activePosition.army.movableUnits().length > 0
-      MoveUnitsDialog.get().open @activePosition.army, (units) =>
-        @activePosition.moveUnitsTo(position, units)
-        if @activePosition.army.units.length <= 0
-          @activePosition.owner = null
-          @selectActivePosition(position)
-        @changeState GameState.states.own_position_selected
-    else
-      @interactionPositions = []
-      @changeState GameState.states.own_position_selected
+      @activePosition.moveUnitsTo(position, @activePosition.army.getActiveUnits())
+      if @activePosition.army.units.length <= 0
+        @activePosition.owner = null
+        @selectActivePosition(position)
+
+    @deselectMovePosition()
+    @changeState GameState.states.own_position_selected
 
 
 
