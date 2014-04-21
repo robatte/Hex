@@ -51,6 +51,7 @@ class Tile
     @mapPosition = position
     @type = position.type
     @craftyTile = Crafty.e('Tile').tile(position)
+    @unitIcons = []
 
     @mapPosition.setTile( this )
 
@@ -95,6 +96,9 @@ class Tile
     @setMoveTarget( Game.get().state.is(GameState.states.own_position_selected) && @mapPosition.isInteractionPosition() )
     # @setOwner( @owner)
 
+    # show unitIcons
+    @showUnits()
+
     @updateCSS()
 
 
@@ -127,6 +131,26 @@ class Tile
   #     @ownerLayer.image('assets/tile_overlay_green.png')
   #   else
   #     @ownerLayer.visible = false
+
+  showUnits: ->    
+    # remove all icons
+    for unitIcon in @unitIcons
+      unitIcon.remove()
+    @unitIcons = []
+    #build icons for all unit-types
+    typeNr = 0
+    for typeIdentifier, units of @mapPosition.army.getUnitsByType() 
+      unitNr = 0
+      for unit in units
+        x = 150 + typeNr * 70 + unitNr*6
+        y = 50 + unitNr * 15
+        @unitIcons.push jQuery("<img src=#{UnitView.image( typeIdentifier, @owner)} style='z-index: #{ 20-unitNr }; position: absolute; left: #{x}px; bottom: #{y}px; width: 50px'/>").appendTo(@craftyTile._element)
+        unitNr += 1
+
+      typeNr += 1
+
+    
+    
 
 
   bindEvents: ->

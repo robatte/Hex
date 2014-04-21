@@ -78,6 +78,9 @@ dd {
     width: 100%;
 }
 
+#main-menu #menu-image{
+}
+
 #main-menu .menu-panel {
     position: absolute;
     z-index: 1;

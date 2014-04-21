@@ -29,6 +29,7 @@ class Mouse
 
     jQuery('body').on "mousedown", (e) ->
       if e.which == Mouse.mouseButtons.RIGHT
+        e.preventDefault()
 
         jQuery("body").css {"cursor" : "move"}
 
