@@ -74,10 +74,11 @@ class MainMenuDialog
       """
 
     addLeftItems: () ->
+      income = if @player.money_units > 0 then "<span class='money'>/ +#{@player.money_units}</span>" else "" 
       html = ""
       html += """
               <p id='main-menu-player'>Spieler: <span>#{ @player.name }</span></p> 
-              <p id='main-menu-money'>Geld: #{ @player.money_units } Coins</p>
+              <p id='main-menu-money'>Geld: <span class="money">#{ @player.money_units }</span> #{ income }</p>
               """
       html
 
@@ -92,6 +93,7 @@ class MainMenuDialog
       html = ""
       html += """
               <input id="round-next-btn" type="button" value="Runde beenden">
+              <p>Einheiten ausbilden</p>
               """
       if Game.get().state.currentState == GameState.states.own_position_selected && Game.get().state.activePosition.terrain.unitsToBuild().length > 0
         for unitType in @position.terrain.unitsToBuild()
@@ -99,7 +101,7 @@ class MainMenuDialog
           html += """
                   <div class='build-unit-btn'>
                     <img class='unit-image' src='#{ UnitView.image( unitType, @player) }' />
-                    <p class='unit-cost'>#{ attributes.building_costs } &copy;</p>
+                    <p class='unit-cost money'>#{ attributes.building_costs }</p>
                   </div>
                   """
 

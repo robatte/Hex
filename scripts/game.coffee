@@ -156,7 +156,8 @@ class Game
 
     nextRound: ->
       # get tax from own MapPositions
-      @state.player.money_units += @map_grid.getPositionsByOwner(@state.player).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
+      @state.player.money_per_round = @map_grid.getPositionsByOwner(@state.player).map((p) -> p.taxRate()).reduce( (x, y) -> x + y)
+      @state.player.money_units += @state.player.money_per_round
 
       # change player
       @state.player.storeViewPosition()

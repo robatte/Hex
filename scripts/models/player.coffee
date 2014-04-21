@@ -7,6 +7,7 @@ class Player
     Player.player_count += 1
     @id = Player.player_count
     @money_units = 0
+    @money_per_round = 0
 
   storeViewPosition: ->
     @viewportPosition = Viewport.get().getPosition()
