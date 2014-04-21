@@ -129,6 +129,9 @@ class Army
   getActiveUnits: ->
     @units.filter( (unit) -> unit.isActive )
 
+  deselectActiveUnits: ->
+    unit.isActive = false for unit in @units
+
 
 
 

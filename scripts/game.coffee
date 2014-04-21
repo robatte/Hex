@@ -60,8 +60,12 @@ class GameState
 
 
   selectActivePosition: (position) ->
-    @activePosition = position
+    # deselect move positions
     @deselectMovePosition()
+
+    # select new active position and clear unit selection
+    @activePosition = position
+    @activePosition.army.deselectActiveUnits()
 
   isInteractionPosition: (position) ->
     @interactionPositions.filter( (ip) -> ip.equals(position) ).length > 0
