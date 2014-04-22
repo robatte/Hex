@@ -2,6 +2,8 @@
 scripts/*.js
 scripts/helpers/*.js
 scripts/models/*.js
+scripts/models/map/*.js
+scripts/models/unit/*.js
 scripts/views/*.js
 scripts/views/dialogs/*.js
 scripts/application/*.js
