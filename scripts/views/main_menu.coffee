@@ -58,9 +58,13 @@ class MainMenuDialog
 
     setInteractionEvents: ->
 
-      @menu_jquery.on "contextmenu", (e)->
+      @menu_jquery.on "contextmenu click", (e)->
+        e.stopPropagation()
         e.preventDefault()
-        new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
+        switch w.which
+          when Mouse.mouseButtons.RIGHT then new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
+          when Mouse.mouseButtons.LEFT then
+            #
 
 
       @menu_jquery.on "click", "input#round-next-btn", ->
@@ -74,6 +78,7 @@ class MainMenuDialog
 
       @menu_jquery.on "click", "#tile-unit-list .unit", ->
         new SystemEvent( 'view.main-menu.unit-clicked', $(this).data('unit')).dispatch()
+
 
 
       

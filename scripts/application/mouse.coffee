@@ -27,7 +27,7 @@ class Mouse
 
   initScrolling: (scroll_fcn) ->
 
-    jQuery('body').on "mousedown", (e) ->
+    jQuery('body').on "mousedown", '.Tile', (e) ->
       if e.which == Mouse.mouseButtons.RIGHT
         e.preventDefault()
 
@@ -44,3 +44,12 @@ class Mouse
           if e.which == Mouse.mouseButtons.RIGHT
             jQuery('body').off "mousemove"
             jQuery("body").css {"cursor": "auto"}
+
+  processBackgroundClicks: (event) ->
+    #bind leftclick to background for tile-unselection
+    jQuery("body").on 'click', '#cr-stage', (event)->
+      if event.which == 1
+        event.preventDefault()
+        Game.get().state.resetSelection()
+        Game.get().state.changeState GameState.states.select_own_position
+
