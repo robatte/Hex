@@ -24,6 +24,14 @@ class Game
       #set inital game state
       @state = new GameState(@players[0])
 
+      #bind leftclick to background for tile-unselection
+      jQuery("body").on 'click', '#cr-stage', (event)->
+        if event.which == 1
+          event.preventDefault()
+          Game.get().state.resetSelection()
+          Game.get().state.changeState GameState.states.select_own_position
+
+
       #main-menu
       MainMenuDialog.get()
 

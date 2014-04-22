@@ -136,7 +136,8 @@ class Tile
 
   bindEvents: ->
     jQuery( @craftyTile._element).data('map-position', @mapPosition)
-    jQuery( @craftyTile._element).on  'click', () ->
+    jQuery( @craftyTile._element).on  'click', (e) ->
+      event.stopPropagation()
       map_position = jQuery(this).data('map-position')
       new SystemEvent('view.tile.click', {mapPosition: map_position}).dispatch()
 
