@@ -43,6 +43,7 @@ class Game
       new Mouse()
      
       Mouse.instance.processBackgroundClicks()
+      Mouse.instance.disableDragDrop()
 
       # preload sprites
       Crafty.load [
