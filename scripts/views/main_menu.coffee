@@ -55,34 +55,15 @@ class MainMenuDialog
       @menu_jquery.html @html()
       @menu_jquery.find('#tile-unit-list').append unitObj for unitObj in @generateUnitList()
 
-    # starts drag-selection of units
-    startMarkSelection: (e) =>
-      @isMarkSelecting = true
-      @selection =
-        x: e.clientX
-        y: e.clientY
-
-    # end drag-selection of units and mark them as selected
-    stopMarkSelection: (e) =>
-      if not @isMarkSelecting
-        @isMarkSelecting = false
-        return
-      else
-        @isMarkSelecting = false
-        @selection.x2 = e.clientX
-        @selection.y2 = e.clientY
-        selectedUnits = @menu_jquery.find('#tile-unit-list .unit').get().filter (unit) =>
-          unitCenter = 
-            x: $(unit).offset().left + $(unit).width() / 2
-            y: $(unit).offset().top + $(unit).height() / 2
-          @selection.x < unitCenter.x < @selection.x2 and
-          @selection.y < unitCenter.y < @selection.y2
-        
-        #todo: select all items in selectedUnits
-      
-
 
     setInteractionEvents: ->
+
+      # set movable units as selectables
+      @menu_jquery.selectable
+        filter: ".unit.movable"
+        selected: (event, ui) ->
+          new SystemEvent( 'view.main-menu.unit-clicked', $(ui.selected).data('unit')).dispatch()
+
 
       # right-click on menu marks all units
       @menu_jquery.on "contextmenu", (e)->
@@ -90,35 +71,26 @@ class MainMenuDialog
         e.preventDefault()
         new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
 
-      # start drag-selection
-      @menu_jquery.on "mousedown", (e)=>
-        if e.which == Mouse.mouseButtons.LEFT 
-          @startDragSelectionTimer = setTimeout =>
-            @startMarkSelection e
-          , 1000
-      
-      # end drag-selection
-      @menu_jquery.on "mouseup", (e)=>
-        if e.which == Mouse.mouseButtons.LEFT
-          if @isMarkSelecting == true
-            @stopMarkSelection e
-          else
-            window.clearTimeout @startDragSelectionTimer
-
       # next-round-button click
-      @menu_jquery.on "click", "input#round-next-btn", ->
+      @menu_jquery.find("input#round-next-btn").on "click", (e) ->
+        e.stopPropagation()
+        e.preventDefault()
         new SystemEvent('view.main-menu.round-next', {}).dispatch()
 
       # click on build-unit icons
-      @menu_jquery.on "click", ".build-unit-btn", ->
+      @menu_jquery.find(".build-unit-btn").on "click", (e) ->
+        e.stopPropagation()
+        e.preventDefault()
         if not $(this).hasClass 'inactive'
           units = {}
           units[$(this).data('type')] = 1
           new SystemEvent('view.main-menu.build-units', units).dispatch()
 
       # click on unit marks the one
-      @menu_jquery.on "click", "#tile-unit-list .unit", ->
-        new SystemEvent( 'view.main-menu.unit-clicked', $(this).data('unit')).dispatch()
+      # @menu_jquery.find("#tile-unit-list").on "click", ".unit", (e) ->
+      #   e.stopPropagation()
+      #   e.preventDefault()
+      #   new SystemEvent( 'view.main-menu.unit-clicked', $(this).data('unit')).dispatch()
 
 
 

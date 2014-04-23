@@ -53,9 +53,11 @@ class Mouse
         Game.get().state.resetSelection()
         Game.get().state.changeState GameState.states.select_own_position
 
-  disableDragDrop: (event) ->
-    jQuery('body').on "dragstart", (e) =>
-      false
-    jQuery('body').on "drop", (e) =>
-      false
+  # disableDragDrop: (event) ->
+  #   jQuery('img').on "dragstart", (e) =>
+  #     false
+  #   jQuery('img').on "drop", (e) =>
+  #     false
+  #   # jQuery('body').on "blur", (e) =>
+  #   #   alert "lost"
     

@@ -3,6 +3,12 @@ body {
     color: #333;
 }
 
+body.dragging {
+    cursor: crosshair !important;    
+
+}
+
+
 p {
     margin: 0 0 5px;
 }
@@ -45,6 +51,15 @@ dd {
     user-select: none;
 }
 
+.drag-select-box {
+    position: absolute;
+    border: 1px dotted #666;
+    background-color: rgba(200,200,200,.1);    
+    z-index: 1000;
+}
+
+.ui-selecting { background: #FECA40; }
+.ui-selected { background: #F39814; color: white; }
 
 /* 
 *  ================================
