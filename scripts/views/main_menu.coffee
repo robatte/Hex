@@ -59,9 +59,10 @@ class MainMenuDialog
 
     setInteractionEvents: ->
 
-      set movable units as selectables
+      # set movable units as selectables
       @menu_jquery.selectable
-        filter: ".unit.movable"
+        delay: 200
+        filter: "#tile-unit-list .unit.movable"
         stop: (event, ui) =>
           units = []
           @menu_jquery.find('.ui-selected').each ->
