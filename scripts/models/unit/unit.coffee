@@ -30,7 +30,8 @@ class Unit
       when "farmer" then FarmerUnit.attributes
       when "soldier" then SoldierUnit.attributes
 
-
+  @getUnitByIdentifier: (uniqueId) =>
+    (@all.filter (unit)-> unit.id == uniqueId)[0] || null
 
 class FarmerUnit extends Unit
 

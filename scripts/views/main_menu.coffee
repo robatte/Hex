@@ -59,7 +59,7 @@ class MainMenuDialog
 
     setInteractionEvents: ->
 
-      # set movable units as selectables
+      set movable units as selectables
       @menu_jquery.selectable
         filter: ".unit.movable"
         stop: (event, ui) =>
@@ -70,19 +70,19 @@ class MainMenuDialog
 
 
       # right-click on menu marks all units
-      # @menu_jquery.on "contextmenu", (e)->
-      #   e.stopPropagation()
-      #   e.preventDefault()
+      @menu_jquery.on "contextmenu", (e)->
+        e.stopPropagation()
+        e.preventDefault()
       #   new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
 
       # next-round-button click
-      @menu_jquery.find("input#round-next-btn").on "click", (e) ->
+      @menu_jquery.on "click", "input#round-next-btn", (e) ->
         e.stopPropagation()
         e.preventDefault()
         new SystemEvent('view.main-menu.round-next', {}).dispatch()
 
       # click on build-unit icons
-      @menu_jquery.find(".build-unit-btn").on "click", (e) ->
+      @menu_jquery.on "click", ".build-unit-btn", (e) ->
         e.stopPropagation()
         e.preventDefault()
         if not $(this).hasClass 'inactive'

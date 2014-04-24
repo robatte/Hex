@@ -126,7 +126,7 @@ class Tile
       for unit in units
         x = 150 + typeNr * 70 + unitNr*6
         y = 50 + unitNr * 15
-        jQuery("<img class='unit-icon' src=#{UnitView.image( typeIdentifier, @owner)} style='z-index: #{ 20-unitNr }; left: #{x}px; bottom: #{y}px;'/>").appendTo(@craftyTile._element)
+        jQuery("<img class='unit-icon' id='#{unit.id}' src=#{UnitView.image( typeIdentifier, @owner)} style='z-index: #{ 20-unitNr }; left: #{x}px; bottom: #{y}px;'/>").appendTo(@craftyTile._element)
         unitNr += 1
       typeNr += 1
 

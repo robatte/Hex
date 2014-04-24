@@ -3,6 +3,7 @@ class GameState
   @states =
     select_own_position: 'select_own_position'
     own_position_selected: 'own_position_selected'
+    start_unit_moving: 'start_unit_moving'
 
   constructor: (@player) ->
 
