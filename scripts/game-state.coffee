@@ -86,8 +86,10 @@ class GameState
     @interactionPositions = []
 
 
-  toggleUnitSelection: (unit) ->
-    unit.isActive = not unit.isActive and unit.currentMove > 0
+  toggleUnitSelection: (units) ->
+    for unit in units
+      unit.isActive = (not unit.isActive or units.length > 1) and unit.currentMove > 0
+
     if @activePosition.army.hasActiveUnits()
       @selectMovePosition()
     else

@@ -52,8 +52,9 @@ class MainMenuDialog
       @player = Game.get().state.player
       @position = if Game.get().state.currentState == GameState.states.own_position_selected then Game.get().state.activePosition else null
 
-      @menu_jquery.html @html()
-      @menu_jquery.find('#tile-unit-list').append unitObj for unitObj in @generateUnitList()
+      shadowHtml = jQuery(@html())
+      shadowHtml.find('#tile-unit-list').append unitObj for unitObj in @generateUnitList()
+      @menu_jquery.html shadowHtml
 
 
     setInteractionEvents: ->
@@ -61,15 +62,18 @@ class MainMenuDialog
       # set movable units as selectables
       @menu_jquery.selectable
         filter: ".unit.movable"
-        selected: (event, ui) ->
-          new SystemEvent( 'view.main-menu.unit-clicked', $(ui.selected).data('unit')).dispatch()
+        stop: (event, ui) =>
+          units = []
+          @menu_jquery.find('.ui-selected').each ->
+            units.push $(this).data('unit')
+          new SystemEvent( 'view.main-menu.unit-clicked', units).dispatch()
 
 
       # right-click on menu marks all units
-      @menu_jquery.on "contextmenu", (e)->
-        e.stopPropagation()
-        e.preventDefault()
-        new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
+      # @menu_jquery.on "contextmenu", (e)->
+      #   e.stopPropagation()
+      #   e.preventDefault()
+      #   new SystemEvent( 'view.main-menu.all-units-clicked', {}).dispatch()
 
       # next-round-button click
       @menu_jquery.find("input#round-next-btn").on "click", (e) ->
