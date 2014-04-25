@@ -92,10 +92,10 @@ class MainMenuDialog
           new SystemEvent('view.main-menu.build-units', units).dispatch()
 
       # click on unit marks the one
-      # @menu_jquery.find("#tile-unit-list").on "click", ".unit", (e) ->
-      #   e.stopPropagation()
-      #   e.preventDefault()
-      #   new SystemEvent( 'view.main-menu.unit-clicked', $(this).data('unit')).dispatch()
+      @menu_jquery.on "click", "#tile-unit-list .unit", (e) ->
+        e.stopPropagation()
+        e.preventDefault()
+        new SystemEvent( 'view.main-menu.unit-clicked', [$(this).data('unit')]).dispatch()
 
 
 

@@ -238,6 +238,10 @@ dd {
 .unit-icon {
     position: absolute;
     width: 50px;
+    /* to simulate z-index in 3d-stack-context */
+    transform: translate3d(0,0,10px);
+    -webkit-transform: translate3d(0,0,10px);
+    -moz-transform: translate3d(0,0,10px);
 }
 
 
@@ -310,7 +314,7 @@ dd {
     -webkit-border-radius: 4px;
             border-radius: 4px;
     
-    font-family: "Arial", sans
+    font-family: "Arial", sans;
     color: #333;
 }
 

@@ -23,6 +23,7 @@ class UnitView
         "top":  activePosition.tile.craftyTile.h - parseInt(unitIcon.css("bottom")) - parseInt(unitIcon.css("height"))
         "position": "fixed"
         "bottom": "auto"
+
       #get difference to target-tile
       targetLeft = targetPosition.tile.craftyTile.x - activePosition.tile.craftyTile.x 
       targetTop = targetPosition.tile.craftyTile.y - activePosition.tile.craftyTile.y 
@@ -32,6 +33,6 @@ class UnitView
       unitIcon.animate  
         left: '+='+targetLeft
         top: '+='+targetTop
-      , 400, "easeInExpo" 
+      , 1000, "easeInExpo" 
     
     
