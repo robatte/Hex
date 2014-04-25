@@ -33,6 +33,6 @@ class UnitView
       unitIcon.animate  
         left: '+='+targetLeft
         top: '+='+targetTop
-      , 1000, "easeInExpo" 
+      , 300, "easeInExpo" 
     
     
