@@ -35,7 +35,6 @@ class MapPosition
     this
 
   moveUnitsTo: (other, units) ->
-    Game.get().state.changeState GameState.states.start_unit_moving
     @army.moveTo other.army, units, other.freeUnitSlots()
     other.owner = @owner if other.army.units.length > 0 and other.army.units[0].owner.id == @army.owner.id
     this

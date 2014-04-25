@@ -240,6 +240,8 @@ dd {
     width: 50px;
 }
 
+
+
 .tile-player1:after {
     content: " ";
     width: 100%;

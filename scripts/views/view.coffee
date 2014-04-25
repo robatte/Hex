@@ -15,7 +15,10 @@ class Viewport
       Crafty.viewport.x = position.x
       Crafty.viewport.y = position.y
 
+
 class View
+
+  @drawQueue = []
 
   constructor: () ->
     Tile.createCraftyTileComponent()
@@ -42,6 +45,16 @@ class View
       Crafty.viewport.zoom( zoomVal, 300)
       @draw()
 
+    SystemEvent.addSubscribtion 'game.game-state.moves.units', (event) => 
+      UnitView.moveUnitIconsTo( event.data.activePosition, event.data.targetPosition)
+
+  ###
+  # add jQuery-object or DOM-element and redraw will wait for it to finish its animation
+  ###
+  @addToDrawQueue: ( jQueryObj) =>
+    View.drawQueue.push jQueryObj
+    # jQueryObj.promise()
+
 
   createMap: ->
     @tiles = []
@@ -50,12 +63,24 @@ class View
       @tiles.push new Tile(position)
 
 
-  draw: ->
-    # draw tiles
-    for tile in @tiles
-      tile.update()
+  draw: =>
+    #get first promised jQuery-Obj from drawQueue
+    jQueryObj = View.drawQueue.shift()
+    # if drawQueue is empty just draw...
+    if not jQueryObj? and not @isWaitingForAnimation
+      # draw tiles
+      for tile in @tiles
+        tile.update()
 
-    MainMenuDialog.get().update()
+      MainMenuDialog.get().update()
+
+    # else call draw again if animation is done
+    else
+      # drop all incoming draw-calls
+      @isWaitingForAnimation = true
+      jQuery.when jQuery(jQueryObj).promise().done =>
+        @isWaitingForAnimation = false
+        @draw()
 
 
   getCenter: ->

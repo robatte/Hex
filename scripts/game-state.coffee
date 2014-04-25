@@ -3,7 +3,6 @@ class GameState
   @states =
     select_own_position: 'select_own_position'
     own_position_selected: 'own_position_selected'
-    start_unit_moving: 'start_unit_moving'
 
   constructor: (@player) ->
 
@@ -44,7 +43,6 @@ class GameState
   clickMapPosition: (position) ->
 
     if @isInteractionPosition(position)
-
       if position.owner? && position.owner.id != @player.id
         BattleViewDialog.get().open @activePosition.army.getActiveUnits(), position.army.units, =>
           new Fight(@activePosition.army, position.army)
@@ -106,6 +104,7 @@ class GameState
   moveUnits: (position) ->
 
     if @activePosition.army.getActiveUnits().length > 0 and (@activePosition.army.getActiveUnits().length < @activePosition.army.units.length or confirm("Willst Du alle Einheiten bewegen und die Position aufgeben?"))
+      new SystemEvent( "game.game-state.moves.units", {activePosition: @activePosition, targetPosition: position}).dispatch()
       @activePosition.moveUnitsTo(position, @activePosition.army.getActiveUnits())
 
     if @activePosition.army.units.length <= 0

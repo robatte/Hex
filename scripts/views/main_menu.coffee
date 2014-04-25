@@ -161,7 +161,7 @@ class MainMenuDialog
       unitList = []
       if @position
         for unit in @position.army.units 
-          unitList.push jQuery((new UnitView( unit)).draw()).data('unit', unit)
+          unitList.push jQuery((new UnitView( unit)).draw('list')).data('unit', unit)
 
       unitList
 
