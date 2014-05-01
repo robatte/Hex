@@ -72,6 +72,9 @@ class View
       width: "#{bounds.maxX - bounds.minX}px"
       height: "#{bounds.maxY - bounds.minY}px"
 
+    # translate tiles
+    tile.setPosition( tile.x- bounds.minX, tile.y - bounds.minY) for tile in @tiles
+
 
 
   getBound: ->
