@@ -9,11 +9,11 @@ class Viewport
   class ViewportPrivate
 
     getPosition: ->
-      {x: 0, y:  0}
+      values = Game.get().scroller.scroller.getValues()
+      {x: values.left, y:  values.top}
 
     setPosition: (position) ->
-      # Crafty.viewport.x = position.x
-      # Crafty.viewport.y = position.y
+      Game.get().scroller.scroller.scrollTo(position.x, position.y)
 
 
 
