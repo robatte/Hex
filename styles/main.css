@@ -305,7 +305,7 @@ overlay {
 
 overlay.moveTarget, overlay.ownerPlayer1, overlay.ownerPlayer2 {
 }
-
+/*
 .tile-move-target:after {
     content: " ";
     width: 100%;
@@ -313,7 +313,7 @@ overlay.moveTarget, overlay.ownerPlayer1, overlay.ownerPlayer2 {
     position: absolute;
     background-image: url(../assets/tile_base_yellow.png);
     opacity: .3;
-}
+}*/
 
 
 
