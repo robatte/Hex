@@ -22,7 +22,7 @@ var EasyScroller = function(content, options) {
 };
 
 EasyScroller.prototype.render = (function() {
-	
+
 	var docStyle = document.documentElement.style;
 	
 	var engine;
@@ -35,6 +35,7 @@ EasyScroller.prototype.render = (function() {
 	} else if (typeof navigator.cpuClass === 'string') {
 		engine = 'trident';
 	}
+
 	
 	var vendorPrefix = EasyScroller.vendorPrefix = {
 		trident: 'ms',
@@ -42,7 +43,8 @@ EasyScroller.prototype.render = (function() {
 		webkit: 'Webkit',
 		presto: 'O'
 	}[engine];
-	
+
+
 	var helperElem = document.createElement("div");
 	var undef;
 	
@@ -167,7 +169,9 @@ EasyScroller.prototype.bindEvents = function() {
 
 		}, false);
 
-		this.container.addEventListener("mousewheel", function(e) {
+		wheelEvent = "mousewheel"
+		if (EasyScroller.vendorPrefix == 'Moz') {wheelEvent = 'DOMMouseScroll'}
+		this.container.addEventListener(wheelEvent, function(e) {
 			if(that.options.zooming) {
 				that.scroller.doMouseZoom(e.wheelDelta, e.timeStamp, e.pageX, e.pageY);	
 				e.preventDefault();
