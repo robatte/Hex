@@ -303,7 +303,7 @@ overlay {
     pointer-events: none;
 }
 
-overlay.moveTarget {
+overlay.moveTarget, overlay.ownerPlayer1, overlay.ownerPlayer2 {
     opacity: .4;
 }
 

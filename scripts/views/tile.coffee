@@ -18,13 +18,15 @@ class Tile extends Drawable
     @overlays = {}
     @addOverlay "selected", 'assets/tile_overlay_selected.png'
     @addOverlay "moveTarget", 'assets/tile_overlay_yellow.png'
+    @addOverlay "ownerPlayer1", 'assets/tile_base_green.png'
+    @addOverlay "ownerPlayer2", 'assets/tile_base_blue.png'
 
     @update()
     @bindEvents()
     @updateImage()
 
   addOverlay: ( name, imageUrl ) ->
-    @overlays[name] = (new Drawable 0, 0, @width, @height, "overlay").addClass(name).image( imageUrl).hide().appendTo( this)
+    @overlays[name] = (new Drawable 0, 0, @width, @height, "overlay").addClass(name).image(imageUrl).hide().appendTo(this)
 
   update: ->
 
@@ -41,16 +43,11 @@ class Tile extends Drawable
     # show unitIcons
     @showUnits()
 
-    @updateCSS()
-
-
-  updateCSS: ->
-    #remove all classes
-    @getjQueryElement().removeClass "tile-player1 tile-player2"
+    # show owner
+    @overlays.ownerPlayer1.hide()
+    @overlays.ownerPlayer2.hide()
     if @owner?
-      @getjQueryElement().addClass "tile-player"+@owner.id
-
-    # set individual classes
+      if @owner.id == 1 then @overlays.ownerPlayer1.show() else @overlays.ownerPlayer2.show()
 
 
   setActive: (activate=true)->
