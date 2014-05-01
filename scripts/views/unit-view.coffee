@@ -16,23 +16,23 @@ class UnitView
            """
 
   @moveUnitIconsTo: (activePosition, targetPosition) =>
-    for unit in activePosition.army.getActiveUnits()
-      unitIcon = jQuery(".unit-icon#unit-icon-"+unit.id)
-      # set Icons position realtive to window to 'disconnect' it from parent-tile
-      unitIcon.css  
-        "top":  activePosition.tile.craftyTile.h - parseInt(unitIcon.css("bottom")) - parseInt(unitIcon.css("height"))
-        "position": "fixed"
-        "bottom": "auto"
-
-      #get difference to target-tile
-      targetLeft = targetPosition.tile.craftyTile.x - activePosition.tile.craftyTile.x 
-      targetTop = targetPosition.tile.craftyTile.y - activePosition.tile.craftyTile.y 
-      #place unit in draw-queue to prevent redraw durin animation
-      View.addToDrawQueue( unitIcon)
-      # gogogogo!
-      unitIcon.animate  
-        left: '+='+targetLeft
-        top: '+='+targetTop
-      , 300, "easeInExpo" 
+#    for unit in activePosition.army.getActiveUnits()
+#      unitIcon = jQuery(".unit-icon#unit-icon-"+unit.id)
+#      # set Icons position realtive to window to 'disconnect' it from parent-tile
+#      unitIcon.css
+#        "top":  activePosition.tile.y + "px"
+#        "position": "fixed"
+#        "bottom": "auto"
+#
+#      #get difference to target-tile
+#      targetLeft = targetPosition.tile.x - activePosition.tile.x
+#      targetTop = targetPosition.tile.y - activePosition.tile.y
+#      #place unit in draw-queue to prevent redraw durin animation
+#      View.addToDrawQueue( unitIcon)
+#      # gogogogo!
+#      unitIcon.animate
+#        left: '+='+targetLeft
+#        top: '+='+targetTop
+#      , 300, "easeInExpo"
     
     
