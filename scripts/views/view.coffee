@@ -69,11 +69,11 @@ class View
 
     bounds = @getBound()
     View.container.css 
-      width: "#{bounds.maxX - bounds.minX}px"
-      height: "#{bounds.maxY - bounds.minY}px"
+      width: "#{bounds.maxX - bounds.minX + 1000}px"
+      height: "#{bounds.maxY - bounds.minY + 1000}px"
 
     # translate tiles
-    tile.setPosition( tile.x- bounds.minX, tile.y - bounds.minY) for tile in @tiles
+    tile.setPosition( tile.x- bounds.minX + 500, tile.y - bounds.minY + 500) for tile in @tiles
 
 
 
