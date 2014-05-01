@@ -10,10 +10,11 @@ class Viewport
 
     getPosition: ->
       values = Game.get().scroller.scroller.getValues()
-      {x: values.left, y:  values.top}
+      {x: values.left, y:  values.top, zoom: values.zoom}
 
     setPosition: (position) ->
       Game.get().scroller.scroller.scrollTo(position.x, position.y)
+      Game.get().scroller.scroller.zoomTo(position.zoom)
 
 
 
