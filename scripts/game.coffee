@@ -19,7 +19,7 @@ class Game
 
       #map generation
       @map_grid.generateMap()
-      @map_grid.setStartPositions(@players, @initial_units)
+      @startPositions = @map_grid.setStartPositions(@players, @initial_units)
 
       #set inital game state
       @state = new GameState(@players[0])
@@ -62,7 +62,10 @@ class Game
         minZoom: Settings.minZoom
         maxZoom: Settings.maxZoom
 
-      @scroller.scroller.zoomTo Settings.default_zoom
+      # set start positions
+      @players[0].setViewPosition @startPositions[0].tile.x, @startPositions[0].tile.y, Settings.default_zoom
+      @players[1].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
+      @players[0].restoreViewPosition()
 
     nextRound: ->
       # get tax from own MapPositions
