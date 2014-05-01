@@ -41,6 +41,15 @@ class Game
 
       # jQuery("#container > div").appendTo "#container"
 
+
+      # initalize mouse event handling
+      # new Mouse()
+     
+      # Mouse.instance.processBackgroundClicks()
+
+      Game.get().view.createMap()
+      Game.get().view.draw()
+      
       @scroller = new EasyScroller jQuery("#container > #content").get()[0], 
         scrollingX: true 
         scrollingY: true
@@ -52,14 +61,6 @@ class Game
         snapping: false
         minZoom: Settings.minZoom
         maxZoom: Settings.maxZoom
-
-      # initalize mouse event handling
-      # new Mouse()
-     
-      # Mouse.instance.processBackgroundClicks()
-
-      Game.get().view.createMap()
-      Game.get().view.draw()
 
     nextRound: ->
       # get tax from own MapPositions
