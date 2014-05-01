@@ -64,7 +64,7 @@ class Tile extends Drawable
 
   showUnits: ->    
     # remove all icons
-    @getjQueryElement().find('.unit-icon').remove()
+    @getjQueryElement().find('unit').remove()
     #build icons for all unit-types
     typeNr = 0
     for typeIdentifier, units of @mapPosition.army.getUnitsByType() 
