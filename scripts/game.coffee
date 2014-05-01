@@ -33,33 +33,33 @@ class Game
     start: ->
 
       # init Canvas etc.
-      Crafty.init window.width, window.height
-      Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
+      # Crafty.init window.width, window.height
+      # Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
 
       # initialize view
-      @view = new View()
+      @view = new View( jQuery("#container > #content").first())
+
+      # jQuery("#container > div").appendTo "#container"
+
+      @scroller = new EasyScroller jQuery("#container > #content").get()[0], 
+        scrollingX: true 
+        scrollingY: true
+        animating: false
+        zooming: true
+        locking: false
+        paging: false
+        bouncing: false
+        snapping: false
+        minZoom: Settings.minZoom
+        maxZoom: Settings.maxZoom
 
       # initalize mouse event handling
-      new Mouse()
+      # new Mouse()
      
-      Mouse.instance.processBackgroundClicks()
+      # Mouse.instance.processBackgroundClicks()
 
-      # preload sprites
-      Crafty.load [
-          'assets/cell_player0.png',
-          'assets/cell_player1.png',
-          'assets/cell_player2.png',
-          'assets/tile_base_1.png',
-          'assets/tile_base_2.png',
-          'assets/tile_base_white.png',
-          'assets/tile_base_black.png',
-          'assets/tile_overlay_selected.png',
-          'assets/tile_overlay_blue.png',
-          'assets/tile_overlay_green.png',
-          'assets/tile_overlay_red.png',
-          'assets/tile_overlay_yellow.png',
-      ], =>
-        Crafty.scene 'Level'
+      Game.get().view.createMap()
+      Game.get().view.draw()
 
     nextRound: ->
       # get tax from own MapPositions

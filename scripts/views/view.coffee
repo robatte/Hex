@@ -9,19 +9,24 @@ class Viewport
   class ViewportPrivate
 
     getPosition: ->
-      {x: Crafty.viewport.x, y:  Crafty.viewport.y}
+      {x: 0, y:  0}
 
     setPosition: (position) ->
-      Crafty.viewport.x = position.x
-      Crafty.viewport.y = position.y
+      # Crafty.viewport.x = position.x
+      # Crafty.viewport.y = position.y
+
+
 
 
 class View
 
   @drawQueue = []
+  @container = null
 
-  constructor: () ->
-    Tile.createCraftyTileComponent()
+
+  constructor: ( containerElement ) ->
+    View.container = containerElement
+
 
     # redraw on ganme state changes
     SystemEvent.addSubscribtion 'state.change', (event) =>
@@ -40,10 +45,10 @@ class View
       @draw()
 
     # zoome and redraw if mousewheel is used
-    SystemEvent.addSubscribtion 'mouse.mousewheel', (event) =>
-      if event.data.delta > 0 then zoomVal = 0.05 else zoomVal = -0.05
-      Crafty.viewport.zoom( zoomVal, 300)
-      @draw()
+    # SystemEvent.addSubscribtion 'mouse.mousewheel', (event) =>
+    #   if event.data.delta > 0 then zoomVal = 0.05 else zoomVal = -0.05
+    #   Crafty.viewport.zoom( zoomVal, 300)
+    #   @draw()
 
     SystemEvent.addSubscribtion 'game.game-state.moves.units', (event) => 
       UnitView.moveUnitIconsTo( event.data.activePosition, event.data.targetPosition)
@@ -62,6 +67,19 @@ class View
     for position in Game.get().map_grid.positions
       @tiles.push new Tile(position)
 
+    bounds = @getBound()
+    View.container.css 
+      width: "#{bounds.maxX - bounds.minX}px"
+      height: "#{bounds.maxY - bounds.minY}px"
+
+
+
+  getBound: ->
+    bound =
+      maxX: @tiles.map( (tile) -> tile.x + tile.width).reduce( (a,b) -> Math.max(a,b))
+      minX: @tiles.map( (tile) -> tile.x).reduce( (a,b) -> Math.min(a,b))
+      maxY: @tiles.map( (tile) -> tile.y + tile.height).reduce( (a,b) -> Math.max(a,b))
+      minY: @tiles.map( (tile) -> tile.y).reduce( (a,b) -> Math.min(a,b))
 
   draw: =>
     #get first promised jQuery-Obj from drawQueue

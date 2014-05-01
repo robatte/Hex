@@ -1,78 +1,30 @@
-class Tile
-
-  @createCraftyTileComponent: () ->
-
-    #Crafty-Component for multi-layer
-    Crafty.c 'Layer',
-      init: ->
-        @requires '2D, DOM, Image'
-        @css
-          "pointer-events": "none"
-
-    #will be shown if tile is clicked/activated
-    Crafty.c 'ActiveOverlay',
-      init: ->
-        @requires 'Layer'
-        @image('assets/tile_overlay_selected.png')
-        @attr
-          alpha: 1
-    #will be shown if tile is move-target
-    Crafty.c 'MoveTargetOverlay',
-      init: ->
-        @requires 'Layer'
-        @image('assets/tile_overlay_yellow.png')
-        @attr
-          alpha: 0.4
-
-
-    # Crafty Component for tile representation
-    Crafty.c 'Tile',
-
-      tile: (tile_position) ->
-        @requires('2D, DOM, Image, Mouse')
-
-        @width = 512
-        @height = 450
-        @size = @width / 2
-
-
-        @attr
-          x: Math.round(@size * 3 / 2 * tile_position.q)
-          y: Math.round(@size * Math.sqrt(3) * (tile_position.r + tile_position.q / 2))
-          w: @width
-          h: @height
-
-        this
-
-      
-
+class Tile extends Drawable
 
   constructor: (position) ->
     @mapPosition = position
     @type = position.type
-    @craftyTile = Crafty.e('Tile').tile(position)
+
+    width = 512
+    height = 450
+
+    super Math.round(width/2 * 3 / 2 * position.q),
+          Math.round(width/2 * Math.sqrt(3) * (position.r + position.q / 2)),
+          width,
+          height, 
+          "tile"
 
     @mapPosition.setTile( this )
 
-    # Layer to visualize selection
-    @selectedLayer = Crafty.e('ActiveOverlay').attr
-      x: @craftyTile.x
-      y: @craftyTile.y
-    @craftyTile.attach @selectedLayer
-
-    #Layer to visualize move-target
-    @moveTargetLayer = Crafty.e('MoveTargetOverlay').attr
-      x: @craftyTile.x
-      y: @craftyTile.y
-    @craftyTile.attach @moveTargetLayer
-
-
-
-
+    @overlays = {}
+    @addOverlay "selected", 'assets/tile_overlay_selected.png'
+    @addOverlay "moveTarget", 'assets/tile_overlay_yellow.png'
 
     @update()
     @bindEvents()
     @updateImage()
+
+  addOverlay: ( name, imageUrl ) ->
+    @overlays[name] = (new Drawable 0, 0, @width, @height, "overlay").addClass(name).image( imageUrl).hide().appendTo( this)
 
   update: ->
 
@@ -94,47 +46,48 @@ class Tile
 
   updateCSS: ->
     #remove all classes
-    jQuery(@craftyTile._element).removeClass "tile-player1 tile-player2"
+    @getjQueryElement().removeClass "tile-player1 tile-player2"
     if @owner?
-      jQuery(@craftyTile._element).addClass "tile-player"+@owner.id
+      @getjQueryElement().addClass "tile-player"+@owner.id
 
     # set individual classes
 
 
   setActive: (activate=true)->
     if activate
-      # jQuery( @craftyTile._element).addClass("tile-active") if @mapPosition.isActivePosition(@game)
-      @selectedLayer.visible = true
+      @overlays.selected.show()
     else
-      # jQuery( @craftyTile._element).addClass("tile-inactive") if @game.state.is(GameState.states.select_move_position) && !@mapPosition.isInteractionPosition(@game)
-      @selectedLayer.visible = false
+      @overlays.selected.hide()
   
   setMoveTarget: (isTarget=true)->
     if isTarget
-      # jQuery( @craftyTile._element).addClass("tile-move-target") if @game.state.is(GameState.states.select_move_position) && @mapPosition.isInteractionPosition(@game)
-      @moveTargetLayer.visible = true
+      @overlays.moveTarget.show()
     else
-      @moveTargetLayer.visible = false
+      @overlays.moveTarget.hide()
 
   showUnits: ->    
     # remove all icons
-    jQuery(@craftyTile._element).find('.unit-icon').remove()
+    @getjQueryElement().find('.unit-icon').remove()
     #build icons for all unit-types
     typeNr = 0
     for typeIdentifier, units of @mapPosition.army.getUnitsByType() 
       unitNr = 0
       for unit in units
         x = 150 + typeNr * 70 + unitNr*6
-        y = 50 + unitNr * 15
-        jQuery("<img class='unit-icon' id='unit-icon-#{unit.id}' src=#{UnitView.image( typeIdentifier, @owner)} style='z-index: #{ 20-unitNr }; left: #{x}px; bottom: #{y}px;'/>").appendTo(@craftyTile._element)
+        y = 100 + unitNr * 15
+        new Drawable( x, @height - y, 36, 50, "unit").image( UnitView.image( typeIdentifier, @owner) ).setAttributes
+          id: "unit-icon-#{unit.id}"
+          'z-index': (20-unitNr)
+        .appendTo(this)
+
         unitNr += 1
       typeNr += 1
 
 
   bindEvents: =>
-    jQuery( @craftyTile._element).data('map-position', @mapPosition)
-    jQuery( @craftyTile._element).on  'click', (e) =>
-      event.stopPropagation()
+    @getjQueryElement().data('map-position', @mapPosition)
+    @getjQueryElement().on  'click', (e) =>
+      e.stopPropagation()
       map_position = jQuery(e.currentTarget).data('map-position')
       new SystemEvent('view.tile.click', {mapPosition: map_position}).dispatch()
 
@@ -148,4 +101,4 @@ class Tile
 
 
     # set tile image
-    @craftyTile.image "assets/#{ filename }", "repeat"
+    @image "assets/#{ filename }"
