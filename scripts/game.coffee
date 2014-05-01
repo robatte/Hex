@@ -62,6 +62,8 @@ class Game
         minZoom: Settings.minZoom
         maxZoom: Settings.maxZoom
 
+      @scroller.scroller.zoomTo Settings.default_zoom
+
     nextRound: ->
       # get tax from own MapPositions
       @state.player.collectTax()
