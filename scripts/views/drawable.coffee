@@ -44,6 +44,9 @@ class Drawable
     @elem.attr attr
     @
 
+  setPosition: (x, y) ->
+    @elem.css { left: x, top: y }
+
 
 
 
