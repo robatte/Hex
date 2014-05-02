@@ -46,7 +46,15 @@ class GameState
       if position.owner? && position.owner.id != @player.id
         BattleViewDialog.get().open @activePosition.army.getActiveUnits(), position.army.units, =>
           new Fight(@activePosition, position)
-          BattleViewDialog.get().setOptions({}).open @activePosition.army.getActiveUnits(), position.army.units
+
+          BattleViewDialog.get().open( @activePosition.army.getActiveUnits(), position.army.units, null)
+          BattleViewDialog.get().dialog_jquery.dialog "option",
+            title: "Ergebnis"
+            buttons: [
+              text: "Weiter"
+              click: ()-> $( this ).dialog( "close" )
+            ]
+
           @moveUnits(position)
 
       else
