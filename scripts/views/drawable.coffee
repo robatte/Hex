@@ -45,7 +45,7 @@ class Drawable
     @
 
   setPosition: (x, y) ->
-    @elem.css { left: x, top: y }
+    @elem.css { left: x + Settings.contentPadding, top: y + Settings.contentPadding}
 
 
 

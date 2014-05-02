@@ -53,7 +53,8 @@ class Game
       @scroller = new EasyScroller jQuery("#container > #content").get()[0], 
         scrollingX: true 
         scrollingY: true
-        animating: false
+        animating: true
+        animationDuration: 10
         zooming: true
         locking: false
         paging: false
@@ -63,6 +64,7 @@ class Game
         maxZoom: Settings.maxZoom
 
       @scroller.scroller.zoomTo Settings.default_zoom
+      @scroller.scroller.scrollTo Settings.contentPadding/2, Settings.contentPadding/2
 
     nextRound: ->
       # get tax from own MapPositions
@@ -93,6 +95,7 @@ class Game
 
         
 class Settings
+    @contentPadding: 300
     @tileBoundary: 3
     @minTileDense: 0.2
     @mapGenRandom: 0.3
