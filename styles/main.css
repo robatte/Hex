@@ -181,6 +181,12 @@ dd {
     
 }
 
+#main-menu #center-panel #terrain-upgrade-btn.inactive {
+    opcaity: .5;
+}
+
+
+
 /* RIGHT-PANEL */
 
 #main-menu #right-panel input#round-next-btn {

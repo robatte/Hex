@@ -27,10 +27,10 @@ class MainMenuDialog
                   height: 130px;
                  """
     center_panel_style: """
-                  top: 57px;
+                  top: 53px;
                   left: 188px;
                   width: 575px;
-                  height: 93px;
+                  height: 97px;
                  """
     right_panel_style: """
                   top: 54px;
@@ -91,6 +91,14 @@ class MainMenuDialog
           units[$(this).data('type')] = 1
           new SystemEvent('view.main-menu.build-units', units).dispatch()
 
+      @menu_jquery.on "click", "#terrain-upgrade-btn", (e) ->
+        e.preventDefault()
+        e.stopPropagation()
+        new SystemEvent('view.main-menu.upgrade-terrain') if not $(this).hasClass 'inactive'
+
+
+
+
       # click on unit marks the one
       @menu_jquery.on "click", "#tile-unit-list .unit", (e) ->
         e.stopPropagation()
@@ -125,6 +133,7 @@ class MainMenuDialog
     addCenterItems: () ->
       html = ""
       html += """
+              <div id="buildings-list">#{@generateBuildingsList()}</div>
               <div id="tile-unit-list"></div>
               """
       html
@@ -156,6 +165,11 @@ class MainMenuDialog
                 """
       html
 
+    generateBuildingsList: () ->
+      html = ""
+      html += "<input id='terrain-upgrade-btn' class='#{"inactive" if @position.terrain.upgradeCosts() > @player.money_units}'type='button' value='upgrade'>" if @position and @position.terrain.hasUpgrade() 
+
+      html
 
     generateUnitList: () ->
       unitList = []
