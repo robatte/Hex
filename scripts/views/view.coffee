@@ -53,6 +53,10 @@ class View
     SystemEvent.addSubscribtion 'state.army-selected', (event)=>
       @draw()
 
+    # redraw if terrain is upgraded
+    SystemEvent.addSubscribtion 'state.terrain-upgrade', (event)=>
+      @draw()
+
     # zoome and redraw if mousewheel is used
     # SystemEvent.addSubscribtion 'mouse.mousewheel', (event) =>
     #   if event.data.delta > 0 then zoomVal = 0.05 else zoomVal = -0.05

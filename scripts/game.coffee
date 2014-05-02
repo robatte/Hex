@@ -91,6 +91,13 @@ class Game
     canBuildUnit: ( unitType, position)->
       @state.player.money_units >= Unit.attributesByIdentifier( unitType).building_costs and position.freeUnitSlots() > 0
 
+    upgradeTerrain: ( position ) ->
+      if position.terrain.hasUpgrade() and @state.player.money_units >= position.terrain.upgradeCosts()
+        @state.player.money_units -= position.terrain.upgradeCosts()
+        position.terrain.upgrade()
+
+
+
         
 class Settings
     @contentPadding: 300

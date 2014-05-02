@@ -27,6 +27,9 @@ class GameState
     SystemEvent.addSubscribtion 'view.main-menu.all-units-clicked', (event) =>
       @selectArmy()
 
+    SystemEvent.addSubscribtion 'view.main-menu.upgrade-terrain', (event) =>
+      @upgradeTerrain()
+
   changeState: (state) ->
     @currentState = state
     new SystemEvent('state.change', {}).dispatch()
@@ -136,3 +139,8 @@ class GameState
       else
         @deselectMovePosition()
       new SystemEvent('state.army-selected', {}).dispatch()
+
+  upgradeTerrain: ->
+    if @activePosition?
+      Game.get().upgradeTerrain( @activePosition )
+      new SystemEvent('state.terrain-upgrade', {}).dispatch()
