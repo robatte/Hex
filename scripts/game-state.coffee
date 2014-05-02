@@ -86,6 +86,7 @@ class GameState
 
 
   toggleUnitSelection: (units) ->
+    return if not @activePosition?
     for unit in units
       unit.isActive = (not unit.isActive or units.length > 1) and unit.currentMove > 0
 

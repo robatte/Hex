@@ -43,9 +43,9 @@ class Game
 
 
       # initalize mouse event handling
-      # new Mouse()
+      new Mouse()
      
-      # Mouse.instance.processBackgroundClicks()
+      Mouse.instance.processBackgroundClicks()
 
       Game.get().view.createMap()
       Game.get().view.draw()
