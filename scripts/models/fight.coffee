@@ -1,14 +1,15 @@
 class Fight
 
-  constructor: (@attacker_amry, @defender_army) ->
+  constructor: (@attacker_position, @defender_position) ->
     @units = []
-    @units[0] = @attacker_amry.getActiveUnits()
-    @units[1] = @defender_army.units
+    @units[0] = @attacker_position.army.getActiveUnits()
+    @units[1] = @defender_position.army.units
 
     @fight()
 
-    @attacker_amry.units = @units[0].concat @attacker_amry.getNotActiveUnits()
-    @defender_army.units = @units[1]
+    @attacker_position.army.units = @units[0].concat @attacker_position.army.getNotActiveUnits()
+    @defender_position.army.units = @units[1]
+
 
   fight: ->
 
@@ -22,11 +23,11 @@ class Fight
     while @units[0].length > 0 and @units[1].length > 0
       for entry in @all
         other_army_id = (entry.army_id + 1) % 2
-        @attackGroup(entry.unit, @units[other_army_id])
+        @attackGroup(entry.unit, @units[other_army_id], entry.army_id == 0)
         @units[other_army_id] = @removeDeadUnits(@units[other_army_id])
         break if @units[other_army_id].length == 0
 
-  attackGroup: (unit, group) ->
+  attackGroup: (unit, group, is_attacker) ->
 
     # select target unit
     tactic = Math.floor(Math.random() * 4)
@@ -37,19 +38,23 @@ class Fight
       # select random unit
       target = group[Math.floor(Math.random() * group.length)]
 
-    @attackUnit(unit, target)
+    @attackUnit(unit, target, is_attacker)
 
-  attackUnit: (unit, target) ->
+  attackUnit: (unit, target, is_attacker) ->
 
     # role dice to get score (see http://www.redblobgames.com/articles/probability/damage-rolls.html)
     attack_score = @rollDice(unit.attack_roles, unit.attack_dice) + unit.attack_offset
     attack_score = 0 if attack_score < 0
 
-    # apply armor
-    attack_score = Math.round  attack_score * (1 - target.armor)
+    # apply armor and terrain defense
+    defense = target.armor
+    defense += @defender_position.terrain.defense if is_attacker
+    defense = 0.9 if defense > 0.9
+    attack_score = attack_score * (1 - defense)
 
     # calc new health
     target.currentHealth -= attack_score
+    target.currentHealth = 0 if target.currentHealth < 0
 
   removeDeadUnits: (units) ->
     units = units.filter (unit) -> unit.currentHealth > 0
