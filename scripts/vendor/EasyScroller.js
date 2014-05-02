@@ -173,7 +173,11 @@ EasyScroller.prototype.bindEvents = function() {
 		if (EasyScroller.vendorPrefix == 'Moz') {wheelEvent = 'DOMMouseScroll'}
 		this.container.addEventListener(wheelEvent, function(e) {
 			if(that.options.zooming) {
-				that.scroller.doMouseZoom(-e.wheelDelta, e.timeStamp, e.pageX, e.pageY);	
+				var delta;
+    		delta = (e.wheelDelta ? e.wheelDelta / 120 : -e.detail) / 2;
+    
+				that.scroller.doMouseZoom(-delta, e.timeStamp, e.pageX, e.pageY);	
+				// that.scroller.doMouseZoom(-e.wheelDelta, e.timeStamp, e.pageX, e.pageY);	
 				e.preventDefault();
 			}
 		}, false);
