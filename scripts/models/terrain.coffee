@@ -32,6 +32,7 @@ class Terrain
 class TerrainGrassland extends Terrain
   @type_identifier: 'Wiese'
   tax_rate: 5
+  defense: 0.0
   units_to_build: []
 
   constructor: ->
@@ -40,6 +41,7 @@ class TerrainGrassland extends Terrain
 class TerrainVillage extends Terrain
   @type_identifier: 'Dorf'
   tax_rate: 20
+  defense: 0.05
   units_to_build: ['farmer']
 
   constructor: ->
@@ -48,6 +50,7 @@ class TerrainVillage extends Terrain
 class TerrainFortress extends Terrain
   @type_identifier: 'Burg'
   tax_rate: 10
+  defense: 0.20
   units_to_build: ['farmer', 'soldier']
 
   constructor: ->

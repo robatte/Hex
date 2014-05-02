@@ -1,14 +1,14 @@
 class Fight
 
-  constructor: (@attacker_amry, @defender_army) ->
+  constructor: (@attacker_position, @defender_position) ->
     @units = []
-    @units[0] = @attacker_amry.movableUnits()
-    @units[1] = @defender_army.units
+    @units[0] = @attacker_position.army.movableUnits()
+    @units[1] = @defender_position.army.units
 
     @fight()
 
-    @attacker_amry.units = @units[0].concat @attacker_amry.notMovableUnits()
-    @defender_army.units = @units[1]
+    @attacker_position.army.units = @units[0].concat @attacker_position.army.notMovableUnits()
+    @defender_position.army.units = @units[1]
 
   fight: ->
 
