@@ -44,8 +44,8 @@ class Drawable
     @elem.attr attr
     @
 
-  setPosition: (x, y) ->
-    @elem.css { left: x + Settings.contentPadding, top: y + Settings.contentPadding}
+  setPosition: (@x, @y) ->
+    @elem.css { left: @x + Settings.contentPadding, top: @y + Settings.contentPadding }
 
 
 

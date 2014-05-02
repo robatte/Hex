@@ -19,3 +19,6 @@ class Player
 
   restoreViewPosition: ->
     Viewport.get().setPosition @viewportPosition if @viewportPosition?
+
+  setViewPosition: (x, y, zoom) ->
+    @viewportPosition = {x: x, y:  y, zoom: zoom}

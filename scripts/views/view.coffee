@@ -9,11 +9,12 @@ class Viewport
   class ViewportPrivate
 
     getPosition: ->
-      {x: 0, y:  0}
+      values = Game.get().scroller.scroller.getValues()
+      {x: values.left, y:  values.top, zoom: values.zoom}
 
     setPosition: (position) ->
-      # Crafty.viewport.x = position.x
-      # Crafty.viewport.y = position.y
+      Game.get().scroller.scroller.scrollTo(position.x, position.y)
+      Game.get().scroller.scroller.zoomTo(position.zoom)
 
 
 
@@ -72,8 +73,9 @@ class View
       width: "#{bounds.maxX - bounds.minX + 2 * Settings.contentPadding}px"
       height: "#{bounds.maxY - bounds.minY + 2 * Settings.contentPadding}px"
 
+
     # translate tiles
-    tile.setPosition( tile.x- bounds.minX, tile.y - bounds.minY) for tile in @tiles
+    tile.setPosition( tile.x- bounds.minX + 500, tile.y - bounds.minY + 500) for tile in @tiles
 
 
 

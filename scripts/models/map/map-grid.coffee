@@ -32,6 +32,7 @@ class MapGrid
     min_ix = sums.indexOf Math.min.apply(null, sums)
     @positions[min_ix].setOwner(players[0], UnitFactory.get().build( initial_units, players[0] )).setTerrain(@startPositionTypeId)
     @positions[max_ix].setOwner(players[1], UnitFactory.get().build( initial_units, players[1] )).setTerrain(@startPositionTypeId)
+    [@positions[min_ix], @positions[max_ix]]
 
   getNeighbors: (position) ->
     neighbors = []
