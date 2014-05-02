@@ -1,6 +1,9 @@
 body {
     font-family: "Arial", sans;
     color: #333;
+    background-image: url(../assets/backgrounds/pattern_2.jpg);
+    padding: 0;
+    margin: 0;
 }
 
 #container { 
