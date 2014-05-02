@@ -44,6 +44,10 @@ class Drawable
     @elem.attr attr
     @
 
+  setZIndex: (z) ->
+    @elem.css "z-index", z
+    @
+
   setPosition: (@x, @y) ->
     @elem.css { left: @x + Settings.contentPadding, top: @y + Settings.contentPadding }
 
