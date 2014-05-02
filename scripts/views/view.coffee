@@ -8,10 +8,6 @@ class Viewport
 
   class ViewportPrivate
 
-    constructor: ->
-      jQuery(window).resize (e) => @updateContainerSize()
-      @updateContainerSize()
-
     getPosition: ->
       values = Game.get().scroller.scroller.getValues()
       {x: values.left, y:  values.top, zoom: values.zoom}
@@ -20,15 +16,11 @@ class Viewport
       Game.get().scroller.scroller.scrollTo(position.x, position.y)
       Game.get().scroller.scroller.zoomTo(position.zoom)
 
-    updateContainerSize: ->
-      View.container.parent().height jQuery(window).height()
-
-    animateStart: ->
-      @updateContainerSize()
+    animateStart: (x, y) ->
       scroller = Game.get().scroller.scroller
       scroller.options.minZoom = 0
       scroller.zoomTo 0.1, false, View.container.width() / 2, View.container.height() / 2
-      scroller.zoomTo Settings.default_zoom, true
+      scroller.zoomTo Settings.default_zoom, true, x, y
       scroller.options.minZoom = Settings.minZoom
 
 

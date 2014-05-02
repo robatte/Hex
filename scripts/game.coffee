@@ -57,10 +57,10 @@ class Game
         maxZoom: Settings.maxZoom
 
       # set start positions
-      @players[0].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
+      @players[0].setViewPosition @startPositions[0].tile.x, @startPositions[0].tile.y, Settings.default_zoom
       @players[1].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
+      #Viewport.get().animateStart(@startPositions[0].tile.x, @startPositions[0].tile.y)
       @players[0].restoreViewPosition()
-      Viewport.get().animateStart()
 
 
     nextRound: ->

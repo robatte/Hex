@@ -48,7 +48,7 @@ class Fight
 
     # apply armor and terrain defense
     defense = target.armor
-    defense += @defender_position.terrain.defense if is_attacker
+    defense += @defender_position.terrain.defense() if is_attacker
     defense = 0.9 if defense > 0.9
     attack_score = attack_score * (1 - defense)
 
