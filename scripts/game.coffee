@@ -32,15 +32,8 @@ class Game
 
     start: ->
 
-      # init Canvas etc.
-      # Crafty.init window.width, window.height
-      # Crafty.background 'rgb(249, 223, 125) url(assets/backgrounds/pattern_2.jpg) repeat'
-
       # initialize view
       @view = new View( jQuery("#container > #content").first())
-
-      # jQuery("#container > div").appendTo "#container"
-
 
       # initalize mouse event handling
       new Mouse()
@@ -63,8 +56,6 @@ class Game
         minZoom: Settings.minZoom
         maxZoom: Settings.maxZoom
 
-      # @scroller.scroller.zoomTo Settings.default_zoom
-      # @scroller.scroller.scrollTo Settings.contentPadding/2, Settings.contentPadding/2
       # set start positions
       @players[0].setViewPosition @startPositions[0].tile.x, @startPositions[0].tile.y, Settings.default_zoom
       @players[1].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom

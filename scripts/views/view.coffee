@@ -69,6 +69,8 @@ class View
       @tiles.push new Tile(position)
 
     bounds = @getBound()
+
+    View.container.parent().height jQuery(document).height()
     View.container.css 
       width: "#{bounds.maxX - bounds.minX + 2 * Settings.contentPadding}px"
       height: "#{bounds.maxY - bounds.minY + 2 * Settings.contentPadding}px"
