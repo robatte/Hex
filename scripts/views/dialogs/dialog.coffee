@@ -15,16 +15,16 @@ class Dialog
 
 
   init: ->
+    buttons = []
+    buttons.push {text: @button_succes_lable, click: () => @close() } if @button_succes_lable != ""
+    buttons.push {text: @button_cancle_lable, click: () => @cancle()} if @button_cancle_lable != ""
+
     @dialog_jquery.dialog
       autoOpen: false,
       height: @heigth,
       width: @width,
       modal: true,
-      buttons:
-        [
-          {text: @button_succes_lable, click: () => @close() },
-          {text: @button_cancle_lable, click: () => @cancle() }
-        ]
+      buttons: buttons
 
   cancle: ->
     @dialog_jquery.dialog "close"

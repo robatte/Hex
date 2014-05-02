@@ -40,6 +40,9 @@ class BattleViewDialog
       else 
         return ""
 
+    setOptions: ( options = {} ) ->
+      for opt, val in options
+        @opt = val
 
 
     open: (@attacker, @defender, @callback_build, @callback_cancle = null ) ->

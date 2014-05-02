@@ -23,6 +23,15 @@ class Viewport
     updateContainerSize: ->
       View.container.parent().height jQuery(window).height()
 
+    animateStart: ->
+      @updateContainerSize()
+      scroller = Game.get().scroller.scroller
+      scroller.options.minZoom = 0
+      scroller.zoomTo 0.1, false, View.container.width() / 2, View.container.height() / 2
+      scroller.zoomTo Settings.default_zoom, true
+      scroller.options.minZoom = Settings.minZoom
+
+
 
 
 

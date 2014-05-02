@@ -46,8 +46,8 @@ class Game
       @scroller = new EasyScroller jQuery("#container > #content").get()[0], 
         scrollingX: true 
         scrollingY: true
-        animating: true
-        animationDuration: 10
+        animating: false
+        animationDuration: 1000
         zooming: true
         locking: false
         paging: false
@@ -60,6 +60,8 @@ class Game
       @players[0].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
       @players[1].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
       @players[0].restoreViewPosition()
+      Viewport.get().animateStart()
+
 
     nextRound: ->
 

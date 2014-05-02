@@ -46,6 +46,7 @@ class GameState
       if position.owner? && position.owner.id != @player.id
         BattleViewDialog.get().open @activePosition.army.getActiveUnits(), position.army.units, =>
           new Fight(@activePosition.army, position.army)
+          BattleViewDialog.get().setOptions({}).open @activePosition.army.getActiveUnits(), position.army.units
           @moveUnits(position)
 
       else
