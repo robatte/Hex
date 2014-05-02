@@ -57,17 +57,18 @@ class Game
         maxZoom: Settings.maxZoom
 
       # set start positions
-      @players[0].setViewPosition @startPositions[0].tile.x, @startPositions[0].tile.y, Settings.default_zoom
+      @players[0].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
       @players[1].setViewPosition @startPositions[1].tile.x, @startPositions[1].tile.y, Settings.default_zoom
       @players[0].restoreViewPosition()
 
     nextRound: ->
-      # get tax from own MapPositions
-      @state.player.collectTax()
 
       # change player
       @state.player.storeViewPosition()
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
+      # get tax from own MapPositions
+      next_player.collectTax()
+
       next_player.restoreViewPosition()
       next_player
 

@@ -16,10 +16,10 @@ class Tile extends Drawable
     @mapPosition.setTile( this )
 
     @overlays = {}
-    @addOverlay "selected", 'assets/tile_overlay_selected.png'
-    @addOverlay "moveTarget", 'assets/tile_overlay_yellow.png'
     @addOverlay "ownerPlayer1", 'assets/tile_base_green.png'
     @addOverlay "ownerPlayer2", 'assets/tile_base_blue.png'
+    @addOverlay "moveTarget", 'assets/tile_overlay_yellow.png'
+    @addOverlay "selected", 'assets/tile_overlay_selected.png'
 
     @update()
     @bindEvents()
@@ -74,7 +74,7 @@ class Tile extends Drawable
         y = 100 + unitNr * 15
         new Drawable( x, @height - y, 36, 50, "unit").image( UnitView.image( typeIdentifier, @owner) ).setAttributes
           id: "unit-icon-#{unit.id}"
-          'z-index': (20-unitNr)
+        .setZIndex((20-unitNr))
         .appendTo(this)
 
         unitNr += 1

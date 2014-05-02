@@ -8,6 +8,10 @@ class Viewport
 
   class ViewportPrivate
 
+    constructor: ->
+      jQuery(window).resize (e) => @updateContainerSize()
+      @updateContainerSize()
+
     getPosition: ->
       values = Game.get().scroller.scroller.getValues()
       {x: values.left, y:  values.top, zoom: values.zoom}
@@ -15,6 +19,9 @@ class Viewport
     setPosition: (position) ->
       Game.get().scroller.scroller.scrollTo(position.x, position.y)
       Game.get().scroller.scroller.zoomTo(position.zoom)
+
+    updateContainerSize: ->
+      View.container.parent().height jQuery(window).height()
 
 
 
@@ -70,7 +77,6 @@ class View
 
     bounds = @getBound()
 
-    View.container.parent().height jQuery(document).height()
     View.container.css 
       width: "#{bounds.maxX - bounds.minX + 2 * Settings.contentPadding}px"
       height: "#{bounds.maxY - bounds.minY + 2 * Settings.contentPadding}px"

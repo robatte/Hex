@@ -54,6 +54,9 @@ class Army
   getActiveUnits: ->
     @units.filter( (unit) -> unit.isActive )
 
+  getNotActiveUnits: ->
+    @units.filter( (unit) -> not unit.isActive )
+
   selectAllUnits: ->
     unit.isActive = true for unit in @movableUnits()
 
