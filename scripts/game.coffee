@@ -62,12 +62,13 @@ class Game
       @players[0].restoreViewPosition()
 
     nextRound: ->
-      # get tax from own MapPositions
-      @state.player.collectTax()
 
       # change player
       @state.player.storeViewPosition()
       next_player = if @state.player.id == @players[0].id then @players[1] else @players[0]
+      # get tax from own MapPositions
+      next_player.collectTax()
+
       next_player.restoreViewPosition()
       next_player
 
