@@ -94,7 +94,7 @@ class MainMenuDialog
       @menu_jquery.on "click", "#terrain-upgrade-btn", (e) ->
         e.preventDefault()
         e.stopPropagation()
-        new SystemEvent('view.main-menu.upgrade-terrain') if not $(this).hasClass 'inactive'
+        new SystemEvent('view.main-menu.upgrade-terrain', {}).dispatch() if not $(this).hasClass 'inactive'
 
 
 

@@ -94,7 +94,10 @@ class Tile extends Drawable
     filename = switch @type
       when TerrainGrassland.type_identifier then "tile_grassland.png"
       when TerrainVillage.type_identifier then "tile_village.png"
-      when TerrainFortress.type_identifier then "tile_fortress.png"
+      when TerrainFortress.type_identifier 
+        switch @mapPosition.terrain.level
+          when 0 then "tile_fortress.png" 
+          when 1 then "tile_fortress_big.png" 
 
 
     # set tile image

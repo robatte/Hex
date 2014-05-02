@@ -55,6 +55,7 @@ class View
 
     # redraw if terrain is upgraded
     SystemEvent.addSubscribtion 'state.terrain-upgrade', (event)=>
+      event.data.position.tile.updateImage()
       @draw()
 
     # zoome and redraw if mousewheel is used

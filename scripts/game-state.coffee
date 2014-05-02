@@ -143,4 +143,4 @@ class GameState
   upgradeTerrain: ->
     if @activePosition?
       Game.get().upgradeTerrain( @activePosition )
-      new SystemEvent('state.terrain-upgrade', {}).dispatch()
+      new SystemEvent('state.terrain-upgrade', {position: @activePosition}).dispatch()
