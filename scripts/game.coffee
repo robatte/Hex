@@ -58,7 +58,7 @@ class Game
         zooming: true
         locking: false
         paging: false
-        bouncing: true
+        bouncing: false
         snapping: false
         minZoom: Settings.minZoom
         maxZoom: Settings.maxZoom

@@ -75,7 +75,7 @@ class View
 
 
     # translate tiles
-    tile.setPosition( tile.x- bounds.minX + 500, tile.y - bounds.minY + 500) for tile in @tiles
+    tile.setPosition( tile.x- bounds.minX, tile.y - bounds.minY) for tile in @tiles
 
 
 
